@@ -1,0 +1,134 @@
+{
+  "@@locale": "fr",
+  "appTitle": "IsaMus",
+  "you": "Vous",
+  "partner": "Partenaire",
+  "team": "Équipe {name}",
+  "@team": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "rounds": "Manches : {count} / 3",
+  "@rounds": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "startGame": "Distribuer",
+  "nextHand": "Donne suivante",
+  "newGame": "Nouvelle partie",
+  "dealing": "Distribution",
+  "discarding": "Défausse",
+  "roundScoring": "Décompte",
+  "gameOver": "Partie terminée",
+  "yourTurn": "À vous de parler",
+  "waitingFor": "À {name} de parler",
+  "@waitingFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "discardCards": "Échanger {count} carte(s)",
+  "@discardCards": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "keepCards": "Garder mes cartes",
+  "currentBid": "Mise : {amount} Tantto",
+  "@currentBid": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "roundWinner": "{team} remporte la manche",
+  "@roundWinner": {
+    "placeholders": {
+      "team": {
+        "type": "String"
+      }
+    }
+  },
+  "gameWinner": "{team} remporte la partie",
+  "@gameWinner": {
+    "placeholders": {
+      "team": {
+        "type": "String"
+      }
+    }
+  },
+  "actionFailed": "Action impossible : la situation a changé.",
+  "cardLabel": "{value} de {suit}",
+  "@cardLabel": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      },
+      "suit": {
+        "type": "String"
+      }
+    }
+  },
+  "oros": "Or",
+  "copas": "Coupe",
+  "espadas": "Épée",
+  "bastos": "Bâton",
+  "hasPairs": "Pariak dut",
+  "hasGame": "Jokoa dut",
+  "hasNeither": "Ez dut",
+  "sendSign": "Faire un signe au partenaire",
+  "signTwoKings": "2 Rois",
+  "signTwoAces": "2 As",
+  "signGame": "Jeu",
+  "opponentShort": "Adv. {number}",
+  "scoreTotal": "Score : {total} pts ({hamarreko} Hamarreko, {tantto} Tantto)",
+  "quickChat": "Chat rapide",
+  "chatGoodLuck": "Bonne chance",
+  "chatNothing": "Je n’ai rien",
+  "chatWellPlayed": "Bien joué !",
+  "turnTime": "Temps pour jouer",
+  "raiseAmount": "Relancer de…",
+  "openingAmount": "Miser…",
+  "increase": "Augmenter",
+  "decrease": "Diminuer",
+  "validate": "Valider",
+  "bidTotal": "Mise totale : {amount} Tantto",
+  "@opponentShort": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "@scoreTotal": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "hamarreko": {
+        "type": "int"
+      },
+      "tantto": {
+        "type": "int"
+      }
+    }
+  },
+  "@bidTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  }
+}

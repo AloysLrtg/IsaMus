@@ -1,0 +1,31 @@
+ISAMUS — POLITIQUE DE CONFIDENTIALITÉ
+Projet de texte du 26 octobre 2026 — à compléter avant publication
+
+Responsable du traitement : [NOM / RAISON SOCIALE], [ADRESSE], [PAYS]. Contact pour vos droits : [E-MAIL CONFIDENTIALITÉ].
+
+Données et usages
+Le compte possède un identifiant technique, un pseudo, un classement Elo et des statistiques. Une adresse e-mail ou une identité Apple/Google est utilisée seulement si vous choisissez de sécuriser votre compte. Les sessions servent à vous authentifier. Les mots de passe sont traités par le service d’authentification et ne sont pas accessibles dans l’application.
+Les parties contiennent les participants, actions et états nécessaires au jeu. L’historique conserve le résultat et les variations d’Elo. Les demandes d’amitié et invitations permettent les fonctions sociales. La présence indique aux amis acceptés si vous êtes en ligne ou dans une partie ; elle ne leur révèle pas le code du salon.
+Le pseudo, l’avatar et l’Elo sont visibles aux autres joueurs authentifiés. Les cartes et états de partie sont accessibles aux participants dans l’architecture actuelle. Ne placez pas de donnée sensible dans votre pseudo.
+
+Achats et publicité
+Les stores Apple/Google et RevenueCat traitent les achats et leur validation. L’identifiant de compte et les droits d’accès aux cosmétiques permettent leur restauration. Nous ne collectons pas vos coordonnées bancaires.
+Lorsque la publicité est activée, Google AdMob et son mécanisme de consentement peuvent traiter des données techniques de l’appareil, du réseau, de la diffusion publicitaire et vos choix de confidentialité. L’intégration demande des annonces non personnalisées ; cela n’exclut pas tout traitement de données par le SDK. Les formulaires de consentement applicables et le lien « Choix de confidentialité publicitaire » permettent de gérer les usages optionnels. L’application n’exige pas l’accès à vos contacts, à votre microphone ni à votre localisation précise.
+
+Bases des traitements
+Le fonctionnement du compte, du jeu et des achats repose sur l’exécution du service demandé. La protection contre les abus et la sécurité reposent sur l’intérêt légitime de l’éditeur, sous réserve de vos droits. Les traitements optionnels soumis au consentement ne doivent être activés qu’après le choix requis. Les obligations légales applicables peuvent imposer de conserver certaines traces de transactions.
+
+Prestataires et transferts
+Supabase fournit la base de données, l’authentification, les fonctions serveur et le temps réel. Apple, Google et RevenueCat interviennent dans l’authentification, les achats ou la publicité selon les fonctions utilisées. Avant publication, l’éditeur doit préciser les régions effectivement choisies, les destinataires, les éventuels transferts internationaux et les garanties contractuelles applicables ; ces paramètres ne peuvent pas être déduits du code de l’application.
+
+Conservation
+Le profil, l’inventaire et les relations sociales sont conservés tant que le compte existe. La présence est liée à la connexion. Les historiques et journaux techniques nécessitent une durée de conservation documentée par l’éditeur : [DURÉE HISTORIQUE], [DURÉE JOURNAUX], [DURÉE SAUVEGARDES]. Les invitations ont une validité fonctionnelle de dix minutes ; leur expiration ne signifie pas leur effacement immédiat de la base. Les prestataires peuvent avoir leurs propres obligations de conservation.
+
+Vos droits et suppression
+Vous pouvez demander l’accès, la rectification, l’effacement et, selon les conditions légales, la portabilité, la limitation ou l’opposition, à [E-MAIL CONFIDENTIALITÉ]. Le retrait d’un consentement n’affecte pas les traitements antérieurs licites. Le profil propose une suppression de compte. Les demandes concernant un paiement ou un identifiant publicitaire peuvent également relever du store ou du fournisseur concerné. Vous pouvez saisir l’autorité de contrôle compétente ; en France, la CNIL (www.cnil.fr).
+
+Mineurs
+L’éditeur doit définir avant publication l’âge minimal, le public visé et le mécanisme de consentement parental éventuellement nécessaire. La configuration publicitaire et la déclaration d’âge des stores doivent correspondre à ce choix.
+
+Mises à jour
+La date et les changements substantiels de cette politique seront communiqués dans l’application. Ce projet doit être complété avec les informations réelles de l’éditeur et des prestataires avant sa mise en ligne.

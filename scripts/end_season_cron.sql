@@ -1,0 +1,9 @@
+-- Admin-only template. NOT applied or scheduled by the app or migration.
+-- Manual execution on/after the first day of the month:
+-- select public.end_current_season();
+--
+-- Optional pg_cron setup after enabling the extension in Supabase:
+-- UTC hourly checks honor the month boundary in Europe/Paris, including DST.
+-- The RPC does work once per due season and is otherwise a no-op.
+-- select cron.schedule('isamus-monthly-season', '0 * * * *',
+--   $$select public.end_current_season();$$);
