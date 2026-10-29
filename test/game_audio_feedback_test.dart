@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isamus/core/audio/audio_haptic_service.dart';
 import 'package:isamus/core/engine/mus_game_controller.dart';
 import 'package:isamus/core/engine/mus_game_state.dart';
+import 'package:isamus/core/engine/mus_table_feedback.dart';
 import 'package:isamus/core/network/player_repository.dart';
 import 'package:isamus/features/game/game_screen.dart';
 import 'package:isamus/main.dart';
@@ -111,6 +112,25 @@ void main() {
       }
     },
   );
+
+  testWidgets('Tira et Nere gatik tira jouent exactement le même fichier', (
+    tester,
+  ) async {
+    await mount(tester);
+    try {
+      effects.output.played.clear();
+      for (final action in [BidActionType.tira, BidActionType.nereGatikTira]) {
+        container
+            .read(musTableFeedbackProvider.notifier)
+            .say(0, TableSpeech(SpeechKind.bid, action: action));
+        await tester.pump();
+      }
+      expect(effects.output.played, [GameSounds.tap, GameSounds.tap]);
+      expect(effects.output.played, isNot(contains(GameSounds.chips)));
+    } finally {
+      await close(tester);
+    }
+  });
 
   for (final enabled in [true, false]) {
     testWidgets('Mintza/Paso/Hordago/victoire respectent le mute=$enabled', (

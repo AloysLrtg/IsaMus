@@ -8,49 +8,55 @@ import 'package:isamus/core/network/shop_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
-  test('Le catalogue masque bordures et lunettes opaques même avec une ancienne base', () async {
-    final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
-    server.listen((request) async {
-      request.response.headers.contentType = ContentType.json;
-      request.response.write(
-        jsonEncode([
-          {
-            'item_id': 'retired_opaque',
-            'cost': 250,
-            'description': 'Verres opaques',
-            'cosmetics': {
-              'label': 'Lunettes de soleil',
-              'kind': 'avatar_glasses',
+  test(
+    'Le catalogue expose les lunettes et masque les anciens cadres',
+    () async {
+      final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+      server.listen((request) async {
+        request.response.headers.contentType = ContentType.json;
+        request.response.write(
+          jsonEncode([
+            {
+              'item_id': 'shop_glasses_round',
+              'cost': 250,
+              'description': 'Verres opaques',
+              'cosmetics': {
+                'label': 'Lunettes de soleil',
+                'kind': 'avatar_glasses',
+              },
             },
-          },
-          {
-            'item_id': 'shop_border_emerald',
-            'cost': 300,
-            'description': 'Ancien cadre',
-            'cosmetics': {'label': 'Cadre Émeraude', 'kind': 'avatar_border'},
-          },
-          {
-            'item_id': 'shop_hair_mullet',
-            'cost': 300,
-            'description': 'Une coupe',
-            'cosmetics': {'label': 'Coupe Mulet', 'kind': 'avatar_hair'},
-          },
-        ]),
+            {
+              'item_id': 'shop_border_emerald',
+              'cost': 300,
+              'description': 'Ancien cadre',
+              'cosmetics': {'label': 'Cadre Émeraude', 'kind': 'avatar_border'},
+            },
+            {
+              'item_id': 'shop_top_striped',
+              'cost': 300,
+              'description': 'Une coupe',
+              'cosmetics': {'label': 'Maillot Rayé', 'kind': 'avatar_hair'},
+            },
+          ]),
+        );
+        await request.response.close();
+      });
+      final client = SupabaseClient(
+        'http://127.0.0.1:${server.port}',
+        'test-key',
       );
-      await request.response.close();
-    });
-    final client = SupabaseClient(
-      'http://127.0.0.1:${server.port}',
-      'test-key',
-    );
-    addTearDown(() async {
-      await client.dispose();
-      await server.close(force: true);
-    });
-    final items = await ShopRepository(clientInstance: client).catalog();
-    expect(items.map((i) => i.id), ['shop_hair_mullet']);
-    expect(items.single.category, ShopCategory.avatar);
-  });
+      addTearDown(() async {
+        await client.dispose();
+        await server.close(force: true);
+      });
+      final items = await ShopRepository(clientInstance: client).catalog();
+      expect(items.map((i) => i.id), [
+        'shop_glasses_round',
+        'shop_top_striped',
+      ]);
+      expect(items.first.category, ShopCategory.glasses);
+    },
+  );
 
   for (final insufficient in [false, true]) {
     test(
@@ -70,7 +76,7 @@ void main() {
             jsonEncode(
               insufficient
                   ? {'code': 'P0001', 'message': 'Fonds insuffisants'}
-                  : {'coins_remaining': 700, 'item_id': 'shop_hair_mullet'},
+                  : {'coins_remaining': 700, 'item_id': 'shop_top_striped'},
             ),
           );
           await request.response.close();
@@ -84,7 +90,7 @@ void main() {
           await server.close(force: true);
         });
         final purchase = ShopRepository(clientInstance: client)
-            .buy('shop_hair_mullet', 300);
+            .buy('shop_top_striped', 300);
         if (insufficient) {
           await expectLater(
             purchase,
@@ -102,7 +108,7 @@ void main() {
         expect(await received.future, {
           'path': '/rest/v1/rpc/buy_shop_item',
           'method': 'POST',
-          'body': {'p_item_id': 'shop_hair_mullet', 'p_cost': 300},
+          'body': {'p_item_id': 'shop_top_striped', 'p_cost': 300},
         });
       },
     );

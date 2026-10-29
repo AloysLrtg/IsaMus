@@ -89,7 +89,7 @@ void main() {
         'glasses': 'Lunettes',
         'top': 'Haut',
         'hair': 'Cheveux',
-        'background_color': 'Fond',
+        'background_color': 'Couleur de fond',
         'hair_color': 'Couleur cheveux',
       }.entries) {
         await tester.ensureVisible(find.text(entry.value));

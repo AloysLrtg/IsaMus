@@ -31,6 +31,7 @@ let manualMonthApplied=false;
 const monthlyParts=['league_avatar_ownership','league_results_and_finish_lock','shared_monthly_calendar','monthly_season_rollover'];
 const migrationDir=new URL('../supabase/migrations/',import.meta.url);
 for(const file of readdirSync(migrationDir).filter(f=>f.endsWith('.sql')).sort()) {
+ if(file.includes('shop_categories_free_backgrounds') || file.includes('front_facing_hair_and_palette')) continue; // Legacy assertions precede retirement below.
  if(process.env.MANUAL_MONTHLY_SQL==='1' && monthlyParts.some(name=>file.includes(name))) {
   if(!manualMonthApplied) await db.exec(readFileSync(new URL('./manual_monthly_seasons.sql',import.meta.url),'utf8'));
   manualMonthApplied=true; continue;
@@ -758,4 +759,8 @@ await denied(buyer,"select equip_cosmetic('shop_glasses_gold')");
 
 console.log(`Migration applied to isolated PostgreSQL; ${checks} authorization/result assertions passed.`);
 
+await db.exec(readFileSync(new URL('../supabase/migrations/20261029223940_shop_categories_free_backgrounds.sql',import.meta.url),'utf8'));
+assert.equal((await db.query("select count(*)::int n from cosmetics where id='shop_hair_mullet'")).rows[0].n,0);
+console.log('Retirement migration passed.');
+await db.exec(readFileSync(new URL('../supabase/migrations/20261029225734_front_facing_hair_and_palette.sql',import.meta.url),'utf8'));
 await db.close();

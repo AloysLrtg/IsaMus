@@ -53,3 +53,7 @@ android/key.properties
 *.keystore
 config.production.json
 scripts/node_modules/
+
+# Web hosting build tools
+.flutter-sdk/
+.vercel/

@@ -5,6 +5,8 @@ import '../../core/models/inventory_item.dart';
 import '../../core/network/player_repository.dart';
 import '../../core/network/inventory_repository.dart';
 import '../game/card_back_view.dart';
+import '../avatar/player_avatar_view.dart';
+import '../../core/models/avatar_config.dart';
 
 class InventoryScreen extends ConsumerStatefulWidget {
   const InventoryScreen({super.key});
@@ -49,56 +51,87 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Personnalisation')),
-    body: ref
-        .watch(playerInventoryProvider)
-        .when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (_, _) => Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) => DefaultTabController(
+    length: 2,
+    child: Scaffold(
+      appBar: AppBar(
+        title: const Text('Personnalisation'),
+        bottom: const TabBar(
+          tabs: [
+            Tab(text: 'Dos de cartes'),
+            Tab(text: 'Cheveux'),
+          ],
+        ),
+      ),
+      body: ref
+          .watch(playerInventoryProvider)
+          .when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (_, _) => Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Inventaire indisponible.'),
+                  TextButton(
+                    onPressed: _reload,
+                    child: const Text('Réessayer'),
+                  ),
+                ],
+              ),
+            ),
+            data: (state) => Column(
               children: [
-                const Text('Inventaire indisponible.'),
-                TextButton(onPressed: _reload, child: const Text('Réessayer')),
+                SizedBox(
+                  height: 4,
+                  child: _busy == null ? null : const LinearProgressIndicator(),
+                ),
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      _reload();
+                      try {
+                        await ref.read(playerInventoryProvider.future);
+                      } catch (_) {}
+                    },
+                    child: TabBarView(
+                      children: [
+                        for (final hair in [false, true])
+                          ListView(
+                            key: ValueKey(
+                              hair
+                                  ? 'inventory-list-hair'
+                                  : 'inventory-list-cardBack',
+                            ),
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(16),
+                            children: [
+                              Text(
+                                hair ? 'Cheveux' : 'Dos de cartes',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              const SizedBox(height: 16),
+                              for (final item
+                                  in state
+                                      .forCategory(
+                                        hair
+                                            ? InventoryCategory.avatar
+                                            : InventoryCategory.cardBack,
+                                      )
+                                      .where(
+                                        (item) =>
+                                            !hair || item.kind == 'avatar_hair',
+                                      ))
+                                _item(item, state),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-          data: (state) => Column(
-            children: [
-              SizedBox(
-                height: 4,
-                child: _busy == null ? null : const LinearProgressIndicator(),
-              ),
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    _reload();
-                    try {
-                      await ref.read(playerInventoryProvider.future);
-                    } catch (_) {}
-                  },
-                  child: ListView(
-                    key: const ValueKey('inventory-list-cardBack'),
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(16),
-                    children: [
-                      Text(
-                        'Dos de cartes',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 16),
-                      for (final item in state.forCategory(
-                        InventoryCategory.cardBack,
-                      ))
-                        _item(item, state),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+    ),
   );
 
   Widget _item(InventoryItem item, PlayerInventory state) {
@@ -115,13 +148,20 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
             SizedBox(
               width: 68,
               height: 76,
-              child: Center(
-                child: SizedBox(
-                  width: 42,
-                  height: 62,
-                  child: CardBackView(id: item.id),
-                ),
-              ),
+              child: item.kind == 'avatar_hair'
+                  ? PlayerAvatarView(
+                      size: 68,
+                      config: item.preview(
+                        AvatarConfig.fromJson(state.profile['avatar_config']),
+                      ),
+                    )
+                  : Center(
+                      child: SizedBox(
+                        width: 42,
+                        height: 62,
+                        child: CardBackView(id: item.id),
+                      ),
+                    ),
             ),
             const SizedBox(width: 14),
             Expanded(

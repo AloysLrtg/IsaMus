@@ -14,6 +14,7 @@ import '../game/game_screen.dart';
 import 'lobby_screen.dart';
 import 'game_mode_card.dart';
 import 'profile_xp_avatar.dart';
+import 'season_pass_button.dart';
 import '../seasons/season_countdown.dart';
 import '../seasons/league_rewards_sheet.dart';
 import '../retention/battle_pass_screen.dart';
@@ -604,13 +605,10 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: OutlinedButton.icon(
-            key: const ValueKey('open-battle-pass'),
+          child: SeasonPassButton(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(builder: (_) => const BattlePassScreen()),
             ),
-            icon: const Icon(Icons.card_giftcard),
-            label: const Text('Pass de Saison'),
           ),
         ),
         const SizedBox(height: 8),
@@ -732,10 +730,10 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
     const ink = Color(0xFF2B1405);
     return GameModeCard(
       key: const ValueKey('tutorial-card'),
-      colors: const [Color(0xFFEF6C00), Color(0xFFFB923C), Color(0xFFFFB74D)],
+      colors: const [Color(0xFF6B2D0B), Color(0xFF452008), Color(0xFF241207)],
       accent: amber,
       borderOpacity: .65,
-      glow: amber.withValues(alpha: .28),
+      glow: amber.withValues(alpha: .2),
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -766,15 +764,15 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                         height: 48,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: .24),
+                          color: amber.withValues(alpha: .12),
                           border: Border.all(
-                            color: ink.withValues(alpha: .6),
+                            color: amber.withValues(alpha: .45),
                             width: 1.5,
                           ),
                         ),
                         child: const Icon(
                           Icons.school_rounded,
-                          color: ink,
+                          color: amber,
                           size: 26,
                         ),
                       ),
@@ -789,16 +787,16 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                 vertical: 3,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: .24),
+                                color: amber.withValues(alpha: .12),
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: ink.withValues(alpha: .4),
+                                  color: amber.withValues(alpha: .3),
                                 ),
                               ),
                               child: Text(
                                 'À VOTRE RYTHME',
                                 style: theme.textTheme.labelSmall?.copyWith(
-                                  color: ink,
+                                  color: amber,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: 1,
                                 ),
@@ -809,7 +807,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                               'TUTORIEL',
                               style: theme.textTheme.titleMedium?.copyWith(
                                 fontSize: 18,
-                                color: ink,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: .8,
                               ),
@@ -823,7 +821,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                   Text(
                     'Prenez place à la table et apprenez le Mus, des premières décisions au décompte des points.',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: ink,
+                      color: const Color(0xFFFFE0B2),
                       height: 1.4,
                     ),
                   ),
@@ -834,15 +832,15 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: .18),
+                      color: Colors.white.withValues(alpha: .05),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: ink.withValues(alpha: .2)),
+                      border: Border.all(color: Colors.white12),
                     ),
                     child: Row(
                       children: [
                         const Icon(
                           Icons.check_circle_rounded,
-                          color: ink,
+                          color: amber,
                           size: 16,
                         ),
                         const SizedBox(width: 8),
@@ -850,7 +848,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                           child: Text(
                             'Sans chronomètre · Guidé, puis libre',
                             style: theme.textTheme.labelMedium?.copyWith(
-                              color: ink,
+                              color: const Color(0xFFFFE0B2),
                             ),
                           ),
                         ),
@@ -860,8 +858,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                   const SizedBox(height: 24),
                   FilledButton.icon(
                     style: FilledButton.styleFrom(
-                      backgroundColor: ink,
-                      foregroundColor: const Color(0xFFFFF3E0),
+                      backgroundColor: amber,
+                      foregroundColor: ink,
                       minimumSize: const Size(0, 54),
                     ),
                     icon: const Icon(Icons.school_rounded),
@@ -877,8 +875,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                     key: const ValueKey('home-official-rules-button'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: ink,
-                      backgroundColor: Colors.white.withValues(alpha: .18),
-                      side: const BorderSide(color: ink),
+                      backgroundColor: const Color(0xFFFFE0B2),
+                      side: const BorderSide(color: amber),
                       minimumSize: const Size(0, 48),
                     ),
                     icon: const Icon(Icons.menu_book_outlined),

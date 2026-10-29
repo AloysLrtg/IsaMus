@@ -91,7 +91,6 @@ void main() {
     );
     final images = tester.widgetList<Image>(find.byType(Image)).toList();
     expect(images.map((i) => (i.image as AssetImage).assetName), [
-      'assets/avatars/background_0.png',
       'assets/avatars/skin_2.png',
       'assets/avatars/top_1.png',
       'assets/avatars/eyes_normal.png',
@@ -101,7 +100,7 @@ void main() {
       'assets/avatars/glasses_2.png',
     ]);
     for (var i = 0; i < 6; i++) {
-      if (i != 3) {
+      if (i != 0 && i != 3) {
         expect(find.byKey(ValueKey('avatar-fallback-$i')), findsOneWidget);
       }
     }

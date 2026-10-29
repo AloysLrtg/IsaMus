@@ -64,7 +64,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
   Widget build(BuildContext context) => PopScope(
     canPop: widget.embedded || _busy == null,
     child: DefaultTabController(
-      length: 3,
+      length: 6,
       child: Scaffold(
         appBar: AppBar(
           title: widget.embedded ? null : const Text('Boutique'),
@@ -74,8 +74,11 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             tabs: [
-              Tab(text: 'Cosmétiques d’Avatar'),
+              Tab(text: 'Tenues'),
               Tab(text: 'Dos de cartes'),
+              Tab(text: 'Couvre-chefs'),
+              Tab(text: 'Lunettes'),
+              Tab(text: 'Cheveux'),
               Tab(text: 'Quick Chats'),
             ],
           ),
@@ -193,83 +196,201 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
   Widget _item(ShopItem item, ShopState state) {
     final owned = state.owned.contains(item.id);
     final theme = Theme.of(context);
-    return Card(
+    const gold = Color(0xFFFFD76B);
+    const success = Color(0xFF79E7AE);
+    return Container(
       key: ValueKey('shop-item-${item.id}'),
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: const EdgeInsets.only(bottom: 18),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF29313E), Color(0xFF14243D), Color(0xFF101B30)],
+        ),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white.withValues(alpha: .12)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: .22),
+            blurRadius: 18,
+            offset: const Offset(0, 7),
+          ),
+        ],
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              width: 72,
-              height: 80,
-              child: switch (item.category) {
-                ShopCategory.avatar => PlayerAvatarView(
-                  size: 72,
-                  config: _avatarPreview(item, state),
-                ),
-                ShopCategory.cardBack => Center(
-                  child: SizedBox(
-                    width: 48,
-                    height: 68,
-                    child: CardBackView(id: item.id),
-                  ),
-                ),
-                ShopCategory.quickChat => Icon(
-                  Icons.forum_rounded,
-                  size: 42,
-                  color: theme.colorScheme.primary,
-                ),
-              },
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.name,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(item.description, style: theme.textTheme.bodySmall),
-                  const SizedBox(height: 12),
-                  if (owned) ...[
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.check_circle_rounded,
-                          size: 18,
-                          color: theme.colorScheme.primary,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Possédé',
-                          key: ValueKey('shop-owned-${item.id}'),
-                          style: theme.textTheme.labelLarge,
-                        ),
-                      ],
-                    ),
-                  ] else
-                    FilledButton.icon(
-                      key: ValueKey('shop-buy-${item.id}'),
-                      onPressed: _busy != null ? null : () => _act(item),
-                      icon: const Icon(Icons.monetization_on_rounded, size: 18),
-                      label: Text(
-                        _busy == item.id
-                            ? 'Achat…'
-                            : 'Acheter · ${item.cost} pièces',
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final stacked =
+                    constraints.maxWidth < 230 ||
+                    MediaQuery.textScalerOf(context).scale(14) > 20;
+                final preview = _preview(item, state);
+                final details = Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.name,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
                       ),
                     ),
-                ],
-              ),
+                    const SizedBox(height: 8),
+                    Text(
+                      item.description,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: const Color(0xFFBFCDDF),
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                );
+                if (stacked) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(child: preview),
+                      const SizedBox(height: 16),
+                      details,
+                    ],
+                  );
+                }
+                return Row(
+                  children: [
+                    preview,
+                    const SizedBox(width: 18),
+                    Expanded(child: details),
+                  ],
+                );
+              },
             ),
+            const SizedBox(height: 18),
+            if (owned)
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 13),
+                decoration: BoxDecoration(
+                  color: success.withValues(alpha: .1),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: success.withValues(alpha: .3)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.check_circle_rounded,
+                      size: 20,
+                      color: success,
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        'Possédé',
+                        key: ValueKey('shop-owned-${item.id}'),
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: success,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Semantics(
+                label: 'Acheter ${item.name}, ${item.cost} pièces',
+                child: FilledButton(
+                  key: ValueKey('shop-buy-${item.id}'),
+                  onPressed: _busy != null ? null : () => _act(item),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: gold,
+                    foregroundColor: const Color(0xFF281D08),
+                    disabledBackgroundColor: gold.withValues(alpha: .25),
+                    disabledForegroundColor: const Color(0xFFFFE8AD),
+                    minimumSize: const Size(0, 50),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    textStyle: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 12,
+                    runSpacing: 4,
+                    children: [
+                      Text(_busy == item.id ? 'Achat…' : 'Acheter'),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.monetization_on_rounded, size: 21),
+                          const SizedBox(width: 5),
+                          Text('${item.cost}'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
+
+  Widget _preview(ShopItem item, ShopState state) => Container(
+    width: 112,
+    height: 138,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      gradient: RadialGradient(
+        radius: .85,
+        colors: [
+          const Color(0xFF729BCD).withValues(alpha: .22),
+          const Color(0xFF0C1729).withValues(alpha: .15),
+        ],
+      ),
+    ),
+    child: switch (item.category) {
+      ShopCategory.avatar ||
+      ShopCategory.hat ||
+      ShopCategory.glasses ||
+      ShopCategory.hair => PlayerAvatarView(
+        size: 104,
+        config: _avatarPreview(item, state),
+      ),
+      ShopCategory.cardBack => Transform.rotate(
+        angle: -.06,
+        child: Container(
+          width: 76,
+          height: 108,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: .4),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: CardBackView(id: item.id),
+        ),
+      ),
+      ShopCategory.quickChat => const Icon(
+        Icons.forum_rounded,
+        size: 58,
+        color: Color(0xFFA3D8FF),
+      ),
+    },
+  );
 }

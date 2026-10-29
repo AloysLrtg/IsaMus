@@ -15,6 +15,12 @@ import 'package:isamus/features/game/game_screen.dart';
 import 'package:isamus/main.dart';
 
 const catalog = [
+  {
+    'id': 'shop_hair_mohawk',
+    'kind': 'avatar_hair',
+    'label': 'Crête',
+    'free': false,
+  },
   {'id': 'classic', 'kind': 'card_back', 'label': 'Classique', 'free': true},
   {
     'id': 'shop_back_violet',
@@ -68,6 +74,7 @@ class WardrobePlayer extends PlayerRepository {
   );
   final owned = {
     'shop_back_violet',
+    'shop_hair_mohawk',
     'shop_glasses_gold',
     'shop_hat_cap',
     'league_border_gold',
@@ -182,28 +189,34 @@ void main() {
     expect(repo.owned.contains('classic'), isFalse);
     expect((await repo.profile())['coins'], 500);
   });
-  testWidgets(
-    'Personnalisation affiche uniquement les dos, sans aucun onglet',
-    (tester) async {
-      await mount(tester);
-      expect(find.byType(DefaultTabController), findsNothing);
-      expect(find.byType(TabBar), findsNothing);
-      expect(find.byType(TabBarView), findsNothing);
-      expect(find.text('Dos Classique'), findsOneWidget);
-      expect(find.text('Dos Violet'), findsOneWidget);
-      for (final label in [
-        'Avatar',
-        'Chats',
-        'Casquette',
-        'Bordure Or',
-        'Lunettes dorées',
-        'Aucun accessoire',
-      ]) {
-        expect(find.text(label), findsNothing);
-      }
-      expect(repo.saved, isEmpty);
-    },
-  );
+  testWidgets('Personnalisation propose les onglets dos et cheveux', (
+    tester,
+  ) async {
+    await mount(tester);
+    expect(find.byType(DefaultTabController), findsOneWidget);
+    expect(find.byType(TabBar), findsOneWidget);
+    expect(find.byType(TabBarView), findsOneWidget);
+    expect(find.text('Dos Classique'), findsOneWidget);
+    expect(find.text('Dos Violet'), findsOneWidget);
+    for (final label in [
+      'Avatar',
+      'Chats',
+      'Casquette',
+      'Bordure Or',
+      'Lunettes dorées',
+      'Aucun accessoire',
+    ]) {
+      expect(find.text(label), findsNothing);
+    }
+    await tester.tap(find.widgetWithText(Tab, 'Cheveux'));
+    await tester.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey('inventory-item-shop_hair_mohawk')),
+      findsOneWidget,
+    );
+    expect(find.byKey(const ValueKey('avatar-mohawk')), findsOneWidget);
+    expect(repo.saved, isEmpty);
+  });
   testWidgets('Profil : Personnalisation ouvre l’inventaire', (tester) async {
     await mount(
       tester,

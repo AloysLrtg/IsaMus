@@ -370,6 +370,8 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+      expect(find.text('Prochain objectif : palier 10'), findsOneWidget);
+      expect(find.text('Encore 1250 XP pour l’atteindre.'), findsOneWidget);
       expect(find.text('Défis de la semaine'), findsNothing);
       expect(find.text('Terminer 5 parties'), findsNothing);
       expect(find.text('Débloquez le Pass VIP'), findsOneWidget);
@@ -447,7 +449,17 @@ void main() {
             )
             .constraints!
             .maxWidth,
-        54,
+        42,
+      );
+      expect(find.byKey(const ValueKey('season-reached-7')), findsOneWidget);
+      expect(
+        tester
+            .widget<AnimatedContainer>(
+              find.byKey(const ValueKey('season-node-8')),
+            )
+            .constraints!
+            .maxWidth,
+        42,
       );
       final step8 = find.byKey(const ValueKey('season-tier-8'));
       final step7 = find.byKey(const ValueKey('season-tier-7'));
@@ -508,6 +520,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+      expect(find.text('Tous les paliers sont débloqués !'), findsOneWidget);
       final reward = find.byKey(const ValueKey('claim-pass-true-10'));
       await tester.scrollUntilVisible(
         reward,
@@ -534,6 +547,60 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
+  for (final vip in [false, true]) {
+    testWidgets('Objectif niveau 4 : voie VIP=$vip', (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            retentionRepositoryProvider.overrideWithValue(
+              TestRetention(level: 3, vip: vip),
+            ),
+            playerRepositoryProvider.overrideWithValue(TestPlayer()),
+            storeServiceProvider.overrideWithValue(TestStore()),
+          ],
+          child: const MyApp(home: BattlePassScreen()),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final target = vip ? 4 : 5;
+      expect(find.text('Prochain objectif : palier $target'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.byKey(ValueKey('season-tier-$target')),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      final targetTile = find.byKey(
+        ValueKey('claim-pass-${vip ? 'true' : 'false'}-$target'),
+      );
+      expect(
+        find.descendant(
+          of: targetTile,
+          matching: find.text('Prochain objectif'),
+        ),
+        findsOneWidget,
+      );
+      if (!vip) {
+        expect(
+          find.descendant(
+            of: find.byKey(const ValueKey('claim-pass-true-5')),
+            matching: find.text('Prochain objectif'),
+          ),
+          findsNothing,
+        );
+      }
+      expect(
+        tester
+            .widget<AnimatedContainer>(
+              find.byKey(ValueKey('season-node-$target')),
+            )
+            .constraints!
+            .maxWidth,
+        54,
+      );
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+  }
   testWidgets('Route : texte agrandi sans débordement sur téléphone étroit', (
     tester,
   ) async {

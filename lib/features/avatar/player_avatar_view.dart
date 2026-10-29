@@ -153,8 +153,31 @@ class _PlayerAvatarViewState extends State<PlayerAvatarView>
                   ),
                 ),
                 for (var layer = 0; layer < assetPaths.length; layer++)
-                  if (layer == 3)
+                  if (layer == 0)
+                    const SizedBox.shrink()
+                  else if (layer == 4 && config.hair == AvatarConfig.baldHair)
+                    const SizedBox.shrink(key: ValueKey('avatar-bald'))
+                  else if (layer == 4 && config.hair == AvatarConfig.mohawkHair)
+                    Center(
+                      child: AspectRatio(
+                        aspectRatio: .8,
+                        child: CustomPaint(
+                          key: const ValueKey('avatar-mohawk'),
+                          painter: _PortraitLayer(layer, config),
+                        ),
+                      ),
+                    )
+                  else if (layer == 3)
                     _face()
+                  else if (layer == 5 && config.glasses >= 3)
+                    Center(
+                      child: AspectRatio(
+                        aspectRatio: .8,
+                        child: CustomPaint(
+                          painter: _PortraitLayer(layer, config),
+                        ),
+                      ),
+                    )
                   else
                     Image.asset(
                       assetPaths[layer],
@@ -271,7 +294,20 @@ class _PortraitLayer extends CustomPainter {
       case 4:
         paint.color = AvatarPalette.hairColors[config.hairColor];
         final hair = Path();
-        if (config.hair == 0) {
+        if (config.hair == AvatarConfig.baldHair) return;
+        if (config.hair == AvatarConfig.mohawkHair) {
+          hair.moveTo(39, 34);
+          hair.lineTo(38, 17);
+          hair.lineTo(43, 22);
+          hair.lineTo(46, 5);
+          hair.lineTo(51, 13);
+          hair.lineTo(56, 4);
+          hair.lineTo(61, 20);
+          hair.lineTo(63, 15);
+          hair.lineTo(62, 34);
+          hair.quadraticBezierTo(50, 27, 39, 34);
+          hair.close();
+        } else if (config.hair == 0) {
           hair.moveTo(22, 48);
           hair.lineTo(21, 24);
           hair.quadraticBezierTo(49, -2, 78, 24);
@@ -289,18 +325,6 @@ class _PortraitLayer extends CustomPainter {
           hair.lineTo(52, 27);
           hair.quadraticBezierTo(36, 39, 28, 47);
           hair.lineTo(29, 94);
-          hair.close();
-        } else if (config.hair == 3) {
-          hair.moveTo(21, 82);
-          hair.lineTo(17, 34);
-          hair.quadraticBezierTo(20, 8, 48, 12);
-          hair.quadraticBezierTo(81, 9, 82, 37);
-          hair.lineTo(83, 86);
-          hair.lineTo(71, 91);
-          hair.lineTo(73, 43);
-          hair.lineTo(63, 30);
-          hair.lineTo(32, 32);
-          hair.lineTo(28, 89);
           hair.close();
         } else {
           hair.moveTo(21, 41);
@@ -320,12 +344,16 @@ class _PortraitLayer extends CustomPainter {
       case 5:
         if (config.glasses != 0) {
           paint
-            ..color = (config.glasses == 1
+            ..color = (config.glasses == 3
+                ? const Color(0xFFD9BC72)
+                : config.glasses == 1
                 ? const Color(0xFF3C2832)
                 : const Color(0xFFA72F4D))
             ..style = PaintingStyle.stroke
             ..strokeWidth = 2.4;
-          final radius = Radius.circular(config.glasses == 1 ? 9 : 3);
+          final radius = Radius.circular(
+            config.glasses == 1 || config.glasses == 4 ? 9 : 3,
+          );
           canvas.drawRRect(
             RRect.fromRectAndRadius(
               const Rect.fromLTWH(27, 45, 20, 17),

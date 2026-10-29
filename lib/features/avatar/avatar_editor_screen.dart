@@ -23,7 +23,7 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
     'Cheveux',
     'Lunettes',
     'Haut',
-    'Fond',
+    'Couleur de fond',
     'Couleur cheveux',
     'Bordures',
     'Couvre-chefs',
@@ -44,8 +44,10 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
       'Casquette',
       'Bonnet',
     ][option],
-    AvatarPart.hair when option == 3 => 'Coupe Mulet',
-    AvatarPart.glasses when option == 3 => 'Soleil dorées',
+    AvatarPart.hair when option == AvatarConfig.baldHair => 'Chauve',
+    AvatarPart.hair when option == AvatarConfig.mohawkHair => 'Crête',
+    AvatarPart.glasses when option == 3 => 'Monture dorée',
+    AvatarPart.glasses when option == 4 => 'Rondes',
     AvatarPart.top when option == 3 => 'Maillot rayé',
     _ => null,
   };
@@ -115,8 +117,14 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
                                   crossAxisSpacing: 12,
                                   mainAxisSpacing: 12,
                                 ),
-                            itemCount: AvatarConfig.countFor(part),
-                            itemBuilder: (context, option) {
+                            itemCount: part == AvatarPart.hair
+                                ? AvatarConfig.hairCount - 1
+                                : AvatarConfig.countFor(part),
+                            itemBuilder: (context, index) {
+                              final option =
+                                  part == AvatarPart.hair && index >= 3
+                                  ? index + 1
+                                  : index;
                               final item = AvatarConfig.cosmeticIdFor(
                                 part,
                                 option,

@@ -60,10 +60,9 @@ class ShopRepository {
               .order('item_id'))
           // Also hide retired frames while a server migration is pending.
           .where(
-            (json) => !{
-              'avatar_border',
-              'avatar_glasses',
-            }.contains((json['cosmetics'] as Map)['kind']),
+            (json) =>
+                json['item_id'] != 'shop_hair_mullet' &&
+                !{'avatar_border'}.contains((json['cosmetics'] as Map)['kind']),
           )
           .map((json) => ShopItem.fromJson(json))
           .toList();

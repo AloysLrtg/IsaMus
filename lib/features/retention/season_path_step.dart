@@ -16,9 +16,11 @@ class SeasonPathStep extends StatelessWidget {
     required this.first,
     required this.last,
     required this.onClaim,
+    this.nextTier,
   });
   final SeasonReward reward;
   final int level;
+  final int? nextTier;
   final bool vip, active, busy, freeClaimed, vipClaimed, first, last;
   final ValueChanged<bool> onClaim;
 
@@ -27,8 +29,17 @@ class SeasonPathStep extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final unlocked = reward.tier <= level;
-    final current = reward.tier == level.clamp(1, 30);
-    final nodeColor = unlocked ? colors.primary : colors.outlineVariant;
+    final current =
+        active &&
+        reward.tier == (nextTier ?? level + 1) &&
+        (vip ? reward.hasVipReward : reward.hasFreeReward);
+    const success = Color(0xFF79E7AE);
+    const focus = Color(0xFF7CD5FF);
+    final nodeColor = current
+        ? focus
+        : unlocked
+        ? success
+        : colors.outlineVariant;
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 190),
       child: IntrinsicHeight(
@@ -36,10 +47,8 @@ class SeasonPathStep extends StatelessWidget {
           painter: SeasonRoutePainter(
             first: first,
             last: last,
-            upperColor: unlocked ? colors.primary : colors.outlineVariant,
-            lowerColor: reward.tier < level
-                ? colors.primary
-                : colors.outlineVariant,
+            upperColor: unlocked ? success : colors.outlineVariant,
+            lowerColor: reward.tier < level ? success : colors.outlineVariant,
           ),
           child: Stack(
             alignment: Alignment.center,
@@ -54,6 +63,7 @@ class SeasonPathStep extends StatelessWidget {
                         premium: false,
                         vip: vip,
                         unlocked: unlocked,
+                        current: current,
                         active: active,
                         busy: busy,
                         claimed: freeClaimed,
@@ -70,6 +80,7 @@ class SeasonPathStep extends StatelessWidget {
                         premium: true,
                         vip: vip,
                         unlocked: unlocked,
+                        current: current && vip,
                         active: active,
                         busy: busy,
                         claimed: vipClaimed,
@@ -84,7 +95,7 @@ class SeasonPathStep extends StatelessWidget {
                   child: Semantics(
                     label:
                         'Palier ${reward.tier}, ${current
-                            ? 'en cours'
+                            ? 'prochain objectif'
                             : unlocked
                             ? 'atteint'
                             : 'verrouillé'}',
@@ -95,7 +106,9 @@ class SeasonPathStep extends StatelessWidget {
                       height: current ? 54 : 42,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: current ? colors.primary : colors.surface,
+                        color: current
+                            ? const Color(0xFF16394D)
+                            : colors.surface,
                         border: Border.all(
                           color: nodeColor,
                           width: current ? 3 : 2,
@@ -103,27 +116,42 @@ class SeasonPathStep extends StatelessWidget {
                         boxShadow: current
                             ? [
                                 BoxShadow(
-                                  color: colors.primary.withValues(alpha: .5),
+                                  color: focus.withValues(alpha: .22),
                                   blurRadius: 18,
-                                  spreadRadius: 3,
+                                  spreadRadius: 2,
                                 ),
                               ]
                             : [],
                       ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              '${reward.tier}',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w900,
-                                color: current ? colors.onPrimary : nodeColor,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                '${reward.tier}',
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w900,
+                                  color: nodeColor,
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          if (unlocked)
+                            Positioned(
+                              top: -6,
+                              right: -6,
+                              child: Icon(
+                                Icons.check_circle_rounded,
+                                key: ValueKey('season-reached-${reward.tier}'),
+                                color: success,
+                                size: 18,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
@@ -150,7 +178,9 @@ class SeasonRoutePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final x = size.width / 2;
     final y = size.height / 2;
-    final paint = Paint()..strokeWidth = 3;
+    final paint = Paint()
+      ..strokeWidth = 4
+      ..strokeCap = StrokeCap.round;
     if (!first) {
       canvas.drawLine(Offset(x, 0), Offset(x, y), paint..color = upperColor);
     }
@@ -184,13 +214,14 @@ class _RewardTile extends StatelessWidget {
     required this.premium,
     required this.vip,
     required this.unlocked,
+    required this.current,
     required this.active,
     required this.busy,
     required this.claimed,
     required this.onTap,
   });
   final SeasonReward reward;
-  final bool premium, vip, unlocked, active, busy, claimed;
+  final bool premium, vip, unlocked, current, active, busy, claimed;
   final VoidCallback onTap;
 
   @override
@@ -206,10 +237,13 @@ class _RewardTile extends StatelessWidget {
         !claimed &&
         !busy;
     final coins = (premium ? reward.vipCoins : reward.freeCoins ?? 0);
-    final success = Colors.greenAccent.shade400;
-    final muted = colors.onSurfaceVariant.withValues(alpha: .5);
+    const success = Color(0xFF79E7AE);
+    const focus = Color(0xFF7CD5FF);
+    final muted = colors.onSurfaceVariant.withValues(alpha: .72);
     final accent = claimed && hasReward
         ? success
+        : current && hasReward
+        ? focus
         : available
         ? colors.primary
         : colors.outlineVariant;
@@ -219,7 +253,9 @@ class _RewardTile extends StatelessWidget {
         : claimed
         ? 'Acquis'
         : !unlocked
-        ? 'Niveau ${reward.tier}'
+        ? current
+              ? 'Prochain objectif'
+              : 'Niveau ${reward.tier}'
         : premium && !vip
         ? 'VIP requis'
         : !active
@@ -240,19 +276,36 @@ class _RewardTile extends StatelessWidget {
           onTap: available ? onTap : null,
           child: Ink(
             decoration: BoxDecoration(
-              color: hasReward
-                  ? colors.surfaceContainerHigh
-                  : colors.surface.withValues(alpha: .4),
+              gradient: hasReward
+                  ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: claimed
+                          ? [colors.surfaceContainerLow, colors.surface]
+                          : current
+                          ? [
+                              const Color(0xFF1B354A),
+                              colors.surfaceContainerLow,
+                            ]
+                          : [
+                              colors.surfaceContainerHigh,
+                              colors.surfaceContainerLow,
+                            ],
+                    )
+                  : null,
+              color: hasReward ? null : colors.surface.withValues(alpha: .4),
               borderRadius: BorderRadius.circular(18),
               border: Border.all(
                 color: accent,
-                width: available || claimed && hasReward ? 1.5 : 1,
+                width: current && hasReward ? 2 : 1,
               ),
-              boxShadow: available
+              boxShadow: current && hasReward || available
                   ? [
                       BoxShadow(
-                        color: colors.primary.withValues(alpha: .12),
-                        blurRadius: 10,
+                        color: (current ? focus : colors.primary).withValues(
+                          alpha: .12,
+                        ),
+                        blurRadius: 14,
                       ),
                     ]
                   : [],
@@ -264,7 +317,11 @@ class _RewardTile extends StatelessWidget {
                 Text(
                   label,
                   style: theme.textTheme.labelMedium?.copyWith(
-                    color: hasReward && unlocked ? colors.primary : muted,
+                    color: current && hasReward
+                        ? focus
+                        : hasReward && unlocked
+                        ? colors.primary
+                        : muted,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -280,10 +337,16 @@ class _RewardTile extends StatelessWidget {
                     !hasReward
                         ? Icons.block
                         : !unlocked || premium && !vip
-                        ? Icons.lock_outline
+                        ? current && (!premium || vip)
+                              ? Icons.flag_rounded
+                              : Icons.lock_outline
                         : Icons.monetization_on_rounded,
-                    color: available ? colors.primary : muted,
-                    size: 26,
+                    color: current && hasReward
+                        ? focus
+                        : available
+                        ? colors.primary
+                        : muted,
+                    size: 32,
                   ),
                 if (hasReward) ...[
                   const SizedBox(height: 6),
@@ -291,7 +354,12 @@ class _RewardTile extends StatelessWidget {
                     '$coins pièces',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.labelLarge?.copyWith(
-                      color: unlocked ? colors.onSurface : muted,
+                      color: claimed
+                          ? colors.onSurfaceVariant
+                          : unlocked || current
+                          ? colors.onSurface
+                          : muted,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   if (premium && reward.hasCosmeticPreview)
@@ -322,6 +390,8 @@ class _RewardTile extends StatelessWidget {
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: claimed && hasReward
                         ? success
+                        : current && hasReward
+                        ? focus
                         : available
                         ? colors.primary
                         : muted,

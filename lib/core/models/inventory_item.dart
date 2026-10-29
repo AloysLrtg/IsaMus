@@ -53,7 +53,7 @@ class InventoryItem {
               ?.index ??
           0,
     ),
-    'avatar_hair' => current.withOption(AvatarPart.hair, 3),
+    'avatar_hair' => current.withCosmetic(id),
     'avatar_top' => current.withOption(AvatarPart.top, 3),
     _ => current,
   };

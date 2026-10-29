@@ -13,16 +13,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 const shopTestItems = [
   ShopItem(
-    id: 'shop_hair_mullet',
-    name: 'Coupe Mulet',
-    description: 'Une coupe mulet.',
-    cost: 300,
-    category: ShopCategory.avatar,
-  ),
-  ShopItem(
     id: 'shop_top_striped',
-    name: 'Maillot Rayé Bleu et Blanc',
-    description: 'Un maillot rayé.',
+    name: 'Maillot Rayé',
+    description: 'Un maillot.',
     cost: 300,
     category: ShopCategory.avatar,
   ),
@@ -123,6 +116,45 @@ Future<void> openShop(
 }
 
 void main() {
+  testWidgets('Boutique lisible avec texte agrandi sur écran étroit', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final player = ShopTestPlayer();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          playerRepositoryProvider.overrideWithValue(player),
+          shopRepositoryProvider.overrideWithValue(ShopTestRepository(player)),
+        ],
+        child: MyApp(
+          home: Builder(
+            builder: (context) => MediaQuery(
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(2)),
+              child: const ShopScreen(),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final buy = find.byKey(const ValueKey('shop-buy-shop_top_striped'));
+    await tester.ensureVisible(buy);
+    await tester.pumpAndSettle();
+    await tester.tap(buy);
+    await tester.pumpAndSettle();
+    expect(player.coins, 700);
+    expect(
+      find.byKey(const ValueKey('shop-owned-shop_top_striped')),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets(
     'Le solde est actualisé même si le joueur change d’onglet pendant l’achat',
     (tester) async {
@@ -143,7 +175,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('shop-buy-shop_hair_mullet')));
+      await tester.tap(find.byKey(const ValueKey('shop-buy-shop_top_striped')));
       await tester.pump();
       await tester.pumpWidget(
         UncontrolledProviderScope(
@@ -173,17 +205,17 @@ void main() {
       final repository = ShopTestRepository(player);
       await openShop(tester, player, repository);
       expect(find.text('1000 pièces'), findsOneWidget);
-      await tester.tap(find.byKey(const ValueKey('shop-buy-shop_hair_mullet')));
+      await tester.tap(find.byKey(const ValueKey('shop-buy-shop_top_striped')));
       await tester.pumpAndSettle();
       expect(repository.calls, 1);
       expect(player.coins, 700);
       expect(find.text('700 pièces'), findsOneWidget);
       expect(
-        find.byKey(const ValueKey('shop-buy-shop_hair_mullet')),
+        find.byKey(const ValueKey('shop-buy-shop_top_striped')),
         findsNothing,
       );
       expect(
-        find.byKey(const ValueKey('shop-owned-shop_hair_mullet')),
+        find.byKey(const ValueKey('shop-owned-shop_top_striped')),
         findsOneWidget,
       );
       expect(find.text('Équiper'), findsNothing);
@@ -198,7 +230,7 @@ void main() {
       final player = ShopTestPlayer(coins: 10);
       final repository = ShopTestRepository(player);
       await openShop(tester, player, repository);
-      await tester.tap(find.byKey(const ValueKey('shop-buy-shop_hair_mullet')));
+      await tester.tap(find.byKey(const ValueKey('shop-buy-shop_top_striped')));
       await tester.pumpAndSettle();
       expect(repository.calls, 1);
       expect(player.coins, 10);
@@ -206,11 +238,11 @@ void main() {
       expect(find.text('Fonds insuffisants pour cet article.'), findsOneWidget);
       expect(find.text('10 pièces'), findsOneWidget);
       expect(
-        find.byKey(const ValueKey('shop-buy-shop_hair_mullet')),
+        find.byKey(const ValueKey('shop-buy-shop_top_striped')),
         findsOneWidget,
       );
       expect(
-        find.byKey(const ValueKey('shop-owned-shop_hair_mullet')),
+        find.byKey(const ValueKey('shop-owned-shop_top_striped')),
         findsNothing,
       );
     },
@@ -221,7 +253,7 @@ void main() {
     final player = ShopTestPlayer();
     final repository = ShopTestRepository(player)..pending = Completer<void>();
     await openShop(tester, player, repository);
-    final buy = find.byKey(const ValueKey('shop-buy-shop_hair_mullet'));
+    final buy = find.byKey(const ValueKey('shop-buy-shop_top_striped'));
     await tester.tap(buy);
     await tester.pump();
     await tester.tap(buy);

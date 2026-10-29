@@ -1,4 +1,4 @@
-enum ShopCategory { avatar, cardBack, quickChat }
+enum ShopCategory { avatar, cardBack, hat, glasses, hair, quickChat }
 
 class ShopItem {
   const ShopItem({
@@ -21,10 +21,10 @@ class ShopItem {
       description: json['description'] as String,
       cost: cost,
       category: switch (cosmetic['kind']) {
-        'avatar' ||
-        'avatar_hair' ||
-        'avatar_top' ||
-        'exclusive_hat' => ShopCategory.avatar,
+        'avatar' || 'avatar_top' => ShopCategory.avatar,
+        'avatar_hair' => ShopCategory.hair,
+        'exclusive_hat' => ShopCategory.hat,
+        'avatar_glasses' => ShopCategory.glasses,
         'card_back' => ShopCategory.cardBack,
         'quick_chat' => ShopCategory.quickChat,
         _ => throw const FormatException('Catégorie inconnue'),

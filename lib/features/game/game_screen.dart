@@ -687,7 +687,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             intense
                 ? GameSounds.hordago
                 : speech.action == BidActionType.paso ||
-                      speech.action == BidActionType.tira
+                      (speech.action == BidActionType.tira ||
+                          speech.action == BidActionType.nereGatikTira)
                 ? GameSounds.tap
                 : GameSounds.chips,
           SpeechKind.chat || SpeechKind.custom || SpeechKind.freeChat => null,

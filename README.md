@@ -20,3 +20,5 @@ flutter run
 Les annonces sont désactivées et la boutique n’effectue aucun achat tant que ses clés ne sont pas configurées. Exemple de paramètres publics : `config.example.json`. Les clés secrètes de validation restent exclusivement dans Supabase Edge Functions.
 
 Les textes juridiques fournis sont des projets à compléter. Le moteur demeure sous autorité de l’hôte : la sécurité du classement contre un hôte malveillant nécessite un arbitre serveur.
+
+Déploiement navigateur : consulter [le guide Web et Vercel](docs/WEB_DEPLOYMENT.md). Le projet contient la configuration CanvasKit et les scripts de build pour Vercel.

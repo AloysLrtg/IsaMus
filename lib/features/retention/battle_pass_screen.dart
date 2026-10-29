@@ -106,6 +106,17 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
       (season?['end_date'] ?? season?['ends_at'])?.toString() ?? '',
     );
     final active = expiry != null && expiry.isAfter(DateTime.now());
+    final nextTier = rewards
+        .where(
+          (reward) =>
+              reward.tier > progress.level &&
+              (vip ? reward.hasVipReward : reward.hasFreeReward),
+        )
+        .firstOrNull
+        ?.tier;
+    final unlockedTiers = rewards
+        .where((reward) => reward.tier <= progress.level)
+        .length;
     return CustomScrollView(
       slivers: [
         SliverPadding(
@@ -116,7 +127,18 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
               children: [
                 _vipControls(vip),
                 const SizedBox(height: 16),
-                Card(
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF263D53), Color(0xFF142035)],
+                    ),
+                    border: Border.all(
+                      color: const Color(0xFF7CD5FF).withValues(alpha: .3),
+                    ),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -125,7 +147,9 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                         Text(
                           (season?['name'] ?? season?['title'])?.toString() ??
                               'Aucune saison en cours',
-                          style: theme.textTheme.headlineSmall,
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                         if (season?['preview'] == true)
                           Text(
@@ -139,12 +163,17 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                         ),
                         const SizedBox(height: 8),
                         LinearProgressIndicator(
-                          value: progress.fraction,
+                          value: nextTier == null && rewards.isNotEmpty
+                              ? 1
+                              : progress.fraction,
+                          minHeight: 8,
+                          color: const Color(0xFF7CD5FF),
+                          backgroundColor: Colors.white.withValues(alpha: .1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          '${progress.level.clamp(1, 30)} / 30 paliers débloqués',
+                          '$unlockedTiers / ${rewards.length} paliers débloqués',
                           key: const ValueKey('season-tier-progress'),
                         ),
                         Text(
@@ -152,6 +181,24 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                           key: const ValueKey('coins-balance'),
                         ),
                         const SizedBox(height: 8),
+                        if (rewards.isNotEmpty) ...[
+                          Text(
+                            nextTier == null
+                                ? 'Tous les paliers sont débloqués !'
+                                : 'Prochain objectif : palier $nextTier',
+                            key: const ValueKey('season-next-objective'),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: const Color(0xFF7CD5FF),
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          if (nextTier != null && active)
+                            Text(
+                              'Encore ${(nextTier - progress.level) * PlayerProgress.xpPerLevel - progress.xp} XP pour l’atteindre.',
+                              style: theme.textTheme.bodySmall,
+                            ),
+                          const SizedBox(height: 12),
+                        ],
                         const Text(
                           'Touchez une récompense débloquée pour la récupérer. Une récompense gratuite tous les 5 paliers ; une récompense VIP à chaque palier.',
                         ),
@@ -162,6 +209,35 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                 SizedBox(
                   height: 4,
                   child: _busy ? const LinearProgressIndicator() : null,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Route des récompenses',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Wrap(
+                  spacing: 14,
+                  runSpacing: 8,
+                  children: [
+                    _RouteLegend(
+                      icon: Icons.check_circle_rounded,
+                      color: Color(0xFF79E7AE),
+                      label: 'Atteint',
+                    ),
+                    _RouteLegend(
+                      icon: Icons.flag_rounded,
+                      color: Color(0xFF7CD5FF),
+                      label: 'Objectif',
+                    ),
+                    _RouteLegend(
+                      icon: Icons.lock_outline_rounded,
+                      color: Color(0xFF9CAABE),
+                      label: 'À venir',
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -177,6 +253,7 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                 key: ValueKey('season-tier-${reward.tier}'),
                 reward: reward,
                 level: progress.level,
+                nextTier: nextTier,
                 vip: vip,
                 active: active,
                 busy: _busy,
@@ -207,6 +284,7 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
             },
           ),
         ),
+        const SliverToBoxAdapter(child: SizedBox(height: 24)),
       ],
     );
   }
@@ -359,4 +437,26 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
       ),
     );
   }
+}
+
+class _RouteLegend extends StatelessWidget {
+  const _RouteLegend({
+    required this.icon,
+    required this.color,
+    required this.label,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Icon(icon, size: 16, color: color),
+      const SizedBox(width: 5),
+      Text(label, style: Theme.of(context).textTheme.labelSmall),
+    ],
+  );
 }

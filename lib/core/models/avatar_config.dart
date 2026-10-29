@@ -28,9 +28,16 @@ extension AvatarPartKey on AvatarPart {
 class AvatarConfig {
   static const optionCount = 3;
   static const colorCount = 6;
+  static const backgroundCount = 12;
+  static const baldHair = 4;
+  static const mohawkHair = 5;
+  static const hairCount = 6;
   static int countFor(AvatarPart part) => switch (part) {
-    AvatarPart.backgroundColor || AvatarPart.hairColor => colorCount,
-    AvatarPart.hair || AvatarPart.top => optionCount + 1,
+    AvatarPart.backgroundColor => backgroundCount,
+    AvatarPart.hairColor => colorCount,
+    AvatarPart.glasses => 5,
+    AvatarPart.hair => hairCount,
+    AvatarPart.top => optionCount + 1,
     AvatarPart.border => AvatarBorder.values.length,
     AvatarPart.exclusiveHat => ExclusiveHat.values.length,
     _ => optionCount,
@@ -40,7 +47,10 @@ class AvatarConfig {
       'league_border_${AvatarBorder.values[option].name}',
     AvatarPart.exclusiveHat when option > 0 =>
       '${option >= ExclusiveHat.cap.index ? 'shop' : 'league'}_hat_${ExclusiveHat.values[option].name}',
-    AvatarPart.hair when option == 3 => 'shop_hair_mullet',
+    AvatarPart.glasses when option == 3 => 'shop_glasses_fine',
+    AvatarPart.glasses when option == 4 => 'shop_glasses_round',
+    AvatarPart.hair when option == baldHair => 'shop_hair_bald',
+    AvatarPart.hair when option == mohawkHair => 'shop_hair_mohawk',
     AvatarPart.top when option == 3 => 'shop_top_striped',
     _ => null,
   };
@@ -54,10 +64,10 @@ class AvatarConfig {
     this.border = AvatarBorder.none,
     this.exclusiveHat = ExclusiveHat.none,
   }) : assert(skin >= 0 && skin < optionCount),
-       assert(hair >= 0 && hair < optionCount + 1),
-       assert(glasses >= 0 && glasses < optionCount),
+       assert(hair >= 0 && hair < hairCount && hair != 3),
+       assert(glasses >= 0 && glasses < 5),
        assert(top >= 0 && top < optionCount + 1),
-       assert(backgroundColor >= 0 && backgroundColor < colorCount),
+       assert(backgroundColor >= 0 && backgroundColor < backgroundCount),
        assert(hairColor >= 0 && hairColor < colorCount);
   final int skin;
   final int hair;
@@ -91,10 +101,12 @@ class AvatarConfig {
               .firstOrNull ??
           ExclusiveHat.none,
       skin: read('skin'),
-      hair: read('hair', 'head', optionCount + 1),
-      glasses: read('glasses', 'eyes', optionCount),
+      hair: read('hair', 'head', hairCount) == 3
+          ? 0
+          : read('hair', 'head', hairCount),
+      glasses: read('glasses', 'eyes', 5),
       top: read('top', 'mouth', optionCount + 1),
-      backgroundColor: read('background_color', null, colorCount),
+      backgroundColor: read('background_color', null, backgroundCount),
       hairColor: read('hair_color', null, colorCount, read('hair', 'head')),
     );
   }
@@ -128,7 +140,10 @@ class AvatarConfig {
   });
 
   AvatarConfig withCosmetic(String id) => switch (id) {
-    'shop_hair_mullet' => withOption(AvatarPart.hair, 3),
+    'shop_hair_bald' => withOption(AvatarPart.hair, baldHair),
+    'shop_hair_mohawk' => withOption(AvatarPart.hair, mohawkHair),
+    'shop_glasses_fine' => withOption(AvatarPart.glasses, 3),
+    'shop_glasses_round' => withOption(AvatarPart.glasses, 4),
     'shop_top_striped' => withOption(AvatarPart.top, 3),
     'shop_hat_cap' => withOption(
       AvatarPart.exclusiveHat,
