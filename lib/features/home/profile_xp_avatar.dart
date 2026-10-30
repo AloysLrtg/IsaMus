@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../core/models/avatar_config.dart';
@@ -12,9 +14,15 @@ class ProfileXpAvatar extends StatelessWidget {
     final progress = PlayerProgress.fromJson(profile);
     final colors = Theme.of(context).colorScheme;
     return Tooltip(
-      message: 'Niveau ${progress.level} · ${progress.xp} / 500 XP',
+      message: AppLocalizations.of(context)!.menuLevelArg0Arg1500XP(
+        (progress.level).toString(),
+        (progress.xp).toString(),
+      ),
       child: Semantics(
-        label: 'Niveau ${progress.level}, ${progress.xp} XP sur 500',
+        label: AppLocalizations.of(context)!.menuLevelArg0Arg1XPOutOf500(
+          (progress.level).toString(),
+          (progress.xp).toString(),
+        ),
         child: SizedBox(
           width: 40,
           height: 44,

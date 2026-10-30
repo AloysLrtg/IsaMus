@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,11 +21,17 @@ class SeasonCountdown extends ConsumerWidget {
       children: [
         if (showName)
           Text(
-            'Saison ${local.month.toString().padLeft(2, '0')}/${local.year}',
+            AppLocalizations.of(context)!.menuSeasonArg0Arg1(
+              (local.month.toString().padLeft(2, '0')).toString(),
+              (local.year).toString(),
+            ),
             style: Theme.of(context).textTheme.titleSmall,
           ),
         const SizedBox(height: 6),
-        Text('Fin de saison', style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          AppLocalizations.of(context)!.menuSeasonEnds,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         const SizedBox(height: 8),
         CountdownWidget(
           key: const ValueKey('shared-season-countdown'),

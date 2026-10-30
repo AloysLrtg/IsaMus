@@ -1,3 +1,6 @@
+import '../../core/localization/catalog_localizations.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,10 +35,13 @@ class WeeklyQuestsSheet extends ConsumerWidget {
               controller: scrollController,
               padding: const EdgeInsets.all(24),
               children: [
-                Text('Quêtes indisponibles', style: theme.textTheme.titleLarge),
+                Text(
+                  AppLocalizations.of(context)!.menuQuestsUnavailable,
+                  style: theme.textTheme.titleLarge,
+                ),
                 TextButton(
                   onPressed: () => ref.invalidate(retentionStatusProvider),
-                  child: const Text('Réessayer'),
+                  child: Text(AppLocalizations.of(context)!.menuTryAgain),
                 ),
               ],
             ),
@@ -52,12 +58,12 @@ class WeeklyQuestsSheet extends ConsumerWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Quêtes hebdomadaires',
+                          AppLocalizations.of(context)!.menuWeeklyQuests,
                           style: theme.textTheme.titleLarge,
                         ),
                       ),
                       IconButton(
-                        tooltip: 'Fermer',
+                        tooltip: AppLocalizations.of(context)!.menuClose,
                         onPressed: () => Navigator.pop(context),
                         icon: const Icon(Icons.close),
                       ),
@@ -65,19 +71,22 @@ class WeeklyQuestsSheet extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Une nouvelle semaine, de nouveaux défis.',
+                    AppLocalizations.of(context)!.menuANewWeekNewChallenges,
                     style: theme.textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Réinitialisation le lundi à 00 h UTC. Les récompenses XP sont attribuées automatiquement.',
+                    AppLocalizations.of(context)!
+                        .menuResetsOnMondayAt0000UTCXPRewards,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colors.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: 20),
                   if (quests.isEmpty)
-                    const Text('De nouveaux défis arrivent bientôt.'),
+                    Text(
+                      AppLocalizations.of(context)!.menuNewChallengesComingSoon,
+                    ),
                   for (final quest in quests)
                     Card(
                       child: Padding(
@@ -89,7 +98,10 @@ class WeeklyQuestsSheet extends ConsumerWidget {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    '${quest['title']}',
+                                    questTitle(
+                                      AppLocalizations.of(context)!,
+                                      quest,
+                                    ),
                                     style: theme.textTheme.titleSmall,
                                   ),
                                 ),
@@ -112,7 +124,7 @@ class WeeklyQuestsSheet extends ConsumerWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              "${quest['progress'] ?? 0}/${quest['target']} · ${_questRewardLabel(quest, multiplier)}",
+                              "${quest['progress'] ?? 0}/${quest['target']} · ${_questRewardLabel(context, quest, multiplier)}",
                               style: theme.textTheme.labelLarge,
                             ),
                           ],
@@ -127,13 +139,17 @@ class WeeklyQuestsSheet extends ConsumerWidget {
   }
 }
 
-String _questRewardLabel(Map quest, int multiplier) {
+String _questRewardLabel(BuildContext context, Map quest, int multiplier) {
   if (quest['rewarded'] == true) {
     final earned = (quest['earned_xp'] as num? ?? 0).toInt();
-    return earned > 0 ? '+$earned XP · Récompense reçue' : 'Récompense reçue';
+    return earned > 0
+        ? AppLocalizations.of(context)!
+              .menuArg0XPRewardReceived((earned).toString())
+        : AppLocalizations.of(context)!.menuRewardReceived;
   }
   final reward = quest['reward_xp'];
   return reward is num && reward > 0
-      ? '+${reward.toInt() * multiplier} XP'
-      : 'Récompense XP indisponible';
+      ? AppLocalizations.of(context)!
+            .menuArg0XP((reward.toInt() * multiplier).toString())
+      : AppLocalizations.of(context)!.menuXPRewardUnavailable;
 }

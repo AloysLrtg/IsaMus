@@ -1,3 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -173,7 +175,7 @@ void main() {
     final classic = find.byKey(const ValueKey('inventory-item-classic'));
     expect(find.text('Dos Classique'), findsOneWidget);
     await tester.tap(
-      find.descendant(of: classic, matching: find.text('Équiper')),
+      find.descendant(of: classic, matching: find.text(testL10n.menuEquip)),
     );
     await tester.pumpAndSettle();
     expect(repo.equipped, ['classic']);
@@ -183,7 +185,7 @@ void main() {
       'classic',
     );
     expect(
-      find.descendant(of: classic, matching: find.text('Équipé')),
+      find.descendant(of: classic, matching: find.text(testL10n.menuEquipped)),
       findsOneWidget,
     );
     expect(repo.owned.contains('classic'), isFalse);
@@ -230,7 +232,10 @@ void main() {
     expect(
       tester
           .getCenter(
-            find.descendant(of: entry, matching: find.text('Personnalisation')),
+            find.descendant(
+              of: entry,
+              matching: find.text(testL10n.menuCustomisation),
+            ),
           )
           .dx,
       closeTo(tester.getCenter(entry).dx, .1),
@@ -246,13 +251,16 @@ void main() {
       repo.fail = true;
       final classic = find.byKey(const ValueKey('inventory-item-classic'));
       await tester.tap(
-        find.descendant(of: classic, matching: find.text('Équiper')),
+        find.descendant(of: classic, matching: find.text(testL10n.menuEquip)),
       );
       await tester.pumpAndSettle();
       expect(repo.back, 'shop_back_violet');
       expect(find.textContaining('Équipement impossible'), findsOneWidget);
       expect(
-        find.descendant(of: classic, matching: find.text('Équipé')),
+        find.descendant(
+          of: classic,
+          matching: find.text(testL10n.menuEquipped),
+        ),
         findsNothing,
       );
     },
@@ -303,7 +311,7 @@ void main() {
       await tester.pumpAndSettle();
       final classic = find.byKey(const ValueKey('inventory-item-classic'));
       await tester.tap(
-        find.descendant(of: classic, matching: find.text('Équiper')),
+        find.descendant(of: classic, matching: find.text(testL10n.menuEquip)),
       );
       await tester.pumpAndSettle();
       Navigator.of(tester.element(find.byType(InventoryScreen))).pop();
@@ -349,7 +357,7 @@ void main() {
       repo.gate = Completer<void>();
       final button = find.descendant(
         of: find.byKey(const ValueKey('inventory-item-classic')),
-        matching: find.text('Équiper'),
+        matching: find.text(testL10n.menuEquip),
       );
       await tester.tap(button);
       await tester.pump();
@@ -379,3 +387,5 @@ void main() {
     });
   }
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

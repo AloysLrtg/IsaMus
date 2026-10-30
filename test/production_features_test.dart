@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:isamus/core/audio/audio_haptic_service.dart';
 
 import 'helpers/audio_haptic_fakes.dart';
@@ -159,7 +160,11 @@ void main() {
           socialRepositoryProvider.overrideWithValue(repo),
           friendshipsProvider.overrideWith((ref) => Stream.value([])),
         ],
-        child: const MaterialApp(
+        child: MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Scaffold(
             body: FriendsTab(userId: 'me', username: 'Patxi'),
           ),
@@ -168,13 +173,13 @@ void main() {
     );
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'Ane');
-    await tester.tap(find.byTooltip('Rechercher'));
+    await tester.tap(find.byTooltip(testL10n.menuSearch));
     await tester.pumpAndSettle();
     expect(
       find.descendant(of: find.byType(ListTile), matching: find.text('Ane')),
       findsOneWidget,
     );
-    await tester.tap(find.byTooltip('Demander en ami'));
+    await tester.tap(find.byTooltip(testL10n.menuSendFriendRequest));
     await tester.pumpAndSettle();
     expect(repo.requested, 'friend');
   });
@@ -199,7 +204,11 @@ void main() {
           ),
           personProvider.overrideWith((ref, id) async => {'username': 'Ane'}),
         ],
-        child: const MaterialApp(
+        child: MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Scaffold(
             body: FriendsTab(userId: 'me', username: 'Patxi'),
           ),
@@ -207,10 +216,10 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Demandes'));
+    await tester.tap(find.text(testL10n.menuRequests));
     await tester.pumpAndSettle();
-    expect(find.text('Demande reçue'), findsOneWidget);
-    await tester.tap(find.text('Accepter'));
+    expect(find.text(testL10n.menuRequestReceived), findsOneWidget);
+    await tester.tap(find.text(testL10n.menuAccept));
     await tester.pumpAndSettle();
     expect(repo.accepted, 'request');
   });
@@ -231,23 +240,27 @@ void main() {
           playerRepositoryProvider.overrideWithValue(repo),
         ],
         child: MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Scaffold(body: ProfileTab(onChanged: () {})),
         ),
       ),
     );
     await tester.pumpAndSettle();
     expect(find.text('60 % de victoires'), findsOneWidget);
-    expect(find.text('Modifier mon Avatar'), findsOneWidget);
-    expect(find.text('Détails par mode'), findsOneWidget);
-    expect(find.text('Effets sonores'), findsNothing);
-    expect(find.text('Compte & sécurité'), findsNothing);
-    expect(find.text('Conditions d’utilisation'), findsNothing);
-    expect(find.text('Politique de confidentialité'), findsNothing);
+    expect(find.text(testL10n.menuEditMyAvatar), findsOneWidget);
+    expect(find.text(testL10n.menuDetailsByMode), findsOneWidget);
+    expect(find.text(testL10n.menuSoundEffects), findsNothing);
+    expect(find.text(testL10n.menuAccountSecurity), findsNothing);
+    expect(find.text(testL10n.menuTermsOfUse), findsNothing);
+    expect(find.text(testL10n.menuPrivacyPolicy), findsNothing);
     expect(find.byType(ChoiceChip), findsNothing);
-    expect(find.text('Personnalisation'), findsOneWidget);
+    expect(find.text(testL10n.menuCustomisation), findsOneWidget);
     expect(find.text('Boutique de cosmétiques'), findsNothing);
-    await tester.scrollUntilVisible(find.text('Dernières parties'), 150);
-    expect(find.text('Dernières parties'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text(testL10n.menuRecentGames), 150);
+    expect(find.text(testL10n.menuRecentGames), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
   testWidgets('expired invitation is not offered', (tester) async {
@@ -268,12 +281,18 @@ void main() {
             ]),
           ),
         ],
-        child: const MaterialApp(
+        child: MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Scaffold(body: InvitationInbox(username: 'Patxi')),
         ),
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text('Rejoindre'), findsNothing);
+    expect(find.text(testL10n.menuJoin), findsNothing);
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

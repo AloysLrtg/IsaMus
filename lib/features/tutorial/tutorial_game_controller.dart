@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import '../../core/engine/mus_game_controller.dart';
 import '../../core/engine/mus_game_state.dart';
 import '../../core/models/card.dart';
@@ -12,16 +14,17 @@ class TutorialGameController extends MusGameController {
   Future<void> pauseForReading() =>
       Future<void>.delayed(const Duration(seconds: 2));
 
-  String get explanation => switch (expectedAction) {
-    TutorialAction.mintza =>
-      'Vous avez deux Rois et un Jeu de 31. Gardez cette main : dites Mintza.',
-    TutorialAction.iduki => 'L’adversaire relance. Suivez (Iduki) pour comparer les cartes au décompte.',
-    TutorialAction.betTwo when state.bidding?.phase == BidPhase.paires => 'Vous avez deux Rois : votre paire est annoncée avec Bai. Misez 2 pierres !',
-    TutorialAction.betTwo when state.bidding?.phase == BidPhase.jeu => 'Vous avez 31, le meilleur Jeu. Misez 2 pierres pour ouvrir les enchères.',
-    TutorialAction.betTwo =>
-      'C’est le Grand (Handia). Vous avez des cartes fortes, misez !',
-    TutorialAction.paso => 'Au Petit, votre As est suivi de trois figures. Passez la parole avec Paso.',
-    null => 'Observez les annonces et les réponses des autres joueurs.',
+  String explanation(AppLocalizations l10n) => switch (expectedAction) {
+    TutorialAction.mintza => l10n.menuYouHaveTwoKingsAndAGameTotalOf,
+    TutorialAction.iduki =>
+      l10n.menuYourOpponentRaisesCallIdukiToCompareCardsAt,
+    TutorialAction.betTwo when state.bidding?.phase == BidPhase.paires =>
+      l10n.menuYouHaveTwoKingsBaiAnnouncesYourPairBet,
+    TutorialAction.betTwo when state.bidding?.phase == BidPhase.jeu =>
+      l10n.menuYouHave31TheBestGameTotalBet2,
+    TutorialAction.betTwo => l10n.menuThisIsHighHandiaYouHaveStrongCardsBet,
+    TutorialAction.paso => l10n.menuAtLowYourAceIsFollowedByThreeFace,
+    null => l10n.menuWatchTheOtherPlayersAnnouncementsAndResponses,
   };
   @override
   bool get autoAdvanceRounds => !guided;
@@ -88,7 +91,7 @@ class TutorialGameController extends MusGameController {
         (seat != 0 ||
             expectedAction != TutorialAction.mintza ||
             choice != MusChoice.mintza)) {
-      throw StateError('Le tutoriel attend Mintza.');
+      throw StateError('Expected tutorial action: Mintza');
     }
     super.chooseMus(seat, choice);
   }
@@ -96,7 +99,7 @@ class TutorialGameController extends MusGameController {
   @override
   void discard(int seat, List<int> cardIndices) {
     if (guided) {
-      throw StateError('La défausse n’est pas disponible dans cette étape.');
+      throw StateError('Discarding is disabled in the guided tutorial');
     }
     super.discard(seat, cardIndices);
   }
@@ -114,9 +117,7 @@ class TutorialGameController extends MusGameController {
             _ => false,
           };
       if (!allowed) {
-        throw StateError(
-          'Action différente de celle attendue par le tutoriel.',
-        );
+        throw StateError('Unexpected guided tutorial action');
       }
     }
     super.act(seat, type, amount: amount);

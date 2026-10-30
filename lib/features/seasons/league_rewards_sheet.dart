@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 Future<void> showLeagueRewards(BuildContext context) =>
@@ -19,26 +21,43 @@ Future<void> showLeagueRewards(BuildContext context) =>
               children: [
                 Expanded(
                   child: Text(
-                    'Récompenses de Saison',
+                    AppLocalizations.of(context)!.menuSeasonRewards,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 IconButton(
-                  tooltip: 'Fermer',
+                  tooltip: AppLocalizations.of(context)!.menuClose,
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.close),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Votre meilleur Elo de la saison détermine vos récompenses. Les paliers sont cumulatifs.',
+            Text(
+              AppLocalizations.of(context)!
+                  .menuYourSeasonsBestEloDeterminesYourRewardsTiersAre,
             ),
             for (final entry in [
-              (1000, 'Bordure Bronze', Color(0xFFCD8852)),
-              (1200, 'Bordure Argent', Color(0xFFD0DAE6)),
-              (1400, 'Bordure Or', Color(0xFFFFD54F)),
-              (1600, 'Txapela (béret)', Color(0xFFB79774)),
+              (
+                1000,
+                AppLocalizations.of(context)!.menuBronzeBorder,
+                Color(0xFFCD8852),
+              ),
+              (
+                1200,
+                AppLocalizations.of(context)!.menuSilverBorder,
+                Color(0xFFD0DAE6),
+              ),
+              (
+                1400,
+                AppLocalizations.of(context)!.menuGoldBorder,
+                Color(0xFFFFD54F),
+              ),
+              (
+                1600,
+                AppLocalizations.of(context)!.menuTxapelaBeret,
+                Color(0xFFB79774),
+              ),
             ])
               ListTile(
                 leading: Icon(
@@ -51,8 +70,9 @@ Future<void> showLeagueRewards(BuildContext context) =>
                 subtitle: Text('${entry.$1} Elo'),
               ),
             const Divider(),
-            const Text(
-              'À la clôture mensuelle, l’Elo et le Peak Elo reviennent à 800. Vos cosmétiques restent acquis : équipez-les dans Modifier mon Avatar → Bordures / Trophées.',
+            Text(
+              AppLocalizations.of(context)!
+                  .menuAtTheMonthlyCloseEloAndPeakEloReset,
             ),
           ],
         ),

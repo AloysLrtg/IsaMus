@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -117,7 +118,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.text('Pass indisponible.'), findsOneWidget);
+      expect(find.text(testL10n.menuPassUnavailable), findsOneWidget);
       expect(find.byType(CountdownWidget), findsOneWidget);
       expect(find.byKey(const ValueKey('countdown-hours-10')), findsOneWidget);
       expect(
@@ -128,3 +129,5 @@ void main() {
     },
   );
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -85,8 +87,9 @@ class _SocialBannerHostState extends ConsumerState<SocialBannerHost> {
               .read(socialNoticeProvider.notifier)
               .show(
                 added.length == 1
-                    ? 'Nouvelle demande d’amitié reçue'
-                    : '${added.length} nouvelles demandes d’amitié',
+                    ? AppLocalizations.of(context)!.menuNewFriendRequestReceived
+                    : AppLocalizations.of(context)!
+                          .menuArg0NewFriendRequests((added.length).toString()),
                 kind: SocialNoticeKind.information,
               );
         }
@@ -121,7 +124,7 @@ class _SocialBannerHostState extends ConsumerState<SocialBannerHost> {
                         const SizedBox(height: 10),
                       if (actor != null)
                         InvitationInbox(
-                          username: 'Joueur',
+                          username: AppLocalizations.of(context)!.menuPlayer,
                           navigatorKey: widget.navigatorKey,
                         ),
                     ],
@@ -167,10 +170,11 @@ class _SocialBannerHostState extends ConsumerState<SocialBannerHost> {
               key: const ValueKey('close-social-banner'),
               onPressed: () =>
                   ref.read(socialNoticeProvider.notifier).dismiss(),
-              icon: const Icon(
+              icon: Icon(
                 Icons.close,
                 color: Colors.white,
-                semanticLabel: 'Fermer la notification',
+                semanticLabel: AppLocalizations.of(context)!
+                    .menuCloseNotification,
               ),
             ),
           ],

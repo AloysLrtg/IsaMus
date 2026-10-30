@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -75,7 +76,11 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      const MaterialApp(
+      MaterialApp(
+        locale: const Locale('fr'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+
         home: Scaffold(
           body: PlayerAvatarView(
             config: AvatarConfig(hair: 1, hairColor: 5, backgroundColor: 3),
@@ -86,12 +91,17 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.byType(ClipOval), findsOneWidget);
-    final background = tester.widget<Image>(
-      find.byKey(const ValueKey('avatar-layer-0')),
+    final background = tester.widget<DecoratedBox>(
+      find
+          .descendant(
+            of: find.byKey(const ValueKey('avatar-circle')),
+            matching: find.byType(DecoratedBox),
+          )
+          .first,
     );
     expect(
-      (background.image as AssetImage).assetName,
-      'assets/avatars/background_3.png',
+      (background.decoration as BoxDecoration).gradient,
+      AvatarPalette.backgrounds[3],
     );
     final hair = tester.widget<Image>(
       find.byKey(const ValueKey('avatar-layer-4')),
@@ -107,6 +117,10 @@ void main() {
           playerRepositoryProvider.overrideWithValue(StatsPlayer(empty: empty)),
         ],
         child: MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Scaffold(body: ProfileTab(onChanged: () {})),
         ),
       ),
@@ -126,8 +140,8 @@ void main() {
         find.byKey(const ValueKey('stats-global-pie')),
       );
       expect(global.data.sections.map((s) => s.value), [6.0, 4.0]);
-      expect(find.text('Elo actuel'), findsOneWidget);
-      expect(find.text('Peak Elo'), findsOneWidget);
+      expect(find.text(testL10n.menuCurrentElo), findsOneWidget);
+      expect(find.text(testL10n.menuPeakElo), findsOneWidget);
       expect(
         tester.widget<Text>(find.byKey(const ValueKey('peak-elo'))).data,
         '1450',
@@ -153,9 +167,9 @@ void main() {
         );
         expect(chart.data.sections.map((s) => s.value), entry.value);
       }
-      expect(find.text('Classique'), findsOneWidget);
-      expect(find.text('Classé'), findsOneWidget);
-      expect(find.text('Solo'), findsOneWidget);
+      expect(find.text(testL10n.menuCasual), findsOneWidget);
+      expect(find.text(testL10n.menuRanked), findsOneWidget);
+      expect(find.text(testL10n.menuSolo), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );
@@ -167,6 +181,10 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(
         MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: MediaQuery(
             data: MediaQueryData(
               size: size,
@@ -203,7 +221,7 @@ void main() {
   });
   testWidgets('profil sans partie affiche un anneau neutre', (tester) async {
     await mount(tester, empty: true);
-    expect(find.text('Aucune partie terminée'), findsOneWidget);
+    expect(find.text(testL10n.menuNoCompletedGames), findsOneWidget);
     final chart = tester.widget<PieChart>(
       find.byKey(const ValueKey('stats-global-pie')),
     );
@@ -214,3 +232,5 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

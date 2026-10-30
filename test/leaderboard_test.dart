@@ -1,3 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -24,6 +26,10 @@ void main() {
       ProviderScope(
         overrides: [leaderboardProvider.overrideWith((ref) => fetch())],
         child: MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           theme: ThemeData.dark(),
           home: Scaffold(body: LeaderboardTab(currentUserId: userId)),
         ),
@@ -49,13 +55,13 @@ void main() {
     final local = find.byKey(const ValueKey('leaderboard-row-local'));
     await tester.ensureVisible(local);
     expect(
-      find.descendant(of: local, matching: find.text('Vous')),
+      find.descendant(of: local, matching: find.text(testL10n.you)),
       findsOneWidget,
     );
     expect(
       find.descendant(
         of: find.byKey(const ValueKey('leaderboard-row-a')),
-        matching: find.text('Vous'),
+        matching: find.text(testL10n.you),
       ),
       findsNothing,
     );
@@ -75,10 +81,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       if (count == 0) {
-        expect(
-          find.text('Aucun joueur classé pour le moment.'),
-          findsOneWidget,
-        );
+        expect(find.text(testL10n.menuNoRankedPlayersYet), findsOneWidget);
       } else {
         expect(
           find.byKey(const ValueKey('leaderboard-podium-1')),
@@ -104,11 +107,11 @@ void main() {
       return entries;
     });
     await tester.pumpAndSettle();
-    expect(find.text('Réessayer'), findsOneWidget);
-    await tester.tap(find.text('Réessayer'));
+    expect(find.text(testL10n.menuTryAgain), findsOneWidget);
+    await tester.tap(find.text(testL10n.menuTryAgain));
     await tester.pumpAndSettle();
     expect(find.text('Votre position : #4'), findsOneWidget);
-    await tester.tap(find.byTooltip('Actualiser le classement'));
+    await tester.tap(find.byTooltip(testL10n.menuRefreshRankings));
     await tester.pump();
     expect(calls, 3);
     await tester.pumpWidget(const SizedBox());
@@ -127,3 +130,5 @@ void main() {
     expect(find.byKey(const ValueKey('leaderboard-podium-1')), findsOneWidget);
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

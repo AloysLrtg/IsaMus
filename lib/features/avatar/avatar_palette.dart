@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 /// Stable palette indices persisted in avatar_config, independent of hair shape.
@@ -24,26 +26,26 @@ abstract final class AvatarPalette {
     LinearGradient(colors: [Color(0xFFD6DBE0), Color(0xFFD6DBE0)]),
     LinearGradient(colors: [Color(0xFF202329), Color(0xFF202329)]),
   ];
-  static const backgroundLabels = [
-    'Rouge vif',
-    'Orange',
-    'Jaune soleil',
-    'Vert pomme',
-    'Vert sapin',
-    'Cyan',
-    'Bleu marine',
-    'Violet profond',
-    'Rose fuchsia',
-    'Marron',
-    'Gris clair',
-    'Anthracite',
+  static List<String> backgroundLabels(AppLocalizations l10n) => [
+    l10n.menuBrightRed,
+    l10n.menuOrange,
+    l10n.menuSunshineYellow,
+    l10n.menuAppleGreen,
+    l10n.menuPineGreen,
+    l10n.menuCyan,
+    l10n.menuNavyBlue,
+    l10n.menuDeepPurple,
+    l10n.menuFuchsiaPink,
+    l10n.menuBrown,
+    l10n.menuLightGrey,
+    l10n.menuCharcoal,
   ];
-  static const hairLabels = [
-    'Brun',
-    'Blond',
-    'Noir',
-    'Cuivré',
-    'Argent',
-    'Violet',
+  static List<String> hairLabels(AppLocalizations l10n) => [
+    l10n.menuBrunette,
+    l10n.menuBlonde,
+    l10n.menuBlack,
+    l10n.menuCopper,
+    l10n.menuSilver,
+    l10n.menuPurple,
   ];
 }

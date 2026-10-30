@@ -56,7 +56,11 @@ class MyApp extends ConsumerWidget {
         const Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
       error: (_, _) => _application(
-        const LoginScreen(initialError: 'Connexion indisponible. Réessayez.'),
+        Builder(
+          builder: (context) => LoginScreen(
+            initialError: AppLocalizations.of(context)!.connectionUnavailable,
+          ),
+        ),
       ),
     );
   }

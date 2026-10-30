@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,37 +20,46 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
   late AvatarConfig _draft = widget.initialConfig;
   bool _saving = false;
   String? _error;
-  static const _labels = [
-    'Peau',
-    'Cheveux',
-    'Lunettes',
-    'Haut',
-    'Couleur de fond',
-    'Couleur cheveux',
-    'Bordures',
-    'Couvre-chefs',
+  List<String> get _labels => [
+    AppLocalizations.of(context)!.menuSkin,
+    AppLocalizations.of(context)!.menuHair,
+    AppLocalizations.of(context)!.menuGlasses,
+    AppLocalizations.of(context)!.menuTop,
+    AppLocalizations.of(context)!.menuBackgroundColour,
+    AppLocalizations.of(context)!.menuHairColour,
+    AppLocalizations.of(context)!.menuBorders,
+    AppLocalizations.of(context)!.menuHeadwear,
   ];
 
   String? _rewardLabel(AvatarPart part, int option) => switch (part) {
     AvatarPart.border => [
-      'Aucune',
-      'Bronze',
-      'Argent',
-      'Or',
-      'Diamant',
+      AppLocalizations.of(context)!.menuNone,
+      AppLocalizations.of(context)!.menuBronze,
+      AppLocalizations.of(context)!.menuSilver,
+      AppLocalizations.of(context)!.oros,
+      AppLocalizations.of(context)!.menuDiamond,
     ][option],
     AvatarPart.exclusiveHat => [
-      'Aucun',
-      'Txapela',
-      'Couronne',
-      'Casquette',
-      'Bonnet',
+      AppLocalizations.of(context)!.menuNone391,
+      AppLocalizations.of(context)!.menuTxapela,
+      AppLocalizations.of(context)!.menuCrown,
+      AppLocalizations.of(context)!.menuCap,
+      AppLocalizations.of(context)!.menuBeanie,
     ][option],
-    AvatarPart.hair when option == AvatarConfig.baldHair => 'Chauve',
-    AvatarPart.hair when option == AvatarConfig.mohawkHair => 'Crête',
-    AvatarPart.glasses when option == 3 => 'Monture dorée',
-    AvatarPart.glasses when option == 4 => 'Rondes',
-    AvatarPart.top when option == 3 => 'Maillot rayé',
+    AvatarPart.hair when option == AvatarConfig.baldHair => AppLocalizations.of(
+      context,
+    )!.menuBald,
+    AvatarPart.hair when option == AvatarConfig.mohawkHair =>
+      AppLocalizations.of(context)!.menuMohawk,
+    AvatarPart.glasses when option == 3 => AppLocalizations.of(
+      context,
+    )!.menuGoldFrames,
+    AvatarPart.glasses when option == 4 => AppLocalizations.of(
+      context,
+    )!.menuRound,
+    AvatarPart.top when option == 3 => AppLocalizations.of(
+      context,
+    )!.menuStripedShirt,
     _ => null,
   };
 
@@ -70,8 +81,8 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
       if (!mounted) return;
       setState(() {
         _saving = false;
-        _error =
-            'Sauvegarde impossible. Vérifiez votre connexion et réessayez.';
+        _error = AppLocalizations.of(context)!
+            .menuUnableToSaveCheckYourConnectionAndTryAgain;
       });
     }
   }
@@ -82,7 +93,9 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
     child: DefaultTabController(
       length: AvatarPart.values.length,
       child: Scaffold(
-        appBar: AppBar(title: const Text('Modifier mon Avatar')),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.menuEditMyAvatar),
+        ),
         body: SafeArea(
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -142,11 +155,19 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
                                 selected: selected,
                                 button: true,
                                 label: part == AvatarPart.backgroundColor
-                                    ? AvatarPalette.backgroundLabels[option]
+                                    ? AvatarPalette.backgroundLabels(
+                                        AppLocalizations.of(context)!,
+                                      )[option]
                                     : part == AvatarPart.hairColor
-                                    ? AvatarPalette.hairLabels[option]
+                                    ? AvatarPalette.hairLabels(
+                                        AppLocalizations.of(context)!,
+                                      )[option]
                                     : _rewardLabel(part, option) ??
-                                          '${_labels[part.index]} : option ${option + 1}',
+                                          AppLocalizations.of(context)!
+                                              .avatarOption(
+                                                _labels[part.index],
+                                                (option + 1).toString(),
+                                              ),
                                 child: Material(
                                   color: selected
                                       ? Theme.of(context)
@@ -261,7 +282,11 @@ class _AvatarEditorScreenState extends ConsumerState<AvatarEditorScreen> {
                                 ),
                               )
                             : const Icon(Icons.save_outlined),
-                        label: Text(_saving ? 'Sauvegarde…' : 'Sauvegarder'),
+                        label: Text(
+                          _saving
+                              ? AppLocalizations.of(context)!.menuSaving
+                              : AppLocalizations.of(context)!.menuSave403,
+                        ),
                       ),
                     ),
                   ),

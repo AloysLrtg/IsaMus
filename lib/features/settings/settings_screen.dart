@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/audio/audio_haptic_service.dart';
@@ -36,8 +35,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     } catch (_) {
       if (mounted) {
         setState(
-          () => _message =
-              'Action impossible. Vérifiez votre connexion et réessayez.',
+          () =>
+              _message = AppLocalizations.of(context)!
+                  .menuUnableToCompleteThisActionCheckYourConnectionAnd,
         );
       }
     } finally {
@@ -62,27 +62,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     });
   }
 
-  Future<void> _legal(String title, String asset) async {
-    try {
-      final text = await rootBundle.loadString(asset);
-      if (!mounted) return;
-      await Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (_) => Scaffold(
-            appBar: AppBar(title: Text(title)),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: SelectableText(text),
-            ),
-          ),
-        ),
-      );
-    } catch (_) {
-      if (mounted) {
-        setState(() => _message = 'Document indisponible. Réessayez.');
-      }
-    }
-  }
+  Future<void> _legal(bool privacy) => Navigator.of(context).push<void>(
+    MaterialPageRoute(builder: (_) => _LegalDocument(privacy: privacy)),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -105,33 +87,47 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ref.read(appLocaleProvider.notifier).select(value);
                 }
               },
-              items: const [
-                DropdownMenuItem(value: Locale('fr'), child: Text('Français')),
-                DropdownMenuItem(value: Locale('eu'), child: Text('Euskara')),
-                DropdownMenuItem(value: Locale('es'), child: Text('Español')),
-                DropdownMenuItem(value: Locale('en'), child: Text('English')),
+              items: [
+                DropdownMenuItem(
+                  value: Locale('fr'),
+                  child: Text(l10n.languageFrench),
+                ),
+                DropdownMenuItem(
+                  value: Locale('eu'),
+                  child: Text(l10n.languageBasque),
+                ),
+                DropdownMenuItem(
+                  value: Locale('es'),
+                  child: Text(l10n.languageSpanish),
+                ),
+                DropdownMenuItem(
+                  value: Locale('en'),
+                  child: Text(l10n.languageEnglish),
+                ),
               ],
             ),
           ),
           profile.when(
-            loading: () => const ListTile(
-              title: Text('Effets sonores'),
+            loading: () => ListTile(
+              title: Text(AppLocalizations.of(context)!.menuSoundEffects),
               trailing: SizedBox.square(
                 dimension: 20,
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
             error: (_, _) => ListTile(
-              title: const Text('Effets sonores'),
-              subtitle: const Text('Préférence indisponible'),
+              title: Text(AppLocalizations.of(context)!.menuSoundEffects),
+              subtitle: Text(
+                AppLocalizations.of(context)!.menuPreferenceUnavailable,
+              ),
               trailing: TextButton(
                 onPressed: () => ref.invalidate(playerProfileProvider),
-                child: const Text('Réessayer'),
+                child: Text(AppLocalizations.of(context)!.menuTryAgain),
               ),
             ),
             data: (p) => SwitchListTile(
               key: const ValueKey('settings-sound-toggle'),
-              title: const Text('Effets sonores'),
+              title: Text(AppLocalizations.of(context)!.menuSoundEffects),
               value: p['sound_enabled'] == true,
               onChanged: _busy || profile.isLoading ? null : _setSound,
             ),
@@ -139,7 +135,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ListTile(
             key: const ValueKey('settings-account-button'),
             leading: const Icon(Icons.lock_outline),
-            title: const Text('Compte & sécurité'),
+            title: Text(AppLocalizations.of(context)!.menuAccountSecurity),
             trailing: const Icon(Icons.chevron_right),
             onTap: _busy
                 ? null
@@ -154,27 +150,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           if (adsEnabled)
             ListTile(
               leading: const Icon(Icons.privacy_tip_outlined),
-              title: const Text('Choix de confidentialité publicitaire'),
+              title: Text(AppLocalizations.of(context)!.menuAdPrivacyChoices),
               trailing: const Icon(Icons.chevron_right),
               onTap: _busy ? null : () => _run(AdsConsent.privacy),
             ),
           ListTile(
             key: const ValueKey('settings-terms-button'),
             leading: const Icon(Icons.description_outlined),
-            title: const Text('Conditions d’utilisation'),
+            title: Text(AppLocalizations.of(context)!.menuTermsOfUse),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () =>
-                _legal('Conditions d’utilisation', 'assets/legal/terms.txt'),
+            onTap: () => _legal(false),
           ),
           ListTile(
             key: const ValueKey('settings-privacy-button'),
             leading: const Icon(Icons.policy_outlined),
-            title: const Text('Politique de confidentialité'),
+            title: Text(AppLocalizations.of(context)!.menuPrivacyPolicy),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => _legal(
-              'Politique de confidentialité',
-              'assets/legal/privacy.txt',
-            ),
+            onTap: () => _legal(true),
           ),
           if (_busy) const LinearProgressIndicator(),
           if (_message != null)
@@ -183,6 +175,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               child: Semantics(liveRegion: true, child: Text(_message!)),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _LegalDocument extends StatelessWidget {
+  const _LegalDocument({required this.privacy});
+  final bool privacy;
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(privacy ? l10n.menuPrivacyPolicy : l10n.menuTermsOfUse),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: SelectableText(
+          privacy ? l10n.legalPrivacyBody : l10n.legalTermsBody,
+        ),
       ),
     );
   }

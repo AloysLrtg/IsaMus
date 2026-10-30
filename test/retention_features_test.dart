@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:isamus/features/seasons/countdown_widget.dart';
 import 'package:isamus/core/models/season_reward.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ Future<void> completeScriptedTutorial(WidgetTester tester) async {
   ) as TutorialGameController;
   Future<void> lesson(String name) async {
     expect(find.byKey(ValueKey('tutorial-lesson-$name')), findsOneWidget);
-    await tester.tap(find.text('J’ai compris'));
+    await tester.tap(find.text(testL10n.menuGotIt));
     await tester.pumpAndSettle();
   }
 
@@ -226,7 +227,7 @@ void main() {
       expect(repo.finished, 0);
       expect(find.byKey(const ValueKey('tutorial-complete')), findsOneWidget);
       final before = container.read(musGameControllerProvider);
-      await tester.tap(find.text('Terminer la partie en cours (Libre)'));
+      await tester.tap(find.text(testL10n.menuFinishThisGameFreePlay));
       await tester.pumpAndSettle();
       final controller = container.read(
         musGameControllerProvider.notifier,
@@ -276,7 +277,7 @@ void main() {
     await tester.tap(find.text('Menu de test'));
     await tester.pumpAndSettle();
     await completeScriptedTutorial(tester);
-    await tester.tap(find.text('Retourner au menu'));
+    await tester.tap(find.text(testL10n.menuReturnToMenu));
     await tester.pumpAndSettle();
     expect(find.text('Menu de test'), findsOneWidget);
     expect(find.byType(TutorialScreen), findsNothing);
@@ -342,7 +343,7 @@ void main() {
       expect(find.byType(PlayerInspectionDialog), findsOneWidget);
       expect(repo.inspected, [id]);
       expect(find.text('Amaia'), findsOneWidget);
-      expect(find.text('Peak Elo'), findsOneWidget);
+      expect(find.text(testL10n.menuPeakElo), findsOneWidget);
       expect(find.text('1600'), findsOneWidget);
       expect(find.text('6 victoires · 4 défaites'), findsOneWidget);
       expect(find.text('60 %'), findsOneWidget);
@@ -374,11 +375,11 @@ void main() {
       expect(find.text('Encore 1250 XP pour l’atteindre.'), findsOneWidget);
       expect(find.text('Défis de la semaine'), findsNothing);
       expect(find.text('Terminer 5 parties'), findsNothing);
-      expect(find.text('Débloquez le Pass VIP'), findsOneWidget);
-      expect(find.text('Sans publicités'), findsOneWidget);
-      expect(find.text('Voie VIP du Pass'), findsOneWidget);
+      expect(find.text(testL10n.menuUnlockTheVIPPass), findsOneWidget);
+      expect(find.text(testL10n.menuNoAds), findsOneWidget);
+      expect(find.text(testL10n.menuVIPPassTrack), findsOneWidget);
       expect(find.text('Pièces ×3'), findsNothing);
-      expect(find.text('XP ×2'), findsOneWidget);
+      expect(find.text(testL10n.menuXP2), findsOneWidget);
       final premium = find.byKey(const ValueKey('vip-premium-offer'));
       expect(
         tester.getRect(premium).top,
@@ -490,7 +491,7 @@ void main() {
         maxScrolls: 40,
       );
       expect(find.byKey(const ValueKey('season-node-30')), findsOneWidget);
-      expect(find.text('Cosmétique à venir'), findsWidgets);
+      expect(find.text(testL10n.menuUpcomingCosmetic), findsWidgets);
       expect(
         tester
             .widget<InkWell>(find.byKey(const ValueKey('claim-pass-false-30')))
@@ -520,7 +521,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.text('Tous les paliers sont débloqués !'), findsOneWidget);
+      expect(find.text(testL10n.menuAllTiersUnlocked), findsOneWidget);
       final reward = find.byKey(const ValueKey('claim-pass-true-10'));
       await tester.scrollUntilVisible(
         reward,
@@ -531,7 +532,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.ensureVisible(reward);
       await tester.pumpAndSettle();
-      expect(find.text('Cosmétique à venir'), findsWidgets);
+      expect(find.text(testL10n.menuUpcomingCosmetic), findsWidgets);
       await tester.tap(reward);
       await tester.pumpAndSettle();
       expect(repo.claims, [
@@ -576,7 +577,7 @@ void main() {
       expect(
         find.descendant(
           of: targetTile,
-          matching: find.text('Prochain objectif'),
+          matching: find.text(testL10n.menuNextGoal189),
         ),
         findsOneWidget,
       );
@@ -584,7 +585,7 @@ void main() {
         expect(
           find.descendant(
             of: find.byKey(const ValueKey('claim-pass-true-5')),
-            matching: find.text('Prochain objectif'),
+            matching: find.text(testL10n.menuNextGoal189),
           ),
           findsNothing,
         );
@@ -669,11 +670,11 @@ void main() {
     await tester.tap(find.text('Ouvrir'));
     await tester.pumpAndSettle();
     expect(find.byType(BottomSheet), findsOneWidget);
-    expect(find.text('Quêtes hebdomadaires'), findsOneWidget);
+    expect(find.text(testL10n.menuWeeklyQuests), findsOneWidget);
     expect(find.text('Terminer 5 parties'), findsOneWidget);
     expect(find.byKey(const ValueKey('pass-track-free')), findsNothing);
     expect(find.byKey(const ValueKey('purchase-vip')), findsNothing);
-    await tester.tap(find.byTooltip('Fermer'));
+    await tester.tap(find.byTooltip(testL10n.menuClose));
     await tester.pumpAndSettle();
     expect(find.byType(BottomSheet), findsNothing);
   });
@@ -714,3 +715,5 @@ void main() {
     },
   );
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../core/models/player_progress.dart';
@@ -37,7 +39,8 @@ class ProfileProgressView extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Niveau ${progress.level}',
+                  AppLocalizations.of(context)!
+                      .menuLevelArg0((progress.level).toString()),
                   key: const ValueKey('profile-level'),
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
@@ -48,7 +51,10 @@ class ProfileProgressView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            '${progress.xp} / ${PlayerProgress.xpPerLevel} XP',
+            AppLocalizations.of(context)!.menuArg0Arg1XP(
+              (progress.xp).toString(),
+              (PlayerProgress.xpPerLevel).toString(),
+            ),
             style: theme.textTheme.titleMedium?.copyWith(
               color: colors.primary,
               fontWeight: FontWeight.bold,
@@ -60,12 +66,18 @@ class ProfileProgressView extends StatelessWidget {
             value: progress.fraction,
             minHeight: 9,
             borderRadius: BorderRadius.circular(8),
-            semanticsLabel:
-                'Progression du niveau ${progress.level}, ${progress.xp} XP sur 500',
+            semanticsLabel: AppLocalizations.of(context)!
+                .menuLevelArg0ProgressArg1XPOutOf500(
+                  (progress.level).toString(),
+                  (progress.xp).toString(),
+                ),
           ),
           const SizedBox(height: 10),
           Text(
-            'Encore ${progress.xpRemaining} XP avant le niveau ${progress.level + 1}',
+            AppLocalizations.of(context)!.menuArg0XPToGoBeforeLevelArg1(
+              (progress.xpRemaining).toString(),
+              (progress.level + 1).toString(),
+            ),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colors.onSurfaceVariant,
             ),

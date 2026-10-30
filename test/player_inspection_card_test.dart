@@ -1,3 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -117,7 +119,7 @@ void main() {
         await tester.ensureVisible(add);
         await tester.pumpAndSettle();
         expect(tester.widget<FilledButton>(add).onPressed, isNotNull);
-        expect(find.text('Fermer'), findsNothing);
+        expect(find.text(testL10n.menuClose), findsNothing);
         expect(
           find.byKey(const ValueKey('close-player-card')).hitTestable(),
           findsOneWidget,
@@ -161,7 +163,7 @@ void main() {
     expect(social.sent, 1);
     social.gate!.complete();
     await tester.pumpAndSettle();
-    expect(find.text('Demande envoyée'), findsOneWidget);
+    expect(find.text(testL10n.menuRequestSent), findsOneWidget);
     social.rows = [
       {
         'id': 'relation',
@@ -173,7 +175,7 @@ void main() {
     social.changes.add(social.rows);
     await tester.pump();
     await tester.pump();
-    expect(find.text('Déjà amis'), findsOneWidget);
+    expect(find.text(testL10n.menuAlreadyFriends), findsOneWidget);
   });
   testWidgets('Erreur d’envoi : message utile et nouvelle tentative possible', (
     tester,
@@ -185,7 +187,7 @@ void main() {
     await tester.tap(add);
     await tester.pumpAndSettle();
     expect(
-      find.text('Impossible d’envoyer la demande. Réessayez.'),
+      find.text(testL10n.menuUnableToSendTheRequestTryAgain),
       findsOneWidget,
     );
     expect(tester.widget<FilledButton>(add).onPressed, isNotNull);
@@ -194,7 +196,7 @@ void main() {
     tester,
   ) async {
     await mount(tester, viewed: me);
-    expect(find.text('Votre profil'), findsOneWidget);
+    expect(find.text(testL10n.menuYourProfile), findsOneWidget);
     expect(
       tester
           .widget<FilledButton>(find.byKey(const ValueKey('add-player-friend')))
@@ -203,3 +205,5 @@ void main() {
     );
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

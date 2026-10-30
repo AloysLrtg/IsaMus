@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -55,7 +57,9 @@ class _InvitationInboxState extends ConsumerState<InvitationInbox> {
       if (accept) {
         final currentGame = ref.read(musGameControllerProvider.notifier).gameId;
         if (currentGame != null) {
-          throw StateError('Quittez la partie en cours');
+          throw StateError(
+            AppLocalizations.of(context)!.menuLeaveYourCurrentGame,
+          );
         }
         final game = await repo.acceptGameInvitation(
           invitation['id'] as String,
@@ -63,7 +67,11 @@ class _InvitationInboxState extends ConsumerState<InvitationInbox> {
         if (!mounted) return;
         final navigator =
             widget.navigatorKey?.currentState ?? Navigator.maybeOf(context);
-        if (navigator == null) throw StateError('Navigation indisponible');
+        if (navigator == null) {
+          throw StateError(
+            AppLocalizations.of(context)!.menuNavigationUnavailable,
+          );
+        }
         final mode = GameInvitationMode.parse(game['mode']);
         ref.invalidate(invitationsProvider);
         if (mode.isPublic) {
@@ -99,7 +107,9 @@ class _InvitationInboxState extends ConsumerState<InvitationInbox> {
     } catch (_) {
       if (mounted) {
         setState(
-          () => _error = 'Invitation indisponible. Quittez votre partie actuelle ou réessayez.',
+          () =>
+              _error = AppLocalizations.of(context)!
+                  .menuInvitationUnavailableLeaveYourCurrentGameOrTryAgain,
         );
       }
     } finally {
@@ -133,7 +143,7 @@ class _InvitationInboxState extends ConsumerState<InvitationInbox> {
             .asData
             ?.value['username']
             ?.toString() ??
-        'Un ami';
+        AppLocalizations.of(context)!.menuAFriend;
     final theme = Theme.of(context), colors = Theme.of(context).colorScheme;
     return Material(
       key: ValueKey('game-invitation-${invite['id']}'),
@@ -162,7 +172,10 @@ class _InvitationInboxState extends ConsumerState<InvitationInbox> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    '$sender vous invite à jouer en ${mode.label}',
+                    AppLocalizations.of(context)!.menuArg0InvitesYouToPlayArg1(
+                      (sender).toString(),
+                      (mode.label(AppLocalizations.of(context)!)).toString(),
+                    ),
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -173,8 +186,8 @@ class _InvitationInboxState extends ConsumerState<InvitationInbox> {
             const SizedBox(height: 8),
             Text(
               mode.isPublic
-                  ? 'Vous jouerez dans la même équipe.'
-                  : 'Choisissez vos équipes dans le salon.',
+                  ? AppLocalizations.of(context)!.menuYouWillPlayOnTheSameTeam
+                  : AppLocalizations.of(context)!.menuChooseYourTeamsInTheRoom,
               style: theme.textTheme.bodySmall,
             ),
             if (_error != null)
@@ -186,11 +199,11 @@ class _InvitationInboxState extends ConsumerState<InvitationInbox> {
               children: [
                 TextButton(
                   onPressed: _busy ? null : () => _respond(invite, false),
-                  child: const Text('Décliner'),
+                  child: Text(AppLocalizations.of(context)!.menuDecline296),
                 ),
                 FilledButton(
                   onPressed: _busy ? null : () => _respond(invite, true),
-                  child: const Text('Rejoindre'),
+                  child: Text(AppLocalizations.of(context)!.menuJoin),
                 ),
               ],
             ),

@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../core/models/game_invitation_mode.dart';
@@ -24,14 +26,14 @@ Future<GameInvitationMode?> showInviteModeSheet(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Inviter $name',
+                AppLocalizations.of(context)!.menuInviteArg0((name).toString()),
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                'Choisissez comment jouer ensemble.',
+                AppLocalizations.of(context)!.menuChooseHowToPlayTogether,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: colors.onSurfaceVariant,
                 ),
@@ -73,15 +75,19 @@ Future<GameInvitationMode?> showInviteModeSheet(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    mode.title,
+                                    mode.title(AppLocalizations.of(context)!),
                                     style: theme.textTheme.titleMedium
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     mode.isPublic
-                                        ? 'Même équipe, face à deux autres joueurs'
-                                        : 'Salon avec code et choix des équipes',
+                                        ? AppLocalizations.of(
+                                            context,
+                                          )!.menuSameTeamAgainstTwoOtherPlayers
+                                        : AppLocalizations.of(
+                                            context,
+                                          )!.menuRoomWithACodeAndTeamSelection,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       color: colors.onSurfaceVariant,
                                     ),

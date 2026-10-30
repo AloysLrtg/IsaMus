@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -191,9 +192,14 @@ void main() {
       );
       await tester.tap(find.text('Ouvrir'));
       await tester.pumpAndSettle();
-      expect(find.textContaining('Récompense XP indisponible'), findsOneWidget);
+      expect(
+        find.textContaining(testL10n.menuXPRewardUnavailable),
+        findsOneWidget,
+      );
       expect(find.textContaining('+50 XP'), findsNothing);
       expect(find.textContaining('pièces'), findsNothing);
     },
   );
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

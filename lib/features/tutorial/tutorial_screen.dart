@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -70,26 +72,29 @@ class _TutorialTableState extends ConsumerState<_TutorialTable> {
         if (_seen.add('intro')) {
           await _explain(
             'mus',
-            'Mus ou Mintza ?',
-            'Au début de chaque donne, chacun choisit Mus pour demander un échange de cartes. Si les quatre joueurs disent Mus, chacun peut défausser puis recevoir de nouvelles cartes. Mintza coupe le Mus : on garde les mains et on commence les enchères. À vous de cliquer sur Mintza : seul le bouton attendu est actif et son contour brille.',
+            AppLocalizations.of(context)!.menuMusOrMintza,
+            AppLocalizations.of(context)!
+                .menuAtTheStartOfEachHandEachPlayerChooses,
           );
           if (!mounted) return;
           await _explain(
             'mise',
-            'Miser : Paso et Embido',
-            'Chaque phase permet de miser des pierres pour son équipe. Paso passe la parole sans ouvrir de mise. Embido propose une mise ; Gehiago permet de relancer. Votre équipe peut bluffer sur ses mises, mais jamais envoyer un faux signe.',
+            AppLocalizations.of(context)!.menuBettingPasoAndEmbido,
+            AppLocalizations.of(context)!.menuInEachPhaseYouCanBetStonesForYour,
           );
           if (!mounted) return;
           await _explain(
             'reply',
-            'Répondre : Tira et Iduki',
-            'Face à une mise, Iduki accepte : les cartes départageront les équipes au décompte. Tira refuse : la phase s’arrête et l’adversaire marque le refus selon les mises précédentes. Une relance propose au contraire une mise plus forte.',
+            AppLocalizations.of(context)!.menuRespondingTiraAndIduki,
+            AppLocalizations.of(context)!
+                .menuWhenFacingABetIdukiAcceptsTheCardsWill,
           );
           if (!mounted) return;
           await _explain(
             'hordago',
-            'Hordago : toute la manche',
-            'Le Hordago met la manche entière en jeu. S’il est accepté avec Iduki, les mains sont comparées immédiatement pour cette phase et le gagnant remporte la manche. Tira refuse le défi et laisse seulement les points de refus. Vous allez miser 2 au Grand et aux Paires, puis suivre une relance au Jeu. Les autres choix restent grisés jusqu’à la partie libre.',
+            AppLocalizations.of(context)!.menuHordagoTheWholeRound,
+            AppLocalizations.of(context)!
+                .menuHordagoPutsTheEntireRoundAtStakeIfAccepted,
           );
           if (!mounted) return;
         }
@@ -103,30 +108,36 @@ class _TutorialTableState extends ConsumerState<_TutorialTable> {
             : s.phase.name;
         final lesson = key == 'jeu-call'
             ? (
-                'À vous de suivre',
-                'L’adversaire relance de 8 : la mise passe de 2 à 10 pierres. Cliquez sur Iduki pour accepter. Les cartes décideront du gagnant au décompte.',
+                AppLocalizations.of(context)!.menuYourTurnToCall,
+                AppLocalizations.of(context)!
+                    .menuYourOpponentRaisesBy8TheBetGoesFrom,
               )
             : s.phase == MusPhase.roundScoring
             ? (
-                'Décompte',
-                'Les cartes sont révélées. On additionne les mises et les points de Paires et de Jeu. La première équipe à 40 pierres gagne la manche.',
+                AppLocalizations.of(context)!.roundScoring,
+                AppLocalizations.of(context)!
+                    .menuTheCardsAreRevealedBetsAndPointsForPairs,
               )
             : switch (s.bidding?.phase) {
                 BidPhase.grand => (
-                  'Grand — Handia',
-                  'On compare les cartes de la plus haute à la plus basse. Le Roi est le plus fort. Cliquez sur Enchérir de 2 : vous proposez deux pierres. Un adversaire acceptera cette première mise.',
+                  AppLocalizations.of(context)!.menuHighHandia,
+                  AppLocalizations.of(context)!
+                      .menuCompareCardsFromHighestToLowestTheKingIs,
                 ),
                 BidPhase.petit => (
-                  'Petit — Ttipia',
-                  'On compare cette fois les cartes les plus basses. L’As est le meilleur. En cas d’égalité, on compare les suivantes ; l’Esku départage une égalité parfaite.',
+                  AppLocalizations.of(context)!.menuLowTtipia,
+                  AppLocalizations.of(context)!
+                      .menuNowCompareTheLowestCardsTheAceIsBest,
                 ),
                 BidPhase.paires => (
-                  'Paires — Pareak',
-                  'Deux cartes identiques font une paire ; trois font Mediak ; deux paires ou quatre cartes identiques font Dobliak. Seuls les joueurs avec des paires participent. Vous avez deux Rois : l’annonce Bai confirme votre paire. Cliquez sur Enchérir de 2 pour la défendre.',
+                  AppLocalizations.of(context)!.menuPairsPareak,
+                  AppLocalizations.of(context)!
+                      .menuTwoMatchingCardsMakeAPairThreeMakeMediak,
                 ),
                 BidPhase.jeu => (
-                  'Jeu — Joko',
-                  'Les figures valent 10 et les autres cartes leur valeur. Il faut au moins 31. Le meilleur Jeu est 31, puis 32. Si personne n’a le Jeu, on joue le Point, au plus près de 30. Ici, proposez 2 : un adversaire relancera, et vous apprendrez à suivre avec Iduki.',
+                  AppLocalizations.of(context)!.menuGameJoko,
+                  AppLocalizations.of(context)!
+                      .menuFaceCardsAreWorth10AndOtherCardsTheir,
                 ),
                 _ => null,
               };
@@ -150,18 +161,21 @@ class _TutorialTableState extends ConsumerState<_TutorialTable> {
                     size: 48,
                     color: theme.colorScheme.primary,
                   ),
-                  title: const Text('À vous de jouer !'),
+                  title: Text(AppLocalizations.of(context)!.menuYourTurnToPlay),
                   content: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Vous avez fait le tour de la table.',
+                          AppLocalizations.of(context)!
+                              .menuYouHaveLearnedYourWayAroundTheTable,
                           style: theme.textTheme.titleMedium,
                         ),
                         const SizedBox(height: 12),
-                        const Text(
-                          'Poursuivez cette partie contre les bots : toutes les actions sont disponibles, sans chronomètre et sans conseils. Vous pouvez aussi revenir au menu.',
+                        Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.menuKeepPlayingAgainstTheBotsAllActionsAreAvailable,
                         ),
                       ],
                     ),
@@ -169,11 +183,16 @@ class _TutorialTableState extends ConsumerState<_TutorialTable> {
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(ctx, false),
-                      child: const Text('Retourner au menu'),
+                      child: Text(
+                        AppLocalizations.of(context)!.menuReturnToMenu,
+                      ),
                     ),
                     FilledButton(
                       onPressed: () => Navigator.pop(ctx, true),
-                      child: const Text('Terminer la partie en cours (Libre)'),
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .menuFinishThisGameFreePlay,
+                      ),
                     ),
                   ],
                 ),
@@ -231,7 +250,7 @@ class _TutorialTableState extends ConsumerState<_TutorialTable> {
           actions: [
             FilledButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('J’ai compris'),
+              child: Text(AppLocalizations.of(context)!.menuGotIt),
             ),
           ],
         ),

@@ -1,3 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -181,6 +183,10 @@ void main() {
         UncontrolledProviderScope(
           container: container,
           child: MaterialApp(
+            locale: const Locale('fr'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+
             home: Consumer(
               builder: (context, ref, _) => Text(
                 '${ref.watch(playerProfileProvider).asData?.value['coins']}',
@@ -218,7 +224,7 @@ void main() {
         find.byKey(const ValueKey('shop-owned-shop_top_striped')),
         findsOneWidget,
       );
-      expect(find.text('Équiper'), findsNothing);
+      expect(find.text(testL10n.menuEquip), findsNothing);
       expect(player.avatar.hair, 0);
       expect(player.coins, 700);
       expect(tester.takeException(), isNull);
@@ -235,7 +241,7 @@ void main() {
       expect(repository.calls, 1);
       expect(player.coins, 10);
       expect(player.owned, isEmpty);
-      expect(find.text('Fonds insuffisants pour cet article.'), findsOneWidget);
+      expect(find.text(testL10n.menuNotEnoughCoinsForThisItem), findsOneWidget);
       expect(find.text('10 pièces'), findsOneWidget);
       expect(
         find.byKey(const ValueKey('shop-buy-shop_top_striped')),
@@ -271,8 +277,8 @@ void main() {
       owned: {'shop_back_violet', 'shop_chat_eskerrik'},
     );
     await openShop(tester, player, ShopTestRepository(player));
-    await tester.ensureVisible(find.text('Dos de cartes'));
-    await tester.tap(find.text('Dos de cartes'));
+    await tester.ensureVisible(find.text(testL10n.menuCardBacks));
+    await tester.tap(find.text(testL10n.menuCardBacks));
     await tester.pumpAndSettle();
     expect(find.text('Dos Violet'), findsOneWidget);
     expect(
@@ -283,8 +289,8 @@ void main() {
       find.byKey(const ValueKey('shop-buy-shop_back_violet')),
       findsNothing,
     );
-    await tester.ensureVisible(find.text('Quick Chats'));
-    await tester.tap(find.text('Quick Chats'));
+    await tester.ensureVisible(find.text(testL10n.menuQuickChats));
+    await tester.tap(find.text(testL10n.menuQuickChats));
     await tester.pumpAndSettle();
     expect(
       find.byKey(const ValueKey('shop-owned-shop_chat_eskerrik')),
@@ -294,7 +300,7 @@ void main() {
       find.byKey(const ValueKey('shop-buy-shop_chat_eskerrik')),
       findsNothing,
     );
-    expect(find.text('Équiper'), findsNothing);
+    expect(find.text(testL10n.menuEquip), findsNothing);
     expect(tester.takeException(), isNull);
   });
   testWidgets('Le catalogue indisponible propose une nouvelle tentative', (
@@ -303,11 +309,13 @@ void main() {
     final player = ShopTestPlayer();
     final repository = ShopTestRepository(player)..unavailable = true;
     await openShop(tester, player, repository);
-    expect(find.text('Boutique indisponible.'), findsOneWidget);
+    expect(find.text(testL10n.menuShopUnavailable), findsOneWidget);
     repository.unavailable = false;
-    await tester.tap(find.text('Réessayer'));
+    await tester.tap(find.text(testL10n.menuTryAgain));
     await tester.pumpAndSettle();
     expect(find.text('1000 pièces'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

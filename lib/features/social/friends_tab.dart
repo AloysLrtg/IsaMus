@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,8 +59,9 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
     } catch (_) {
       if (mounted) {
         setState(
-          () => _error =
-              'Action impossible. Vérifiez votre connexion ou réessayez.',
+          () =>
+              _error = AppLocalizations.of(context)!
+                  .menuUnableToCompleteThisActionCheckYourConnectionOr,
         );
       }
     } finally {
@@ -75,7 +78,7 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
             .asData
             ?.value['username']
             ?.toString() ??
-        'votre ami';
+        AppLocalizations.of(context)!.menuYourFriend;
     GameInvitationMode? mode;
     try {
       mode = await showInviteModeSheet(context, name);
@@ -91,7 +94,11 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
       if (!mounted) return;
       ref
           .read(socialNoticeProvider.notifier)
-          .show('Invitation envoyée : ${selection.label}');
+          .show(
+            AppLocalizations.of(context)!.menuInvitationSentArg0(
+              (selection.label(AppLocalizations.of(context)!)).toString(),
+            ),
+          );
       if (selection.isPublic) {
         ref.invalidate(musGameControllerProvider);
         await Navigator.of(context).push(
@@ -181,13 +188,18 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
         ),
       ),
       title: Text(
-        person.asData?.value['username']?.toString() ?? 'Joueur',
+        person.asData?.value['username']?.toString() ??
+            AppLocalizations.of(context)!.menuPlayer,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: showPresence
           ? Text(
-              online ? (inGame ? 'Dans une partie' : 'En ligne') : 'Hors ligne',
+              online
+                  ? (inGame
+                        ? AppLocalizations.of(context)!.menuInAGame
+                        : AppLocalizations.of(context)!.menuOnline)
+                  : AppLocalizations.of(context)!.menuOffline,
               style: TextStyle(
                 color: online
                     ? const Color(0xFF4ADE80)
@@ -209,15 +221,18 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
     mainAxisSize: MainAxisSize.min,
     children: [
       IconButton(
-        tooltip: 'Inviter à jouer',
+        tooltip: AppLocalizations.of(context)!.menuInviteToPlay,
         onPressed: _busy ? null : () => _invite(_other(row)),
         icon: const Icon(Icons.videogame_asset_outlined),
       ),
       PopupMenuButton<String>(
-        tooltip: 'Options de l’ami',
+        tooltip: AppLocalizations.of(context)!.menuFriendOptions,
         enabled: !_busy,
-        itemBuilder: (_) => const [
-          PopupMenuItem(value: 'remove', child: Text('Retirer de mes amis')),
+        itemBuilder: (_) => [
+          PopupMenuItem(
+            value: 'remove',
+            child: Text(AppLocalizations.of(context)!.menuRemoveFriend),
+          ),
         ],
         onSelected: (_) => _run(
           () => ref.read(socialRepositoryProvider).remove(row['id'] as String),
@@ -253,17 +268,17 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Text(
-              'Amis & Salons Privés',
+              AppLocalizations.of(context)!.menuFriendsPrivateRooms,
               style: Theme.of(context).textTheme.headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
-          const TabBar(
+          TabBar(
             labelPadding: EdgeInsets.symmetric(horizontal: 8),
             tabs: [
-              Tab(text: 'Amis'),
-              Tab(text: 'Demandes'),
-              Tab(text: 'Bloqués'),
+              Tab(text: AppLocalizations.of(context)!.friendsTitle),
+              Tab(text: AppLocalizations.of(context)!.menuRequests),
+              Tab(text: AppLocalizations.of(context)!.menuBlocked),
             ],
           ),
           if (_busy) const LinearProgressIndicator(),
@@ -286,9 +301,10 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                       controller: _search,
                       maxLength: 24,
                       decoration: InputDecoration(
-                        labelText: 'Rechercher un pseudo',
+                        labelText: AppLocalizations.of(context)!
+                            .menuSearchForANickname,
                         suffixIcon: IconButton(
-                          tooltip: 'Rechercher',
+                          tooltip: AppLocalizations.of(context)!.menuSearch,
                           onPressed: _busy ? null : () => _run(_find),
                           icon: const Icon(Icons.search),
                         ),
@@ -299,10 +315,11 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                       if (_results!
                           .where((p) => !excluded.contains(p['id']))
                           .isEmpty)
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.all(12),
                           child: Text(
-                            'Aucun résultat. Saisissez au moins 2 caractères.',
+                            AppLocalizations.of(context)!
+                                .menuNoResultsEnterAtLeast2Characters,
                           ),
                         ),
                       for (final person in _results!.where(
@@ -312,7 +329,8 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                           title: Text(person['username'] as String),
                           subtitle: Text('${person['elo']} Elo'),
                           trailing: IconButton(
-                            tooltip: 'Demander en ami',
+                            tooltip: AppLocalizations.of(context)!
+                                .menuSendFriendRequest,
                             icon: const Icon(Icons.person_add_alt_1),
                             onPressed:
                                 _busy ||
@@ -327,7 +345,8 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                                     () => repository.request(
                                       person['id'] as String,
                                     ),
-                                    success: 'Demande d’amitié envoyée',
+                                    success: AppLocalizations.of(context)!
+                                        .menuFriendRequestSent,
                                     refresh: true,
                                   ),
                           ),
@@ -339,16 +358,18 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                           const Center(child: CircularProgressIndicator()),
                       error: (_, _) => _failure(
                         () => ref.invalidate(friendshipsProvider),
-                        'Impossible de charger les amis. Réessayer',
+                        AppLocalizations.of(context)!
+                            .menuUnableToLoadFriendsTryAgain,
                       ),
                       data: (rows) => Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           if (rows.every((r) => r['status'] != 'accepted'))
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.all(24),
                               child: Text(
-                                'Votre liste est vide. Recherchez un joueur pour lui envoyer une demande.',
+                                AppLocalizations.of(context)!
+                                    .menuYourListIsEmptySearchForAPlayerTo,
                               ),
                             ),
                           for (final row in rows.where(
@@ -373,16 +394,19 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                       const Center(child: CircularProgressIndicator()),
                   error: (_, _) => _failure(
                     () => ref.invalidate(friendshipsProvider),
-                    'Impossible de charger les demandes. Réessayer',
+                    AppLocalizations.of(context)!
+                        .menuUnableToLoadRequestsTryAgain,
                   ),
                   data: (rows) => ListView(
                     key: const ValueKey('requests-list'),
                     padding: const EdgeInsets.all(16),
                     children: [
                       if (rows.every((r) => r['status'] != 'pending'))
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.all(24),
-                          child: Text('Aucune demande en attente.'),
+                          child: Text(
+                            AppLocalizations.of(context)!.menuNoPendingRequests,
+                          ),
                         ),
                       for (final incoming in [true, false]) ...[
                         if (rows.any(
@@ -395,7 +419,9 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
-                              incoming ? 'Reçues' : 'Envoyées',
+                              incoming
+                                  ? AppLocalizations.of(context)!.menuReceived
+                                  : AppLocalizations.of(context)!.menuSent,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
@@ -414,8 +440,10 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                                 _person(
                                   _other(row),
                                   subtitle: incoming
-                                      ? 'Demande reçue'
-                                      : 'Demande envoyée',
+                                      ? AppLocalizations.of(context)!
+                                            .menuRequestReceived
+                                      : AppLocalizations.of(context)!
+                                            .menuRequestSent,
                                 ),
                                 Align(
                                   alignment: Alignment.centerRight,
@@ -433,7 +461,10 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                                                   ),
                                                   refresh: true,
                                                 ),
-                                          child: const Text('Accepter'),
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .menuAccept,
+                                          ),
                                         ),
                                       TextButton(
                                         onPressed: _busy
@@ -449,7 +480,11 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                                                 refresh: true,
                                               ),
                                         child: Text(
-                                          incoming ? 'Refuser' : 'Annuler',
+                                          incoming
+                                              ? AppLocalizations.of(context)!
+                                                    .menuDecline
+                                              : AppLocalizations.of(context)!
+                                                    .menuCancel,
                                         ),
                                       ),
                                     ],
@@ -468,16 +503,19 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                       const Center(child: CircularProgressIndicator()),
                   error: (_, _) => _failure(
                     () => ref.invalidate(blockedUsersProvider),
-                    'Impossible de charger les blocages. Réessayer',
+                    AppLocalizations.of(context)!
+                        .menuUnableToLoadBlockedPlayersTryAgain,
                   ),
                   data: (rows) => ListView(
                     key: const ValueKey('blocked-list'),
                     padding: const EdgeInsets.all(16),
                     children: [
                       if (rows.isEmpty)
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.all(24),
-                          child: Text('Aucun joueur bloqué.'),
+                          child: Text(
+                            AppLocalizations.of(context)!.menuNoBlockedPlayers,
+                          ),
                         ),
                       for (final row in rows)
                         _card(
@@ -486,7 +524,8 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                             children: [
                               _person(
                                 row['blocked_id'] as String,
-                                subtitle: 'Joueur bloqué',
+                                subtitle: AppLocalizations.of(context)!
+                                    .menuBlockedPlayer,
                               ),
                               Align(
                                 alignment: Alignment.centerRight,
@@ -497,11 +536,14 @@ class _FriendsTabState extends ConsumerState<FriendsTab> {
                                           () => repository.unblock(
                                             row['blocked_id'] as String,
                                           ),
-                                          success: 'Joueur débloqué',
+                                          success: AppLocalizations.of(context)!
+                                              .menuPlayerUnblocked,
                                           refresh: true,
                                         ),
                                   icon: const Icon(Icons.lock_open_rounded),
-                                  label: const Text('Débloquer'),
+                                  label: Text(
+                                    AppLocalizations.of(context)!.menuUnblock,
+                                  ),
                                 ),
                               ),
                             ],

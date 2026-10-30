@@ -1,3 +1,6 @@
+import '../../core/localization/catalog_localizations.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -36,10 +39,10 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
       }
     } catch (_) {
       if (mounted) {
-        const message =
-            'Action indisponible. Réessayez dans quelques instants.';
+        final message = AppLocalizations.of(context)!
+            .menuActionUnavailableTryAgainShortly;
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text(message)));
+            .showSnackBar(SnackBar(content: Text(message)));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -48,7 +51,7 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Pass de Saison')),
+    appBar: AppBar(title: Text(AppLocalizations.of(context)!.seasonPassTitle)),
     body: Column(
       children: [
         const Padding(
@@ -74,11 +77,15 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                   ),
                   error: (_, _) => ListView(
                     children: [
-                      const ListTile(title: Text('Pass indisponible.')),
+                      ListTile(
+                        title: Text(
+                          AppLocalizations.of(context)!.menuPassUnavailable,
+                        ),
+                      ),
                       TextButton(
                         onPressed: () =>
                             ref.invalidate(retentionStatusProvider),
-                        child: const Text('Réessayer'),
+                        child: Text(AppLocalizations.of(context)!.menuTryAgain),
                       ),
                     ],
                   ),
@@ -145,20 +152,22 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          (season?['name'] ?? season?['title'])?.toString() ??
-                              'Aucune saison en cours',
+                          seasonTitle(AppLocalizations.of(context)!, season),
                           style: theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                         if (season?['preview'] == true)
                           Text(
-                            'Calendrier de démonstration',
+                            AppLocalizations.of(context)!.menuDemoCalendar,
                             style: theme.textTheme.labelSmall,
                           ),
                         const SizedBox(height: 16),
                         Text(
-                          'Niveau ${progress.level} · ${progress.xp} / 500 XP',
+                          AppLocalizations.of(context)!.menuLevelArg0Arg1500XP(
+                            (progress.level).toString(),
+                            (progress.xp).toString(),
+                          ),
                           style: theme.textTheme.titleMedium,
                         ),
                         const SizedBox(height: 8),
@@ -173,19 +182,28 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          '$unlockedTiers / ${rewards.length} paliers débloqués',
+                          AppLocalizations.of(context)!
+                              .menuArg0Arg1TiersUnlocked(
+                                (unlockedTiers).toString(),
+                                (rewards.length).toString(),
+                              ),
                           key: const ValueKey('season-tier-progress'),
                         ),
                         Text(
-                          '${data['coins'] ?? 0} pièces',
+                          AppLocalizations.of(context)!
+                              .menuArg0Coins((data['coins'] ?? 0).toString()),
                           key: const ValueKey('coins-balance'),
                         ),
                         const SizedBox(height: 8),
                         if (rewards.isNotEmpty) ...[
                           Text(
                             nextTier == null
-                                ? 'Tous les paliers sont débloqués !'
-                                : 'Prochain objectif : palier $nextTier',
+                                ? AppLocalizations.of(context)!
+                                      .menuAllTiersUnlocked
+                                : AppLocalizations.of(context)!
+                                      .menuNextGoalTierArg0(
+                                        (nextTier).toString(),
+                                      ),
                             key: const ValueKey('season-next-objective'),
                             style: theme.textTheme.titleMedium?.copyWith(
                               color: const Color(0xFF7CD5FF),
@@ -194,13 +212,20 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                           ),
                           if (nextTier != null && active)
                             Text(
-                              'Encore ${(nextTier - progress.level) * PlayerProgress.xpPerLevel - progress.xp} XP pour l’atteindre.',
+                              AppLocalizations.of(context)!
+                                  .menuArg0XPLeftToReachIt(
+                                    ((nextTier - progress.level) *
+                                                PlayerProgress.xpPerLevel -
+                                            progress.xp)
+                                        .toString(),
+                                  ),
                               style: theme.textTheme.bodySmall,
                             ),
                           const SizedBox(height: 12),
                         ],
-                        const Text(
-                          'Touchez une récompense débloquée pour la récupérer. Une récompense gratuite tous les 5 paliers ; une récompense VIP à chaque palier.',
+                        Text(
+                          AppLocalizations.of(context)!
+                              .menuTapAnUnlockedRewardToClaimItAFree,
                         ),
                       ],
                     ),
@@ -212,30 +237,30 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Route des récompenses',
+                  AppLocalizations.of(context)!.menuRewardPath,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Wrap(
+                Wrap(
                   spacing: 14,
                   runSpacing: 8,
                   children: [
                     _RouteLegend(
                       icon: Icons.check_circle_rounded,
                       color: Color(0xFF79E7AE),
-                      label: 'Atteint',
+                      label: AppLocalizations.of(context)!.menuReached,
                     ),
                     _RouteLegend(
                       icon: Icons.flag_rounded,
                       color: Color(0xFF7CD5FF),
-                      label: 'Objectif',
+                      label: AppLocalizations.of(context)!.menuGoal,
                     ),
                     _RouteLegend(
                       icon: Icons.lock_outline_rounded,
                       color: Color(0xFF9CAABE),
-                      label: 'À venir',
+                      label: AppLocalizations.of(context)!.menuComingUp,
                     ),
                   ],
                 ),
@@ -273,10 +298,17 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                         vip: premium,
                         seasonId: season!['id'].toString(),
                       );
-                  if (!mounted) return;
+                  if (!mounted || !context.mounted) return;
                   final message = earned['already_claimed'] == true
-                      ? 'Récompense déjà reçue'
-                      : '${earned['coins']} pièces reçues${earned['cosmetic'] != null ? ' · Cosmétique débloqué' : ''}';
+                      ? AppLocalizations.of(context)!.menuRewardAlreadyReceived
+                      : AppLocalizations.of(context)!.menuArg0CoinsReceivedArg1(
+                          (earned['coins']).toString(),
+                          (earned['cosmetic'] != null
+                                  ? AppLocalizations.of(context)!
+                                        .menuCosmeticUnlocked
+                                  : '')
+                              .toString(),
+                        );
                   ScaffoldMessenger.of(this.context)
                       .showSnackBar(SnackBar(content: Text(message)));
                 }),
@@ -332,7 +364,7 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'PREMIUM',
+                      AppLocalizations.of(context)!.menuPREMIUM,
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: colors.primary,
                         letterSpacing: 2,
@@ -340,8 +372,9 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                     ),
                     Text(
                       vip
-                          ? 'Votre Pass VIP est actif'
-                          : 'Débloquez le Pass VIP',
+                          ? AppLocalizations.of(context)!
+                                .menuYourVIPPassIsActive
+                          : AppLocalizations.of(context)!.menuUnlockTheVIPPass,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w900,
                       ),
@@ -357,9 +390,12 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
             runSpacing: 10,
             children: [
               for (final perk in [
-                (Icons.block_rounded, 'Sans publicités'),
-                (Icons.card_giftcard_rounded, 'Voie VIP du Pass'),
-                (Icons.bolt_rounded, 'XP ×2'),
+                (Icons.block_rounded, AppLocalizations.of(context)!.menuNoAds),
+                (
+                  Icons.card_giftcard_rounded,
+                  AppLocalizations.of(context)!.menuVIPPassTrack,
+                ),
+                (Icons.bolt_rounded, AppLocalizations.of(context)!.menuXP2),
               ])
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -388,7 +424,8 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Les pièces se gagnent uniquement dans le Pass de Saison. XP ×2 sur les parties et les quêtes.',
+            AppLocalizations.of(context)!
+                .menuCoinsCanOnlyBeEarnedThroughTheSeasonPass,
             style: theme.textTheme.bodySmall,
           ),
           const SizedBox(height: 14),
@@ -396,8 +433,9 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
               .watch(vipPackageProvider)
               .when(
                 loading: () => const LinearProgressIndicator(),
-                error: (_, _) =>
-                    const Text('Le VIP est momentanément indisponible.'),
+                error: (_, _) => Text(
+                  AppLocalizations.of(context)!.menuVIPIsTemporarilyUnavailable,
+                ),
                 data: (package) => Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -413,15 +451,21 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
                       icon: const Icon(Icons.workspace_premium),
                       label: Text(
                         vip
-                            ? 'VIP actif'
+                            ? AppLocalizations.of(context)!.menuVIPActive
                             : package == null
-                            ? 'VIP bientôt disponible'
-                            : 'Devenir VIP · ${package.storeProduct.priceString}/mois',
+                            ? AppLocalizations.of(context)!.menuVIPComingSoon
+                            : AppLocalizations.of(
+                                context,
+                              )!.menuBecomeVIPArg0Month(
+                                (package.storeProduct.priceString).toString(),
+                              ),
                       ),
                     ),
                     if (package != null)
-                      const Text(
-                        'Abonnement mensuel renouvelé automatiquement. Annulable depuis votre store.',
+                      Text(
+                        AppLocalizations.of(
+                          context,
+                        )!.menuMonthlySubscriptionWithAutomaticRenewalCancelThroughYourApp,
                         style: TextStyle(fontSize: 12),
                       ),
                   ],
@@ -431,7 +475,7 @@ class _BattlePassScreenState extends ConsumerState<BattlePassScreen> {
             onPressed: _busy || !ref.read(storeServiceProvider).configured
                 ? null
                 : () => _run(() => ref.read(storeServiceProvider).restore()),
-            child: const Text('Restaurer mes achats'),
+            child: Text(AppLocalizations.of(context)!.menuRestorePurchases),
           ),
         ],
       ),

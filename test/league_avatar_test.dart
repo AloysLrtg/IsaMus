@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,10 +32,14 @@ void main() {
   test(
     'Les accessoires payants et les bordures de ligue ont des droits distincts',
     () {
-      for (final part in [AvatarPart.hair, AvatarPart.top]) {
-        final id = AvatarConfig.cosmeticIdFor(part, 3)!;
+      for (final (part, option) in [
+        (AvatarPart.hair, AvatarConfig.baldHair),
+        (AvatarPart.hair, AvatarConfig.mohawkHair),
+        (AvatarPart.top, 3),
+      ]) {
+        final id = AvatarConfig.cosmeticIdFor(part, option)!;
         final config = const AvatarConfig().withCosmetic(id);
-        expect(config.valueFor(part), 3);
+        expect(config.valueFor(part), option);
         expect(AvatarConfig.fromJson(config.toJson()), config);
       }
       for (final border in AvatarBorder.values.skip(1)) {
@@ -66,6 +71,10 @@ void main() {
       (tester) async {
         await tester.pumpWidget(
           MaterialApp(
+            locale: const Locale('fr'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+
             home: Center(
               child: PlayerAvatarView(
                 size: 48,
@@ -105,15 +114,19 @@ void main() {
               (ref) async => {'league_border_gold', 'league_hat_txapela'},
             ),
           ],
-          child: const MaterialApp(
+          child: MaterialApp(
+            locale: const Locale('fr'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+
             home: AvatarEditorScreen(initialConfig: AvatarConfig()),
           ),
         ),
       );
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('Bordures'));
+      await tester.ensureVisible(find.text(testL10n.menuBorders));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Bordures'));
+      await tester.tap(find.text(testL10n.menuBorders));
       await tester.pumpAndSettle();
       expect(
         tester
@@ -132,9 +145,9 @@ void main() {
             .border,
         AvatarBorder.gold,
       );
-      await tester.ensureVisible(find.text('Couvre-chefs'));
+      await tester.ensureVisible(find.text(testL10n.menuHeadwear));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Couvre-chefs'));
+      await tester.tap(find.text(testL10n.menuHeadwear));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('avatar-exclusive_hat-1')));
       await tester.pumpAndSettle();
@@ -150,3 +163,5 @@ void main() {
     },
   );
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

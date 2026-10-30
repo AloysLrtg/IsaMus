@@ -87,7 +87,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
     try {
       final authRepo = ref.read(authRepositoryProvider);
       final userId = authRepo.currentUserId;
-      if (userId == null) throw StateError('Connectez-vous pour jouer.');
+      if (userId == null) {
+        throw StateError('Authentication required');
+      }
       _userId = userId;
       final profile = await authRepo.getProfile(userId);
 
@@ -151,7 +153,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
   Future<void> _handleCreateProfile() async {
     final pseudo = _pseudoController.text.trim();
     if (pseudo.isEmpty) {
-      _showError('Veuillez saisir votre pseudo.');
+      _showError(AppLocalizations.of(context)!.menuPleaseEnterYourNickname);
       return;
     }
 
@@ -160,7 +162,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
       final authRepo = ref.read(authRepositoryProvider);
       final uid = _userId ?? authRepo.currentUserId;
       if (uid == null) {
-        throw StateError('Connectez-vous pour créer votre profil.');
+        throw StateError(
+          AppLocalizations.of(context)!.menuSignInToCreateYourProfile,
+        );
       }
       _userId = uid;
       await authRepo.createProfile(uid, pseudo);
@@ -173,8 +177,13 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
         _profile = profile;
         _authStatus = _HomeAuthStatus.authenticated;
       });
-    } catch (e) {
-      _showError(e.toString().replaceAll('Exception: ', ''));
+    } catch (_) {
+      if (mounted) {
+        _showError(
+          AppLocalizations.of(context)!
+              .menuUnableToCompleteThisActionCheckYourConnectionAnd,
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isLoadingAction = false);
@@ -184,7 +193,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
   }
 
   Future<void> _handleCreateGame({String mode = 'casual'}) async {
-    final pseudo = _profile?['username']?.toString() ?? 'Joueur';
+    final pseudo =
+        _profile?['username']?.toString() ??
+        AppLocalizations.of(context)!.menuPlayer;
 
     setState(() => _isLoadingAction = true);
     try {
@@ -225,8 +236,13 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
         ),
       );
-    } on Exception catch (e) {
-      _showError(e.toString().replaceAll('Exception: ', ''));
+    } on Exception catch (_) {
+      if (mounted) {
+        _showError(
+          AppLocalizations.of(context)!
+              .menuUnableToCompleteThisActionCheckYourConnectionAnd,
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isLoadingAction = false);
@@ -236,7 +252,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
   }
 
   Future<void> _handlePlaySolo() async {
-    final pseudo = _profile?['username']?.toString() ?? 'Joueur';
+    final pseudo =
+        _profile?['username']?.toString() ??
+        AppLocalizations.of(context)!.menuPlayer;
 
     setState(() => _isLoadingAction = true);
     try {
@@ -283,8 +301,13 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
         ),
       );
-    } on Exception catch (e) {
-      _showError(e.toString().replaceAll('Exception: ', ''));
+    } on Exception catch (_) {
+      if (mounted) {
+        _showError(
+          AppLocalizations.of(context)!
+              .menuUnableToCompleteThisActionCheckYourConnectionAnd,
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isLoadingAction = false);
@@ -294,10 +317,14 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
   }
 
   Future<void> _handleJoinGame() async {
-    final pseudo = _profile?['username']?.toString() ?? 'Joueur';
+    final pseudo =
+        _profile?['username']?.toString() ??
+        AppLocalizations.of(context)!.menuPlayer;
     final code = _codeController.text.trim().toUpperCase();
     if (code.length != 5) {
-      _showError('Le code doit comporter exactement 5 caractères.');
+      _showError(
+        AppLocalizations.of(context)!.menuTheCodeMustContainExactly5Characters,
+      );
       return;
     }
 
@@ -312,8 +339,13 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           builder: (_) => LobbyScreen(gameId: gameId, playerName: pseudo),
         ),
       );
-    } on Exception catch (e) {
-      _showError(e.toString().replaceAll('Exception: ', ''));
+    } on Exception catch (_) {
+      if (mounted) {
+        _showError(
+          AppLocalizations.of(context)!
+              .menuUnableToCompleteThisActionCheckYourConnectionAnd,
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isLoadingAction = false);
@@ -359,7 +391,10 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                           );
                           if (mounted) _initAuthAndProfile();
                         },
-                        child: const Text('J’ai déjà un compte'),
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .menuIAlreadyHaveAnAccount,
+                        ),
                       ),
                     ],
                   ),
@@ -421,8 +456,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                 shaderCallback: (bounds) => const LinearGradient(
                   colors: [Color(0xFFFFF9C4), Color(0xFFFFB300)],
                 ).createShader(bounds),
-                child: const Text(
-                  'IsaMus',
+                child: Text(
+                  AppLocalizations.of(context)!.appTitle,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.w900,
@@ -452,7 +487,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
       ...?_profile,
       ...?ref.watch(playerProfileProvider).asData?.value,
     };
-    final pseudo = profile['username']?.toString() ?? 'Joueur';
+    final pseudo =
+        profile['username']?.toString() ??
+        AppLocalizations.of(context)!.menuPlayer;
     final elo = profile['elo'] ?? 800;
     final coins = profile['coins'] ?? 0;
 
@@ -498,7 +535,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
           const SizedBox(width: 8),
           Semantics(
-            label: '$coins pièces',
+            label: AppLocalizations.of(context)!
+                .menuArg0Coins((coins).toString()),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -521,7 +559,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
           IconButton(
             key: const ValueKey('home-quests-button'),
-            tooltip: 'Quêtes hebdomadaires',
+            tooltip: AppLocalizations.of(context)!.menuWeeklyQuests,
             icon: const Icon(Icons.assignment_outlined, size: 22),
             onPressed: () => showWeeklyQuests(context),
           ),
@@ -557,7 +595,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
       case 3:
         return FriendsTab(
           userId: _userId!,
-          username: _profile?['username']?.toString() ?? 'Joueur',
+          username:
+              _profile?['username']?.toString() ??
+              AppLocalizations.of(context)!.menuPlayer,
         );
       case 4:
         return ProfileTab(onChanged: _refreshProfile);
@@ -577,8 +617,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'MODES DE JEU',
+              Text(
+                AppLocalizations.of(context)!.menuGAMEMODES,
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w900,
@@ -795,7 +835,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                 ),
                               ),
                               child: Text(
-                                'À VOTRE RYTHME',
+                                AppLocalizations.of(context)!.menuATYOUROWNPACE,
                                 style: theme.textTheme.labelSmall?.copyWith(
                                   color: amber,
                                   fontWeight: FontWeight.w900,
@@ -821,7 +861,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                   ),
                   const SizedBox(height: 18),
                   Text(
-                    'Prenez place à la table et apprenez le Mus, des premières décisions au décompte des points.',
+                    AppLocalizations.of(context)!
+                        .menuTakeASeatAndLearnMusFromYourFirst,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: const Color(0xFFFFE0B2),
                       height: 1.4,
@@ -848,7 +889,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'Sans chronomètre · Guidé, puis libre',
+                            AppLocalizations.of(context)!
+                                .menuNoTimerGuidedThenFreePlay,
                             style: theme.textTheme.labelMedium?.copyWith(
                               color: const Color(0xFFFFE0B2),
                             ),
@@ -865,7 +907,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                       minimumSize: const Size(0, 54),
                     ),
                     icon: const Icon(Icons.school_rounded),
-                    label: const Text('Apprendre le Mus'),
+                    label: Text(AppLocalizations.of(context)!.menuLearnMus),
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (_) => const TutorialScreen(),
@@ -882,7 +924,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                       minimumSize: const Size(0, 48),
                     ),
                     icon: const Icon(Icons.menu_book_outlined),
-                    label: const Text('Règles officielles'),
+                    label: Text(
+                      AppLocalizations.of(context)!.menuOfficialRules,
+                    ),
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (_) => const RulesScreen(),
@@ -970,8 +1014,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                     color: _cyanA.withOpacity(0.4),
                                   ),
                                 ),
-                                child: const Text(
-                                  'MULTIJOUEUR RAPIDE',
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .menuQUICKMULTIPLAYER,
                                   style: TextStyle(
                                     color: _cyanA,
                                     fontSize: 10,
@@ -981,8 +1026,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              const Text(
-                                'EN LIGNE (CLASSIQUE)',
+                              Text(
+                                AppLocalizations.of(context)!.menuONLINECASUAL,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -996,8 +1041,10 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                       ],
                     ),
                     const SizedBox(height: 18),
-                    const Text(
-                      'Défiez des joueurs en ligne dans des parties amicales et détendues, sans enjeu d\'Elo. Idéal pour partager un bon moment de Mus.',
+                    Text(
+                      AppLocalizations.of(
+                        context,
+                      )!.menuChallengePlayersOnlineInRelaxedFriendlyGamesWithNo,
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.white70,
@@ -1015,7 +1062,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: Colors.white12),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
                           Icon(
                             Icons.check_circle_rounded,
@@ -1025,7 +1072,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Règles officielles 4 Rois et 4 As • Sans pression',
+                              AppLocalizations.of(context)!
+                                  .menuOfficial4KingsAnd4AcesRulesNoPressure,
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
@@ -1047,7 +1095,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                     else
                       _buildCyanModeAction(
                         key: const ValueKey('home-create-button'),
-                        label: 'Lancer la partie',
+                        label: AppLocalizations.of(context)!.menuStartGame,
                         onPressed: () => _handleCreateGame(mode: 'casual'),
                       ),
                   ],
@@ -1134,8 +1182,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                     color: _gold.withOpacity(0.4),
                                   ),
                                 ),
-                                child: const Text(
-                                  'COMPÉTITION OFFICIELLE',
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .menuOFFICIALCOMPETITION,
                                   style: TextStyle(
                                     color: _gold,
                                     fontSize: 10,
@@ -1145,8 +1194,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              const Text(
-                                'EN LIGNE (CLASSÉ)',
+                              Text(
+                                AppLocalizations.of(context)!.menuONLINERANKED,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -1192,7 +1241,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                           const SizedBox(width: 8),
                           Flexible(
                             child: Text(
-                              'Votre Elo actuel : $elo',
+                              AppLocalizations.of(context)!
+                                  .menuYourCurrentEloArg0((elo).toString()),
                               style: const TextStyle(
                                 color: _gold,
                                 fontSize: 14,
@@ -1211,11 +1261,14 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                       key: const ValueKey('ranked-season-rewards'),
                       onPressed: () => showLeagueRewards(context),
                       icon: const Icon(Icons.workspace_premium),
-                      label: const Text('Récompenses de Saison'),
+                      label: Text(
+                        AppLocalizations.of(context)!.menuSeasonRewards,
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Grimpez dans le classement compétitif. Chaque victoire augmente votre cote Elo, chaque défaite en coûte. Visez le Top 100 !',
+                    Text(
+                      AppLocalizations.of(context)!
+                          .menuClimbTheCompetitiveRankingsEveryWinRaisesYourElo,
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.white70,
@@ -1264,8 +1317,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                             size: 22,
                             color: Color(0xFF261802),
                           ),
-                          label: const Text(
-                            'Lancer (Classé)',
+                          label: Text(
+                            AppLocalizations.of(context)!.menuPlayRanked,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
@@ -1359,8 +1412,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                         .withOpacity(0.4),
                                   ),
                                 ),
-                                child: const Text(
-                                  'ENTRAÎNEMENT SOLO',
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .menuSOLOPRACTICE,
                                   style: TextStyle(
                                     color: Color(0xFF34D399),
                                     fontSize: 10,
@@ -1370,8 +1424,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              const Text(
-                                'SOLO CONTRE IA',
+                              Text(
+                                AppLocalizations.of(context)!.menuSOLOVSAI,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -1385,8 +1439,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                       ],
                     ),
                     const SizedBox(height: 18),
-                    const Text(
-                      'Affrontez 3 intelligences artificielles locales sans attendre d\'autres joueurs. Parfait pour réviser les règles, tactiques et signes basques.',
+                    Text(
+                      AppLocalizations.of(context)!
+                          .menuPlayAgainst3LocalAIPlayersWithoutWaitingFor,
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.white70,
@@ -1404,7 +1459,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: Colors.white12),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
                           Icon(
                             Icons.bolt_rounded,
@@ -1414,7 +1469,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Lancement immédiat • 3 Bots autonomes',
+                              AppLocalizations.of(context)!
+                                  .menuInstantStart3IndependentBots,
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
@@ -1469,8 +1525,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                             size: 22,
                             color: Color(0xFF032219),
                           ),
-                          label: const Text(
-                            'Jouer contre l\'IA',
+                          label: Text(
+                            AppLocalizations.of(context)!.menuPlayAgainstAI,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
@@ -1564,8 +1620,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                         .withOpacity(0.4),
                                   ),
                                 ),
-                                child: const Text(
-                                  'SALON PRIVÉ',
+                                child: Text(
+                                  AppLocalizations.of(context)!.menuPRIVATEROOM,
                                   style: TextStyle(
                                     color: Color(0xFFE879F9),
                                     fontSize: 10,
@@ -1575,8 +1631,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              const Text(
-                                'JOUER AVEC DES AMIS',
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .menuPLAYWITHFRIENDS,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -1624,8 +1681,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                           size: 20,
                           color: Colors.white,
                         ),
-                        label: const Text(
-                          'Créer un salon privé',
+                        label: Text(
+                          AppLocalizations.of(context)!.menuCreateAPrivateRoom,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w900,
@@ -1637,7 +1694,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                     ),
                     const SizedBox(height: 14),
                     // SÉPARATEUR
-                    const Row(
+                    Row(
                       children: [
                         Expanded(
                           child: Divider(color: Colors.white24, thickness: 1),
@@ -1647,7 +1704,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
-                              'OU REJOINDRE AVEC UN CODE',
+                              AppLocalizations.of(context)!.menuORJOINWITHACODE,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white54,
@@ -1754,8 +1811,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                             size: 20,
                             color: Color(0xFFE879F9),
                           ),
-                          label: const Text(
-                            'Valider et rejoindre',
+                          label: Text(
+                            AppLocalizations.of(context)!.menuConfirmAndJoin,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w900,
@@ -1863,7 +1920,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
             alignment: Alignment.center,
             children: [
               Text(
-                'IsaMus',
+                AppLocalizations.of(context)!.appTitle,
                 style: TextStyle(
                   fontSize: 54,
                   fontWeight: FontWeight.w900,
@@ -1887,8 +1944,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                   end: Alignment.bottomCenter,
                   colors: [Color(0xFFFFF9C4), Color(0xFFFFB300)],
                 ).createShader(bounds),
-                child: const Text(
-                  'IsaMus',
+                child: Text(
+                  AppLocalizations.of(context)!.appTitle,
                   style: TextStyle(
                     fontSize: 54,
                     fontWeight: FontWeight.w900,
@@ -1909,8 +1966,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: Colors.white12),
             ),
-            child: const Text(
-              'JEU DE CARTES BASQUE • MULTIJOUEUR',
+            child: Text(
+              AppLocalizations.of(context)!.menuBASQUECARDGAMEMULTIPLAYER,
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
@@ -1933,7 +1990,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white12),
       ),
-      child: const Column(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           CircularProgressIndicator(
@@ -1942,7 +1999,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
           SizedBox(height: 20),
           Text(
-            'CONNEXION EN COURS...',
+            AppLocalizations.of(context)!.menuCONNECTING,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -1978,8 +2035,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'CRÉEZ VOTRE PROFIL',
+          Text(
+            AppLocalizations.of(context)!.menuCREATEYOURPROFILE,
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w800,
@@ -2001,7 +2058,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
             decoration: InputDecoration(
               filled: true,
               fillColor: const Color(0xFF0A1422),
-              hintText: 'Votre pseudo (ex: Patxi, Amaia…)',
+              hintText: AppLocalizations.of(context)!
+                  .menuYourNicknameEGPatxiAmaia,
               hintStyle: const TextStyle(
                 color: Colors.white38,
                 fontSize: 14,
@@ -2070,8 +2128,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                   size: 22,
                   color: Color(0xFF261802),
                 ),
-                label: const Text(
-                  'Créer mon profil',
+                label: Text(
+                  AppLocalizations.of(context)!.menuCreateMyProfile,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,

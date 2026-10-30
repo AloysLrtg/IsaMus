@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -39,13 +41,18 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     try {
       await action();
       if (mounted) setState(() => _message = message);
-    } on AuthException catch (e) {
-      if (mounted) setState(() => _message = e.message);
+    } on AuthException catch (_) {
+      if (mounted) {
+        setState(
+          () => _message = AppLocalizations.of(context)!.deleteAccountError,
+        );
+      }
     } catch (_) {
       if (mounted) {
         setState(
-          () => _message =
-              'Service indisponible. Réessayez dans quelques instants.',
+          () =>
+              _message = AppLocalizations.of(context)!
+                  .menuServiceUnavailableTryAgainShortly,
         );
       }
     } finally {
@@ -57,26 +64,27 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Supprimer votre compte ?'),
-        content: const Text(
-          'Votre profil, vos amis et votre historique seront supprimés définitivement. Les achats restent soumis aux règles des stores. Cette action est irréversible.',
+        title: Text(AppLocalizations.of(context)!.menuDeleteYourAccount),
+        content: Text(
+          AppLocalizations.of(context)!
+              .menuYourProfileFriendsAndHistoryWillBePermanentlyDeleted,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.menuCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Supprimer définitivement'),
+            child: Text(AppLocalizations.of(context)!.menuDeletePermanently),
           ),
         ],
       ),
     );
-    if (confirmed == true) {
+    if (confirmed == true && mounted) {
       await _run(() async {
         await ref.read(accountRepositoryProvider).deleteAccount();
-      }, 'Compte supprimé.');
+      }, AppLocalizations.of(context)!.menuAccountDeleted);
     }
   }
 
@@ -85,7 +93,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     final repo = ref.read(accountRepositoryProvider);
     final user = repo.user;
     return Scaffold(
-      appBar: AppBar(title: const Text('Compte & sécurité')),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.menuAccountSecurity),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -94,14 +104,18 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             leading: const Icon(Icons.account_circle_outlined, size: 40),
             title: Text(
               user?.isAnonymous == true
-                  ? 'Compte invité'
-                  : user?.email ?? 'Compte connecté',
+                  ? AppLocalizations.of(context)!.menuGuestAccount
+                  : user?.email ??
+                        AppLocalizations.of(context)!.menuSignedInAccount,
               key: const ValueKey('account-identity'),
             ),
             subtitle: Text(switch (user?.appMetadata['provider']) {
-              'google' => 'Google',
-              'apple' => 'Apple',
-              _ => user?.isAnonymous == true ? 'Invité' : 'E-mail',
+              'google' => AppLocalizations.of(context)!.providerGoogle,
+              'apple' => AppLocalizations.of(context)!.providerApple,
+              _ =>
+                user?.isAnonymous == true
+                    ? AppLocalizations.of(context)!.menuGuest
+                    : AppLocalizations.of(context)!.menuEmail,
             }),
           ),
           const SizedBox(height: 24),
@@ -109,9 +123,12 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             key: const ValueKey('account-signout'),
             onPressed: _busy
                 ? null
-                : () => _run(repo.signOut, 'Déconnexion effectuée.'),
+                : () => _run(
+                    repo.signOut,
+                    AppLocalizations.of(context)!.menuSignedOut,
+                  ),
             icon: const Icon(Icons.logout),
-            label: const Text('Se déconnecter'),
+            label: Text(AppLocalizations.of(context)!.menuSignOut),
           ),
           if (_busy) const LinearProgressIndicator(),
           if (_message != null)
@@ -121,8 +138,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             ),
           TextButton(
             onPressed: _busy ? null : _delete,
-            child: const Text(
-              'Supprimer mon compte',
+            child: Text(
+              AppLocalizations.of(context)!.menuDeleteMyAccount,
               style: TextStyle(color: Colors.redAccent),
             ),
           ),

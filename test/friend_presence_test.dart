@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -67,26 +68,29 @@ void main() {
         'presence:$actor',
         'presence:$friend',
       });
-      expect(find.text('Hors ligne'), findsOneWidget);
+      expect(find.text(testL10n.menuOffline), findsOneWidget);
       expect(find.byKey(ValueKey('friend-online-$friend')), findsNothing);
-      final offline = tester.widget<Text>(find.text('Hors ligne')).style!.color;
+      final offline = tester
+          .widget<Text>(find.text(testL10n.menuOffline))
+          .style!
+          .color;
       final peer = client.rooms['presence:$friend']!;
       peer.snapshot(friend, [false], event: 'join');
       await tester.pumpAndSettle();
       expect(c.read(onlineUsersProvider), contains(friend));
-      expect(find.text('En ligne'), findsOneWidget);
+      expect(find.text(testL10n.menuOnline), findsOneWidget);
       expect(find.byKey(ValueKey('friend-online-$friend')), findsOneWidget);
       expect(
-        tester.widget<Text>(find.text('En ligne')).style!.color,
+        tester.widget<Text>(find.text(testL10n.menuOnline)).style!.color,
         const Color(0xFF4ADE80),
       );
       expect(offline, isNot(const Color(0xFF4ADE80)));
       peer.snapshot(friend, [true]);
       await tester.pumpAndSettle();
-      expect(find.text('Dans une partie'), findsOneWidget);
+      expect(find.text(testL10n.menuInAGame), findsOneWidget);
       peer.snapshot(friend, [], event: 'leave');
       await tester.pumpAndSettle();
-      expect(find.text('Hors ligne'), findsOneWidget);
+      expect(find.text(testL10n.menuOffline), findsOneWidget);
       expect(find.byKey(ValueKey('friend-online-$friend')), findsNothing);
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
@@ -165,3 +169,5 @@ void main() {
     },
   );
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

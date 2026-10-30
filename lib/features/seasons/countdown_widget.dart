@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 /// The shared season ticker owns the periodic timer and cancels it on disposal.
@@ -11,14 +13,27 @@ class CountdownWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final blocks = [
-      ('days', value.inDays, 'Jours'),
-      ('hours', value.inHours % 24, 'Heures'),
-      ('minutes', value.inMinutes % 60, 'Minutes'),
-      ('seconds', value.inSeconds % 60, 'Secondes'),
+      ('days', value.inDays, AppLocalizations.of(context)!.menuDays),
+      ('hours', value.inHours % 24, AppLocalizations.of(context)!.menuHours),
+      (
+        'minutes',
+        value.inMinutes % 60,
+        AppLocalizations.of(context)!.menuMinutes,
+      ),
+      (
+        'seconds',
+        value.inSeconds % 60,
+        AppLocalizations.of(context)!.menuSeconds,
+      ),
     ];
     return Semantics(
-      label:
-          'Fin de saison dans ${value.inDays} jours, ${value.inHours % 24} heures, ${value.inMinutes % 60} minutes et ${value.inSeconds % 60} secondes',
+      label: AppLocalizations.of(context)!
+          .menuSeasonEndsInArg0DaysArg1HoursArg2Minutes(
+            (value.inDays).toString(),
+            (value.inHours % 24).toString(),
+            (value.inMinutes % 60).toString(),
+            (value.inSeconds % 60).toString(),
+          ),
       child: ExcludeSemantics(
         child: Row(
           children: [

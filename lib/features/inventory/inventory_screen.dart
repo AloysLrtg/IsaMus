@@ -1,3 +1,6 @@
+import '../../core/localization/catalog_localizations.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,6 +26,7 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
   ) async {
     if (_busy != null) return;
     final refresh = ref.read(equipmentRefreshProvider);
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _busy = id);
     try {
       await action();
@@ -31,12 +35,11 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
         try {
           await ref.read(playerInventoryProvider.future);
         } catch (_) {
-          message =
-              'Équipement enregistré. Réessayez le chargement de l’inventaire.';
+          message = l10n.menuEquipmentSavedTryLoadingTheInventoryAgain;
         }
       }
     } catch (_) {
-      message = 'Équipement impossible. Vérifiez votre connexion et réessayez.';
+      message = l10n.menuUnableToEquipCheckYourConnectionAndTryAgain;
     }
     if (!mounted) return;
     setState(() => _busy = null);
@@ -55,11 +58,11 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
     length: 2,
     child: Scaffold(
       appBar: AppBar(
-        title: const Text('Personnalisation'),
-        bottom: const TabBar(
+        title: Text(AppLocalizations.of(context)!.menuCustomisation),
+        bottom: TabBar(
           tabs: [
-            Tab(text: 'Dos de cartes'),
-            Tab(text: 'Cheveux'),
+            Tab(text: AppLocalizations.of(context)!.menuCardBacks),
+            Tab(text: AppLocalizations.of(context)!.menuHair),
           ],
         ),
       ),
@@ -71,10 +74,10 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Inventaire indisponible.'),
+                  Text(AppLocalizations.of(context)!.menuInventoryUnavailable),
                   TextButton(
                     onPressed: _reload,
-                    child: const Text('Réessayer'),
+                    child: Text(AppLocalizations.of(context)!.menuTryAgain),
                   ),
                 ],
               ),
@@ -106,7 +109,10 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
                             padding: const EdgeInsets.all(16),
                             children: [
                               Text(
-                                hair ? 'Cheveux' : 'Dos de cartes',
+                                hair
+                                    ? AppLocalizations.of(context)!.menuHair
+                                    : AppLocalizations.of(context)!
+                                          .menuCardBacks,
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                               const SizedBox(height: 16),
@@ -169,14 +175,19 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.name,
+                    catalogName(
+                      AppLocalizations.of(context)!,
+                      item.id,
+                      item.name,
+                    ),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   if (item.id == 'classic')
                     Text(
-                      'Le dos bleu d’origine, toujours disponible.',
+                      AppLocalizations.of(context)!
+                          .menuTheOriginalBlueCardBackAlwaysAvailable,
                       style: theme.textTheme.bodySmall,
                     ),
                   const SizedBox(height: 10),
@@ -190,7 +201,7 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
                           color: theme.colorScheme.primary,
                           size: 18,
                         ),
-                        const Text('Équipé'),
+                        Text(AppLocalizations.of(context)!.menuEquipped),
                       ],
                     )
                   else
@@ -202,9 +213,15 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
                               () => ref
                                   .read(playerRepositoryProvider)
                                   .equip(item.id),
-                              '${item.name} équipé',
+                              AppLocalizations.of(context)!.menuArg0Equipped(
+                                (catalogName(
+                                  AppLocalizations.of(context)!,
+                                  item.id,
+                                  item.name,
+                                )).toString(),
+                              ),
                             ),
-                      child: const Text('Équiper'),
+                      child: Text(AppLocalizations.of(context)!.menuEquip),
                     ),
                 ],
               ),

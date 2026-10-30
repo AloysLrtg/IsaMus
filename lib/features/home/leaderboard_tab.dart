@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,14 +33,14 @@ class LeaderboardTab extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(20, 12, 12, 8),
           child: Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Top 100 des Joueurs',
+                  AppLocalizations.of(context)!.menuTop100Players,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
                 ),
               ),
               IconButton(
-                tooltip: 'Actualiser le classement',
+                tooltip: AppLocalizations.of(context)!.menuRefreshRankings,
                 onPressed: leaderboard.isLoading ? null : refresh,
                 icon: const Icon(Icons.refresh_rounded, color: _gold),
               ),
@@ -48,16 +50,18 @@ class LeaderboardTab extends ConsumerWidget {
         Expanded(
           child: leaderboard.when(
             skipLoadingOnRefresh: false,
-            loading: () => const Center(
+            loading: () => Center(
               child: CircularProgressIndicator(
-                semanticsLabel: 'Chargement du classement',
+                semanticsLabel: AppLocalizations.of(context)!
+                    .menuLoadingRankings,
               ),
             ),
             error: (error, stack) => _StatusMessage(
               icon: Icons.cloud_off_rounded,
-              message: 'Impossible de charger le classement. Vérifiez votre connexion et réessayez.',
+              message: AppLocalizations.of(context)!
+                  .menuUnableToLoadRankingsCheckYourConnectionAndTry,
               action: refresh,
-              actionLabel: 'Réessayer',
+              actionLabel: AppLocalizations.of(context)!.menuTryAgain,
             ),
             data: (entries) => RefreshIndicator(
               onRefresh: refresh,
@@ -65,11 +69,12 @@ class LeaderboardTab extends ConsumerWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   if (entries.isEmpty)
-                    const SliverFillRemaining(
+                    SliverFillRemaining(
                       hasScrollBody: false,
                       child: _StatusMessage(
                         icon: Icons.emoji_events_outlined,
-                        message: 'Aucun joueur classé pour le moment.',
+                        message: AppLocalizations.of(context)!
+                            .menuNoRankedPlayersYet,
                       ),
                     )
                   else ...[
@@ -78,8 +83,9 @@ class LeaderboardTab extends ConsumerWidget {
                         padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
                         child: Column(
                           children: [
-                            const Text(
-                              'Les meilleurs scores Elo',
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .menuTheHighestEloRatings,
                               style: TextStyle(color: Colors.white70),
                             ),
                             const SizedBox(height: 20),
@@ -93,16 +99,27 @@ class LeaderboardTab extends ConsumerWidget {
                                       entries.any(
                                         (entry) => entry.id == currentUserId,
                                       )
-                                  ? 'Votre position : #${entries.indexWhere((entry) => entry.id == currentUserId) + 1}'
-                                  : 'Atteignez le Top 100 pour apparaître ici !',
+                                  ? AppLocalizations.of(
+                                      context,
+                                    )!.menuYourPositionArg0(
+                                      (entries.indexWhere(
+                                                (entry) =>
+                                                    entry.id == currentUserId,
+                                              ) +
+                                              1)
+                                          .toString(),
+                                    )
+                                  : AppLocalizations.of(context)!
+                                        .menuReachTheTop100ToAppearHere,
                               style: const TextStyle(
                                 color: _cyan,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             const SizedBox(height: 6),
-                            const Text(
-                              'Classement par Elo décroissant.',
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .menuRankedByDescendingElo,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 11,
@@ -145,8 +162,8 @@ class LeaderboardTab extends ConsumerWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               subtitle: isLocal
-                                  ? const Text(
-                                      'Vous',
+                                  ? Text(
+                                      AppLocalizations.of(context)!.you,
                                       style: TextStyle(color: _cyan),
                                     )
                                   : null,
@@ -191,8 +208,12 @@ class _Podium extends StatelessWidget {
       ][index];
       return Expanded(
         child: Semantics(
-          label:
-              'Position ${index + 1}, ${entry.username}, ${entry.elo} Elo${entry.id == currentUserId ? ', vous' : ''}',
+          label: AppLocalizations.of(context)!.menuPositionArg0Arg1Arg2EloArg3(
+            (index + 1).toString(),
+            (entry.username).toString(),
+            (entry.elo).toString(),
+            (entry.id == currentUserId ? ', vous' : '').toString(),
+          ),
           excludeSemantics: true,
           child: Container(
             key: ValueKey('leaderboard-podium-${index + 1}'),

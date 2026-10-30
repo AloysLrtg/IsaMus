@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -55,8 +57,9 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
     } catch (_) {
       if (mounted) {
         setState(
-          () => _message =
-              'Action impossible. Vérifiez votre connexion et réessayez.',
+          () =>
+              _message = AppLocalizations.of(context)!
+                  .menuUnableToCompleteThisActionCheckYourConnectionAnd,
         );
       }
     } finally {
@@ -69,7 +72,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
     final name = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Modifier le pseudo'),
+        title: Text(AppLocalizations.of(context)!.menuChangeNickname),
         content: TextField(
           controller: controller,
           maxLength: 24,
@@ -78,11 +81,11 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.menuCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('Enregistrer'),
+            child: Text(AppLocalizations.of(context)!.menuSave),
           ),
         ],
       ),
@@ -103,7 +106,9 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
       error: (_, _) => Center(
         child: TextButton(
           onPressed: () => ref.invalidate(playerProfileProvider),
-          child: const Text('Profil indisponible. Réessayer'),
+          child: Text(
+            AppLocalizations.of(context)!.menuProfileUnavailableTryAgain,
+          ),
         ),
       ),
       data: (p) {
@@ -111,8 +116,8 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
         return ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            const Text(
-              'Profil Joueur',
+            Text(
+              AppLocalizations.of(context)!.menuPlayerProfile352,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             ListTile(
@@ -123,7 +128,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
               title: Text(p['username'] as String),
               subtitle: Text('${p['elo']} Elo'),
               trailing: IconButton(
-                tooltip: 'Modifier le pseudo',
+                tooltip: AppLocalizations.of(context)!.menuChangeNickname,
                 onPressed: _busy
                     ? null
                     : () => _rename(p['username'] as String),
@@ -138,7 +143,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                   minimumSize: const Size.fromHeight(56),
                 ),
                 icon: const Icon(Icons.face_retouching_natural),
-                label: const Text('Modifier mon Avatar'),
+                label: Text(AppLocalizations.of(context)!.menuEditMyAvatar),
                 onPressed: _busy
                     ? null
                     : () async {
@@ -167,7 +172,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                       );
                       if (mounted) widget.onChanged();
                     },
-              child: const Text('Personnalisation'),
+              child: Text(AppLocalizations.of(context)!.menuCustomisation),
             ),
             const SizedBox(height: 12),
             if (_busy) const LinearProgressIndicator(),
@@ -176,8 +181,8 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
             const SizedBox(height: 12),
             ProfileStatisticsView(statistics: statistics),
             const Divider(),
-            const Text(
-              'Dernières parties',
+            Text(
+              AppLocalizations.of(context)!.menuRecentGames,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             ref
@@ -186,15 +191,18 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                   loading: () => const LinearProgressIndicator(),
                   error: (_, _) => TextButton(
                     onPressed: () => ref.invalidate(matchHistoryProvider),
-                    child: const Text('Recharger l’historique'),
+                    child: Text(
+                      AppLocalizations.of(context)!.menuReloadHistory,
+                    ),
                   ),
                   data: (rows) => Column(
                     children: [
                       if (rows.isEmpty)
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.all(16),
                           child: Text(
-                            'Vos prochaines parties terminées apparaîtront ici.',
+                            AppLocalizations.of(context)!
+                                .menuYourNextCompletedGamesWillAppearHere,
                           ),
                         ),
                       for (final row in rows)
@@ -206,16 +214,18 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                             color: row['won'] == true ? Colors.amber : null,
                           ),
                           title: Text(
-                            row['won'] == true ? 'Victoire' : 'Défaite',
+                            row['won'] == true
+                                ? AppLocalizations.of(context)!.menuWin
+                                : AppLocalizations.of(context)!.menuLoss,
                           ),
                           subtitle: Text(
                             '${row['mode'] == 'ranked'
-                                ? 'Classé'
+                                ? AppLocalizations.of(context)!.menuRanked
                                 : row['mode'] == 'solo'
-                                ? 'Solo'
+                                ? AppLocalizations.of(context)!.menuSolo
                                 : row['mode'] == 'private'
-                                ? 'Privé'
-                                : 'Classique'} · ${DateTime.parse(row['finished_at'] as String).toLocal().toString().substring(0, 16)}',
+                                ? AppLocalizations.of(context)!.menuPrivate
+                                : AppLocalizations.of(context)!.menuCasual} · ${DateTime.parse(row['finished_at'] as String).toLocal().toString().substring(0, 16)}',
                           ),
                           trailing: Text(
                             '${(row['elo_after'] as num) - (row['elo_before'] as num)} Elo',

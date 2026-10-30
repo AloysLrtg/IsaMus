@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -43,8 +45,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       // login/register routes. Never navigate to a protected page without a session.
       if (mounted && !connected) {
         setState(
-          () => _message =
-              'Consultez votre boîte e-mail pour activer votre compte.',
+          () =>
+              _message = AppLocalizations.of(context)!
+                  .menuCheckYourEmailToActivateYourAccount,
         );
         _password.clear();
       }
@@ -52,20 +55,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       if (mounted) {
         setState(
           () => _message = switch (error.code) {
-            'user_already_exists' ||
-            'email_exists' => 'Un compte utilise déjà cette adresse e-mail.',
-            'weak_password' => 'Choisissez un mot de passe plus fort.',
+            'user_already_exists' || 'email_exists' => AppLocalizations.of(
+              context,
+            )!.menuAnAccountAlreadyUsesThisEmailAddress,
+            'weak_password' => AppLocalizations.of(
+              context,
+            )!.menuChooseAStrongerPassword,
             'over_email_send_rate_limit' || 'over_request_rate_limit' =>
-              'Trop de tentatives. Réessayez dans quelques instants.',
-            _ => 'Inscription impossible. Essayez un autre pseudo et vérifiez vos informations.',
+              AppLocalizations.of(context)!.menuTooManyAttemptsTryAgainShortly,
+            _ => AppLocalizations.of(
+              context,
+            )!.menuUnableToSignUpTryAnotherNicknameAndCheck,
           },
         );
       }
     } catch (_) {
       if (mounted) {
         setState(
-          () => _message =
-              'Service indisponible. Vérifiez votre connexion et réessayez.',
+          () =>
+              _message = AppLocalizations.of(context)!
+                  .menuServiceUnavailableCheckYourConnectionAndTryAgain,
         );
       }
     } finally {
@@ -88,7 +97,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     canPop: !_busy,
     child: Scaffold(
       appBar: AppBar(
-        title: const Text('Inscription'),
+        title: Text(AppLocalizations.of(context)!.menuSignUp),
         backgroundColor: const Color(0xFF17352F),
       ),
       body: DecoratedBox(
@@ -114,8 +123,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         size: 52,
                         color: Color(0xFFE6C76B),
                       ),
-                      const Text(
-                        'Rejoignez IsaMus',
+                      Text(
+                        AppLocalizations.of(context)!.menuJoinIsaMus,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 30,
@@ -124,8 +133,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Choisissez votre pseudo et entrez dans la partie.',
+                      Text(
+                        AppLocalizations.of(context)!
+                            .menuChooseYourNicknameAndJoinTheGame,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white70),
                       ),
@@ -142,17 +152,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               textInputAction: TextInputAction.next,
                               autofillHints: const [AutofillHints.nickname],
                               maxLength: 24,
-                              decoration: const InputDecoration(
-                                labelText: 'Pseudo',
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .menuNickname,
                                 prefixIcon: Icon(Icons.person_outline),
                                 filled: true,
                                 border: OutlineInputBorder(),
                               ),
                               validator: (value) =>
                                   value == null || value.trim().isEmpty
-                                  ? 'Choisissez un pseudo.'
+                                  ? AppLocalizations.of(context)!
+                                        .menuChooseANickname
                                   : value.trim().length > 24
-                                  ? '24 caractères maximum.'
+                                  ? AppLocalizations.of(context)!
+                                        .menu24CharactersMaximum
                                   : null,
                             ),
                             const SizedBox(height: 18),
@@ -164,8 +177,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               textInputAction: TextInputAction.next,
                               autofillHints: const [AutofillHints.email],
                               autocorrect: false,
-                              decoration: const InputDecoration(
-                                labelText: 'E-mail',
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .menuEmail,
                                 prefixIcon: Icon(Icons.mail_outline),
                                 filled: true,
                                 border: OutlineInputBorder(),
@@ -175,7 +189,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                       RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$')
                                           .hasMatch(value.trim())
                                   ? null
-                                  : 'Saisissez une adresse e-mail valide.',
+                                  : AppLocalizations.of(context)!
+                                        .menuEnterAValidEmailAddress,
                             ),
                             const SizedBox(height: 18),
                             TextFormField(
@@ -189,15 +204,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               textInputAction: TextInputAction.done,
                               onFieldSubmitted: (_) => _register(),
                               decoration: InputDecoration(
-                                labelText: 'Mot de passe',
-                                helperText: '8 caractères minimum',
+                                labelText: AppLocalizations.of(context)!
+                                    .menuPassword,
+                                helperText: AppLocalizations.of(context)!
+                                    .menuAtLeast8Characters,
                                 prefixIcon: const Icon(Icons.lock_outline),
                                 filled: true,
                                 border: const OutlineInputBorder(),
                                 suffixIcon: IconButton(
                                   tooltip: _obscure
-                                      ? 'Afficher le mot de passe'
-                                      : 'Masquer le mot de passe',
+                                      ? AppLocalizations.of(context)!
+                                            .menuShowPassword
+                                      : AppLocalizations.of(context)!
+                                            .menuHidePassword,
                                   onPressed: _busy
                                       ? null
                                       : () => setState(
@@ -212,7 +231,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               ),
                               validator: (value) =>
                                   value == null || value.length < 8
-                                  ? 'Utilisez au moins 8 caractères.'
+                                  ? AppLocalizations.of(context)!
+                                        .menuUseAtLeast8Characters
                                   : null,
                             ),
                           ],
@@ -225,13 +245,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(52),
                         ),
-                        child: const Text('Créer mon compte'),
+                        child: Text(
+                          AppLocalizations.of(context)!.menuCreateMyAccount,
+                        ),
                       ),
                       const SizedBox(height: 16),
                       TextButton(
                         key: const ValueKey('register-login'),
                         onPressed: _busy ? null : _login,
-                        child: const Text('Déjà un compte ? Se connecter'),
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .menuAlreadyHaveAnAccountSignIn,
+                        ),
                       ),
                       if (_busy) const LinearProgressIndicator(),
                       if (_message != null)

@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 import 'rules_content.dart';
@@ -9,6 +11,7 @@ class RulesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final rules = officialMusRules(AppLocalizations.of(context)!);
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -20,7 +23,7 @@ class RulesScreen extends StatelessWidget {
               leading: Navigator.of(context).canPop()
                   ? const BackButton()
                   : null,
-              title: const Text('Règles officielles'),
+              title: Text(AppLocalizations.of(context)!.menuOfficialRules),
               backgroundColor: theme.colorScheme.surface,
             ),
             SliverToBoxAdapter(
@@ -40,29 +43,28 @@ class RulesScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            officialMusRules['title'] as String,
+                            rules['title'] as String,
                             style: theme.textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            officialMusRules['publisher'] as String,
+                            rules['publisher'] as String,
                             style: theme.textTheme.titleSmall,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            officialMusRules['revision'] as String,
+                            rules['revision'] as String,
                             style: theme.textTheme.bodySmall,
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            officialMusRules['contact'] as String,
+                            rules['contact'] as String,
                             style: theme.textTheme.bodySmall,
                           ),
                           const SizedBox(height: 24),
-                          for (final section
-                              in officialMusRules['sections'] as List)
+                          for (final section in rules['sections'] as List)
                             _RulesSection(
                               section: section as Map<String, dynamic>,
                             ),
@@ -110,7 +112,8 @@ class _RulesSection extends StatelessWidget {
               for (final article in section['articles'] as List) ...[
                 const SizedBox(height: 20),
                 Text(
-                  'Article ${article['number']}',
+                  AppLocalizations.of(context)!
+                      .menuArticleArg0((article['number']).toString()),
                   style: theme.textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../core/models/season_reward.dart';
@@ -93,12 +95,15 @@ class SeasonPathStep extends StatelessWidget {
               Positioned.fill(
                 child: Center(
                   child: Semantics(
-                    label:
-                        'Palier ${reward.tier}, ${current
-                            ? 'prochain objectif'
-                            : unlocked
-                            ? 'atteint'
-                            : 'verrouillé'}',
+                    label: AppLocalizations.of(context)!.menuTierArg0Arg1(
+                      (reward.tier).toString(),
+                      (current
+                              ? AppLocalizations.of(context)!.menuNextGoal
+                              : unlocked
+                              ? 'atteint'
+                              : AppLocalizations.of(context)!.menuLocked)
+                          .toString(),
+                    ),
                     child: AnimatedContainer(
                       key: ValueKey('season-node-${reward.tier}'),
                       duration: const Duration(milliseconds: 250),
@@ -247,27 +252,30 @@ class _RewardTile extends StatelessWidget {
         : available
         ? colors.primary
         : colors.outlineVariant;
-    final label = premium ? 'VIP' : 'Gratuite';
+    final label = premium
+        ? AppLocalizations.of(context)!.menuVIP
+        : AppLocalizations.of(context)!.menuFree;
     final status = !hasReward
-        ? 'Aucune récompense'
+        ? AppLocalizations.of(context)!.menuNoReward
         : claimed
-        ? 'Acquis'
+        ? AppLocalizations.of(context)!.menuEarned
         : !unlocked
         ? current
-              ? 'Prochain objectif'
-              : 'Niveau ${reward.tier}'
+              ? AppLocalizations.of(context)!.menuNextGoal189
+              : AppLocalizations.of(context)!
+                    .menuLevelArg0((reward.tier).toString())
         : premium && !vip
-        ? 'VIP requis'
+        ? AppLocalizations.of(context)!.menuVIPRequired
         : !active
-        ? 'Saison terminée'
+        ? AppLocalizations.of(context)!.menuSeasonEnded
         : busy
-        ? 'Patientez…'
-        : 'Récupérer';
+        ? AppLocalizations.of(context)!.menuPleaseWait
+        : AppLocalizations.of(context)!.menuClaim;
     return Semantics(
       button: hasReward,
       enabled: available,
       label:
-          '$label, palier ${reward.tier}, $status${hasReward ? ', $coins pièces' : ''}',
+          '$label, palier ${reward.tier}, $status${hasReward ? AppLocalizations.of(context)!.menuArg0Coins195((coins).toString()) : ''}',
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -351,7 +359,8 @@ class _RewardTile extends StatelessWidget {
                 if (hasReward) ...[
                   const SizedBox(height: 6),
                   Text(
-                    '$coins pièces',
+                    AppLocalizations.of(context)!
+                        .menuArg0Coins((coins).toString()),
                     textAlign: TextAlign.center,
                     style: theme.textTheme.labelLarge?.copyWith(
                       color: claimed
@@ -364,11 +373,12 @@ class _RewardTile extends StatelessWidget {
                   ),
                   if (premium && reward.hasCosmeticPreview)
                     Tooltip(
-                      message: 'Aperçu uniquement : cosmétique à définir, non distribué actuellement.',
+                      message: AppLocalizations.of(context)!
+                          .menuPreviewOnlyCosmeticNotYetDefinedOrAvailable,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
-                          'Cosmétique à venir',
+                          AppLocalizations.of(context)!.menuUpcomingCosmetic,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: muted,
@@ -378,7 +388,9 @@ class _RewardTile extends StatelessWidget {
                     ),
                   if (premium && reward.vipCosmetic != null)
                     Text(
-                      reward.vipCosmetic == 'gold' ? 'Dos Or' : 'Tapis Rubis',
+                      reward.vipCosmetic == 'gold'
+                          ? AppLocalizations.of(context)!.menuGoldCardBack
+                          : AppLocalizations.of(context)!.menuRubyTableFelt,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.labelSmall,
                     ),

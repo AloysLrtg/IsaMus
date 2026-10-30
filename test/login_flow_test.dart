@@ -1,3 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -188,7 +190,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('login-submit')));
     await tester.pumpAndSettle();
     expect(auth.calls, isEmpty);
-    expect(find.text('Saisissez une adresse e-mail valide.'), findsOneWidget);
+    expect(find.text(testL10n.menuEnterAValidEmailAddress), findsOneWidget);
     await fill(tester);
     await tester.tap(find.byKey(const ValueKey('login-submit')));
     await tester.pumpAndSettle();
@@ -262,7 +264,7 @@ void main() {
       await tester.ensureVisible(submit);
       await tester.tap(submit);
       await tester.pumpAndSettle();
-      expect(find.text('Choisissez un pseudo.'), findsOneWidget);
+      expect(find.text(testL10n.menuChooseANickname), findsOneWidget);
       expect(auth.calls, isEmpty);
       await registrationForm(tester);
       await tester.enterText(
@@ -272,7 +274,7 @@ void main() {
       await tester.ensureVisible(submit);
       await tester.tap(submit);
       await tester.pumpAndSettle();
-      expect(find.text('Utilisez au moins 8 caractères.'), findsOneWidget);
+      expect(find.text(testL10n.menuUseAtLeast8Characters), findsOneWidget);
       expect(auth.calls, isEmpty);
     },
   );
@@ -312,7 +314,7 @@ void main() {
     auth.gate!.complete();
     await tester.pumpAndSettle();
     expect(
-      find.text('Un compte utilise déjà cette adresse e-mail.'),
+      find.text(testL10n.menuAnAccountAlreadyUsesThisEmailAddress),
       findsOneWidget,
     );
     expect(
@@ -351,7 +353,7 @@ void main() {
       );
       auth.gate!.complete();
       await tester.pumpAndSettle();
-      expect(find.text('E-mail ou mot de passe incorrect.'), findsOneWidget);
+      expect(find.text(testL10n.menuIncorrectEmailOrPassword), findsOneWidget);
       expect(
         tester
             .widget<FilledButton>(find.byKey(const ValueKey('login-submit')))
@@ -426,14 +428,14 @@ void main() {
       Navigator.of(tester.element(find.byType(MainDashboardScreen)))
           .push(MaterialPageRoute<void>(builder: (_) => const AccountScreen()));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Supprimer mon compte'));
+      await tester.tap(find.text(testL10n.menuDeleteMyAccount));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Annuler'));
+      await tester.tap(find.text(testL10n.menuCancel));
       await tester.pumpAndSettle();
       expect(auth.calls, isEmpty);
-      await tester.tap(find.text('Supprimer mon compte'));
+      await tester.tap(find.text(testL10n.menuDeleteMyAccount));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Supprimer définitivement'));
+      await tester.tap(find.text(testL10n.menuDeletePermanently));
       await tester.pumpAndSettle();
       expect(auth.calls, ['delete']);
       expect(find.byType(LoginScreen), findsOneWidget);
@@ -463,3 +465,5 @@ void main() {
     });
   }
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

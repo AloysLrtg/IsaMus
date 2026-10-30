@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -40,21 +42,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (mounted) {
         setState(
           () => _message = switch (error.code) {
-            'invalid_credentials' => 'E-mail ou mot de passe incorrect.',
-            'email_not_confirmed' =>
-              'Confirmez votre adresse e-mail avant de vous connecter.',
+            'invalid_credentials' => AppLocalizations.of(
+              context,
+            )!.menuIncorrectEmailOrPassword,
+            'email_not_confirmed' => AppLocalizations.of(
+              context,
+            )!.menuConfirmYourEmailAddressBeforeSigningIn,
             'over_email_send_rate_limit' || 'over_request_rate_limit' =>
-              'Trop de tentatives. Réessayez dans quelques instants.',
-            _ =>
-              'Connexion impossible. Vérifiez vos informations et réessayez.',
+              AppLocalizations.of(context)!.menuTooManyAttemptsTryAgainShortly,
+            _ => AppLocalizations.of(
+              context,
+            )!.menuUnableToSignInCheckYourDetailsAndTry,
           },
         );
       }
     } catch (_) {
       if (mounted) {
         setState(
-          () => _message =
-              'Service indisponible. Vérifiez votre connexion et réessayez.',
+          () =>
+              _message = AppLocalizations.of(context)!
+                  .menuServiceUnavailableCheckYourConnectionAndTryAgain,
         );
       }
     } finally {
@@ -88,7 +95,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Semantics(
-                      label: 'IsaMus',
+                      label: AppLocalizations.of(context)!.appTitle,
                       image: true,
                       child: Column(
                         children: [
@@ -98,7 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             color: Color(0xFFE6C76B),
                           ),
                           Text(
-                            'IsaMus',
+                            AppLocalizations.of(context)!.appTitle,
                             style: TextStyle(
                               fontSize: 44,
                               fontWeight: FontWeight.w900,
@@ -110,8 +117,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Votre table vous attend.',
+                    Text(
+                      AppLocalizations.of(context)!.menuYourTableIsWaiting,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 18, color: Colors.white70),
                     ),
@@ -131,8 +138,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               AutofillHints.email,
                             ],
                             autocorrect: false,
-                            decoration: const InputDecoration(
-                              labelText: 'E-mail',
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!
+                                  .menuEmail,
                               prefixIcon: Icon(Icons.mail_outline),
                               filled: true,
                               border: OutlineInputBorder(),
@@ -142,7 +150,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$')
                                         .hasMatch(value.trim())
                                 ? null
-                                : 'Saisissez une adresse e-mail valide.',
+                                : AppLocalizations.of(context)!
+                                      .menuEnterAValidEmailAddress,
                           ),
                           const SizedBox(height: 14),
                           TextFormField(
@@ -158,14 +167,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               if (!_busy) _emailAction();
                             },
                             decoration: InputDecoration(
-                              labelText: 'Mot de passe',
+                              labelText: AppLocalizations.of(context)!
+                                  .menuPassword,
                               prefixIcon: const Icon(Icons.lock_outline),
                               filled: true,
                               border: const OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 tooltip: _obscure
-                                    ? 'Afficher le mot de passe'
-                                    : 'Masquer le mot de passe',
+                                    ? AppLocalizations.of(context)!
+                                          .menuShowPassword
+                                    : AppLocalizations.of(context)!
+                                          .menuHidePassword,
                                 onPressed: _busy
                                     ? null
                                     : () =>
@@ -178,7 +190,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                             ),
                             validator: (value) => value == null || value.isEmpty
-                                ? 'Saisissez votre mot de passe.'
+                                ? AppLocalizations.of(context)!
+                                      .menuEnterYourPassword
                                 : null,
                           ),
                         ],
@@ -191,7 +204,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(52),
                       ),
-                      child: const Text('Se connecter'),
+                      child: Text(AppLocalizations.of(context)!.menuSignIn),
                     ),
                     const SizedBox(height: 16),
                     TextButton(
@@ -201,7 +214,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           : () => _run((repo) async {
                               await repo.signInAnonymously();
                             }),
-                      child: const Text('Jouer en tant qu’invité'),
+                      child: Text(
+                        AppLocalizations.of(context)!.menuPlayAsAGuest,
+                      ),
                     ),
                     TextButton(
                       key: const ValueKey('login-signup'),
@@ -212,7 +227,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 builder: (_) => const RegisterScreen(),
                               ),
                             ),
-                      child: const Text("Pas encore de compte ? S'inscrire"),
+                      child: Text(
+                        AppLocalizations.of(context)!.menuNoAccountYetSignUp,
+                      ),
                     ),
                     if (_busy) const LinearProgressIndicator(),
                     if (_message != null || widget.initialError != null)

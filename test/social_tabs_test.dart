@@ -1,3 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -223,13 +225,13 @@ void main() {
     };
     repo.rows = [request, Map.of(request), Map.of(request)];
     await mount(tester);
-    await tester.tap(find.text('Demandes'));
+    await tester.tap(find.text(testL10n.menuRequests));
     await tester.pumpAndSettle();
     expect(
       find.byKey(const ValueKey('friend-request-duplicate')),
       findsOneWidget,
     );
-    expect(find.text('Demande reçue'), findsOneWidget);
+    expect(find.text(testL10n.menuRequestReceived), findsOneWidget);
     repo.rows = [
       request,
       {...request, 'status': 'accepted'},
@@ -256,10 +258,10 @@ void main() {
         },
       ];
       await mount(tester);
-      await tester.tap(find.byTooltip('Inviter à jouer'));
+      await tester.tap(find.byTooltip(testL10n.menuInviteToPlay));
       await tester.pumpAndSettle();
       for (final option in GameInvitationMode.values) {
-        expect(find.text(option.title), findsOneWidget);
+        expect(find.text(option.title(testL10n)), findsOneWidget);
       }
       final selected = find.byKey(ValueKey('invite-mode-${mode.value}'));
       await tester.ensureVisible(selected);
@@ -327,10 +329,10 @@ void main() {
       };
       await mount(tester);
       expect(
-        find.text('Ane vous invite à jouer en ${mode.label}'),
+        find.text(testL10n.menuArg0InvitesYouToPlayArg1('Ane', mode.label(testL10n))),
         findsOneWidget,
       );
-      await tester.tap(find.text('Rejoindre'));
+      await tester.tap(find.text(testL10n.menuJoin));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       await tester.pump();
@@ -361,7 +363,7 @@ void main() {
         },
       ];
       await mount(tester);
-      await tester.tap(find.byTooltip('Inviter à jouer'));
+      await tester.tap(find.byTooltip(testL10n.menuInviteToPlay));
       await tester.pumpAndSettle();
       await tester.ensureVisible(
         find.byKey(const ValueKey('invite-mode-ranked')),
@@ -388,10 +390,10 @@ void main() {
       },
     ];
     await mount(tester, now: () => clock);
-    expect(find.text('Rejoindre'), findsOneWidget);
+    expect(find.text(testL10n.menuJoin), findsOneWidget);
     clock = clock.add(const Duration(seconds: 3));
     await tester.pump(const Duration(seconds: 3));
-    expect(find.text('Rejoindre'), findsNothing);
+    expect(find.text(testL10n.menuJoin), findsNothing);
     expect(tester.takeException(), isNull);
   });
   testWidgets('Rejoindre ne réinitialise pas la table déjà ouverte', (
@@ -418,7 +420,7 @@ void main() {
     container
         .read(musGameControllerProvider.notifier)
         .configureMultiplayer(gameId: 'duo-room', localSeat: 0);
-    await tester.tap(find.text('Rejoindre'));
+    await tester.tap(find.text(testL10n.menuJoin));
     await tester.pumpAndSettle();
     expect(repo.acceptedInvites, isEmpty);
     expect(
@@ -444,10 +446,10 @@ void main() {
       },
     ];
     await mount(tester);
-    await tester.tap(find.text('Décliner'));
+    await tester.tap(find.text(testL10n.menuDecline296));
     await tester.pumpAndSettle();
     expect(repo.declinedInvites, ['incoming']);
-    expect(find.text('Rejoindre'), findsNothing);
+    expect(find.text(testL10n.menuJoin), findsNothing);
     expect(find.byType(GameScreen), findsNothing);
   });
   testWidgets('Fermer le choix de mode ne crée aucune invitation', (
@@ -463,12 +465,12 @@ void main() {
       },
     ];
     await mount(tester);
-    await tester.tap(find.byTooltip('Inviter à jouer'));
+    await tester.tap(find.byTooltip(testL10n.menuInviteToPlay));
     await tester.pumpAndSettle();
     await tester.tapAt(const Offset(4, 4));
     await tester.pumpAndSettle();
     expect(repo.createdModes, isEmpty);
-    await tester.tap(find.byTooltip('Inviter à jouer'));
+    await tester.tap(find.byTooltip(testL10n.menuInviteToPlay));
     await tester.pumpAndSettle();
     expect(find.text('Créer un Salon Privé'), findsOneWidget);
   });
@@ -495,18 +497,18 @@ void main() {
       ];
       await mount(tester);
       expect(find.byType(DefaultTabController), findsOneWidget);
-      expect(find.text('Rechercher un pseudo'), findsOneWidget);
-      await tester.tap(find.text('Demandes'));
+      expect(find.text(testL10n.menuSearchForANickname), findsOneWidget);
+      await tester.tap(find.text(testL10n.menuRequests));
       await tester.pumpAndSettle();
       final card = find.byKey(const ValueKey('friend-request-in'));
       expect(tester.getSize(card).width, closeTo(size.width - 32, .1));
-      expect(find.text('Accepter'), findsOneWidget);
-      expect(find.text('Refuser'), findsOneWidget);
+      expect(find.text(testL10n.menuAccept), findsOneWidget);
+      expect(find.text(testL10n.menuDecline), findsOneWidget);
       expect(
-        tester.getRect(find.text('Accepter')).right,
+        tester.getRect(find.text(testL10n.menuAccept)).right,
         lessThanOrEqualTo(tester.getRect(card).right),
       );
-      await tester.tap(find.text('Bloqués'));
+      await tester.tap(find.text(testL10n.menuBlocked));
       await tester.pumpAndSettle();
       expect(find.text('Mikel'), findsOneWidget);
       final unblock = find.widgetWithText(TextButton, 'Débloquer');
@@ -514,7 +516,7 @@ void main() {
       await tester.tap(unblock);
       await tester.pumpAndSettle();
       expect(repo.unblocked, blocked);
-      expect(find.text('Aucun joueur bloqué.'), findsOneWidget);
+      expect(find.text(testL10n.menuNoBlockedPlayers), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   }
@@ -531,10 +533,10 @@ void main() {
       },
     ];
     await mount(tester);
-    expect(find.byTooltip('Inviter à jouer'), findsOneWidget);
-    await tester.tap(find.byTooltip('Options de l’ami'));
+    expect(find.byTooltip(testL10n.menuInviteToPlay), findsOneWidget);
+    await tester.tap(find.byTooltip(testL10n.menuFriendOptions));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Retirer de mes amis'));
+    await tester.tap(find.text(testL10n.menuRemoveFriend));
     await tester.pumpAndSettle();
     expect(repo.removed, 'accepted');
   });
@@ -550,15 +552,15 @@ void main() {
         },
     ];
     await mount(tester);
-    await tester.tap(find.text('Demandes'));
+    await tester.tap(find.text(testL10n.menuRequests));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Accepter').first);
+    await tester.tap(find.text(testL10n.menuAccept).first);
     await tester.pumpAndSettle();
     expect(repo.accepted, 'one');
-    await tester.tap(find.text('Refuser'));
+    await tester.tap(find.text(testL10n.menuDecline));
     await tester.pumpAndSettle();
     expect(repo.refused, 'two');
-    expect(find.text('Aucune demande en attente.'), findsOneWidget);
+    expect(find.text(testL10n.menuNoPendingRequests), findsOneWidget);
   });
   testWidgets('Bannière verte après envoi et disparition automatique', (
     tester,
@@ -566,11 +568,11 @@ void main() {
     repo = TabSocial();
     await mount(tester);
     await tester.enterText(find.byType(TextField), 'Ane');
-    await tester.tap(find.byTooltip('Rechercher'));
+    await tester.tap(find.byTooltip(testL10n.menuSearch));
     await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Demander en ami'));
+    await tester.tap(find.byTooltip(testL10n.menuSendFriendRequest));
     await tester.pumpAndSettle();
-    expect(find.text('Demande d’amitié envoyée'), findsOneWidget);
+    expect(find.text(testL10n.menuFriendRequestSent), findsOneWidget);
     expect(
       tester
           .widget<Material>(find.byKey(const ValueKey('social-banner')))
@@ -606,7 +608,7 @@ void main() {
     repo.events.add(repo.rows);
     await tester.pump();
     await tester.pump();
-    expect(find.text('Nouvelle demande d’amitié reçue'), findsOneWidget);
+    expect(find.text(testL10n.menuNewFriendRequestReceived), findsOneWidget);
     expect(
       tester
           .widget<Material>(find.byKey(const ValueKey('social-banner')))
@@ -638,6 +640,8 @@ void main() {
     await tester.tap(button);
     await tester.pumpAndSettle();
     expect(repo.unblocked, friend);
-    expect(find.text('Ajouter en ami'), findsOneWidget);
+    expect(find.text(testL10n.menuAddFriend), findsOneWidget);
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

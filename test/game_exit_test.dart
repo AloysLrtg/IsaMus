@@ -1,3 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -94,7 +96,7 @@ void main() {
     await tester.tap(find.text('Quitter la partie'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    await tester.tap(find.text('Annuler'));
+    await tester.tap(find.text(testL10n.menuCancel));
     await tester.pumpAndSettle();
     expect(find.byType(GameScreen), findsOneWidget);
     expect(repo.closed, isEmpty);
@@ -151,3 +153,5 @@ void main() {
     expect(container.read(musGameControllerProvider.notifier).gameId, isNull);
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

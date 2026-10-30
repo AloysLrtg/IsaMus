@@ -1,5 +1,5 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -67,9 +67,9 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
       await mount(tester, repo);
       expect(sound(tester).value, isFalse);
-      expect(find.text('Compte & sécurité'), findsOneWidget);
-      expect(find.text('Conditions d’utilisation'), findsOneWidget);
-      expect(find.text('Politique de confidentialité'), findsOneWidget);
+      expect(find.text(testL10n.menuAccountSecurity), findsOneWidget);
+      expect(find.text(testL10n.menuTermsOfUse), findsOneWidget);
+      expect(find.text(testL10n.menuPrivacyPolicy), findsOneWidget);
     },
   );
   testWidgets(
@@ -91,10 +91,6 @@ void main() {
   testWidgets('compte et documents légaux accessibles depuis Réglages', (
     tester,
   ) async {
-    await tester.runAsync(() async {
-      await rootBundle.loadString('assets/legal/terms.txt');
-      await rootBundle.loadString('assets/legal/privacy.txt');
-    });
     await mount(tester, SettingsPlayer());
     await tester.tap(find.byKey(const ValueKey('settings-account-button')));
     await tester.pumpAndSettle();
@@ -102,17 +98,10 @@ void main() {
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     for (final entry in {
-      'settings-terms-button': 'Conditions d’utilisation',
-      'settings-privacy-button': 'Politique de confidentialité',
+      'settings-terms-button': testL10n.menuTermsOfUse,
+      'settings-privacy-button': testL10n.menuPrivacyPolicy,
     }.entries) {
       await tester.tap(find.byKey(ValueKey(entry.key)));
-      await tester.runAsync(
-        () => rootBundle.loadString(
-          entry.key == 'settings-terms-button'
-              ? 'assets/legal/terms.txt'
-              : 'assets/legal/privacy.txt',
-        ),
-      );
       await tester.pumpAndSettle();
       expect(find.byType(SelectableText), findsOneWidget);
       expect(
@@ -132,7 +121,7 @@ void main() {
     'compte et documents restent accessibles si le profil ne charge pas',
     (tester) async {
       await mount(tester, SettingsPlayer()..failLoad = true);
-      expect(find.text('Préférence indisponible'), findsOneWidget);
+      expect(find.text(testL10n.menuPreferenceUnavailable), findsOneWidget);
       expect(
         find.byKey(const ValueKey('settings-account-button')),
         findsOneWidget,
@@ -145,7 +134,9 @@ void main() {
         find.byKey(const ValueKey('settings-privacy-button')),
         findsOneWidget,
       );
-      expect(find.text('Réessayer'), findsOneWidget);
+      expect(find.text(testL10n.menuTryAgain), findsOneWidget);
     },
   );
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

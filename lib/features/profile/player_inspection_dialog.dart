@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,11 +35,15 @@ class _PlayerInspectionDialogState
         ref.invalidate(friendshipsProvider);
         ref
             .read(socialNoticeProvider.notifier)
-            .show('Demande d’amitié envoyée');
+            .show(AppLocalizations.of(context)!.menuFriendRequestSent);
       }
     } catch (_) {
       if (mounted) {
-        setState(() => _error = 'Impossible d’envoyer la demande. Réessayez.');
+        setState(
+          () =>
+              _error = AppLocalizations.of(context)!
+                  .menuUnableToSendTheRequestTryAgain,
+        );
       }
     } finally {
       if (mounted) setState(() => _sending = false);
@@ -51,18 +57,19 @@ class _PlayerInspectionDialogState
         context: context,
         builder: (dialogContext) => AlertDialog(
           scrollable: true,
-          title: const Text('Bloquer ce joueur ?'),
-          content: const Text(
-            'Votre amitié sera supprimée et vos demandes et invitations en attente seront annulées. Ce joueur ne pourra plus vous contacter ainsi. Vous pourrez le débloquer depuis l’onglet Bloqués.',
+          title: Text(AppLocalizations.of(context)!.menuBlockThisPlayer),
+          content: Text(
+            AppLocalizations.of(context)!
+                .menuYourFriendshipWillBeRemovedAndPendingRequestsAnd,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext, false),
-              child: const Text('Annuler'),
+              child: Text(AppLocalizations.of(context)!.menuCancel),
             ),
             FilledButton(
               onPressed: () => Navigator.pop(dialogContext, true),
-              child: const Text('Bloquer'),
+              child: Text(AppLocalizations.of(context)!.menuBlock),
             ),
           ],
         ),
@@ -86,14 +93,18 @@ class _PlayerInspectionDialogState
         ref
             .read(socialNoticeProvider.notifier)
             .show(
-              blocked ? 'Joueur débloqué' : 'Joueur bloqué',
+              blocked
+                  ? AppLocalizations.of(context)!.menuPlayerUnblocked
+                  : AppLocalizations.of(context)!.menuBlockedPlayer,
               kind: SocialNoticeKind.information,
             );
       }
     } catch (_) {
       if (mounted) {
         setState(
-          () => _error = 'Impossible de modifier le blocage. Réessayez.',
+          () =>
+              _error = AppLocalizations.of(context)!
+                  .menuUnableToUpdateTheBlockTryAgain,
         );
       }
     } finally {
@@ -155,14 +166,20 @@ class _PlayerInspectionDialogState
                               ),
                               error: (_, _) => Column(
                                 children: [
-                                  const Text('Profil indisponible.'),
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .menuProfileUnavailable,
+                                  ),
                                   TextButton(
                                     onPressed: () => ref.invalidate(
                                       publicPlayerProfileProvider(
                                         widget.userId,
                                       ),
                                     ),
-                                    child: const Text('Réessayer'),
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .menuTryAgain,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -176,14 +193,17 @@ class _PlayerInspectionDialogState
                                   ),
                                   const SizedBox(height: 12),
                                   Text(
-                                    profile['username']?.toString() ?? 'Joueur',
+                                    profile['username']?.toString() ??
+                                        AppLocalizations.of(context)!
+                                            .menuPlayer,
                                     textAlign: TextAlign.center,
                                     style: theme.textTheme.headlineSmall
                                         ?.copyWith(fontWeight: FontWeight.w800),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'Profil du joueur',
+                                    AppLocalizations.of(context)!
+                                        .menuPlayerProfile,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       color: colors.onSurfaceVariant,
                                     ),
@@ -217,25 +237,29 @@ class _PlayerInspectionDialogState
                                           width,
                                           Icons.emoji_events_rounded,
                                           '${stats.elo}',
-                                          'Elo actuel',
+                                          AppLocalizations.of(context)!
+                                              .menuCurrentElo,
                                         ),
                                         _stat(
                                           width,
                                           Icons.workspace_premium_rounded,
                                           '${stats.peakElo}',
-                                          'Peak Elo',
+                                          AppLocalizations.of(context)!
+                                              .menuPeakElo,
                                         ),
                                         _stat(
                                           width,
                                           Icons.trending_up_rounded,
                                           '${stats.global.winPercent} %',
-                                          'Taux de victoire',
+                                          AppLocalizations.of(context)!
+                                              .menuWinRate,
                                         ),
                                         _stat(
                                           width,
                                           Icons.sports_esports_rounded,
                                           '${stats.global.played}',
-                                          'Parties jouées',
+                                          AppLocalizations.of(context)!
+                                              .menuGamesPlayed,
                                         ),
                                       ],
                                     );
@@ -243,7 +267,11 @@ class _PlayerInspectionDialogState
                                 ),
                                 const SizedBox(height: 14),
                                 Text(
-                                  '${stats.global.won} victoires · ${stats.global.lost} défaites',
+                                  AppLocalizations.of(context)!
+                                      .menuArg0WinsArg1Losses(
+                                        (stats.global.won).toString(),
+                                        (stats.global.lost).toString(),
+                                      ),
                                   textAlign: TextAlign.center,
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: colors.onSurfaceVariant,
@@ -251,9 +279,12 @@ class _PlayerInspectionDialogState
                                 ),
                                 const SizedBox(height: 20),
                                 if (blocked)
-                                  const FilledButton(
+                                  FilledButton(
                                     onPressed: null,
-                                    child: Text('Joueur bloqué'),
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .menuBlockedPlayer,
+                                    ),
                                   )
                                 else
                                   _friendButton(me, relations),
@@ -278,7 +309,11 @@ class _PlayerInspectionDialogState
                                             : Icons.block_rounded,
                                       ),
                                       label: Text(
-                                        blocked ? 'Débloquer' : 'Bloquer',
+                                        blocked
+                                            ? AppLocalizations.of(context)!
+                                                  .menuUnblock
+                                            : AppLocalizations.of(context)!
+                                                  .menuBlock,
                                       ),
                                     ),
                                   ),
@@ -304,7 +339,7 @@ class _PlayerInspectionDialogState
               right: 6,
               child: IconButton(
                 key: const ValueKey('close-player-card'),
-                tooltip: 'Fermer',
+                tooltip: AppLocalizations.of(context)!.menuClose,
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.close_rounded),
               ),
@@ -353,18 +388,18 @@ class _PlayerInspectionDialogState
     String? me,
     AsyncValue<List<Map<String, dynamic>>> relations,
   ) {
-    String label = 'Ajouter en ami';
+    String label = AppLocalizations.of(context)!.menuAddFriend;
     IconData icon = Icons.person_add_rounded;
     VoidCallback? action;
     if (me == null) {
-      label = 'Connexion requise';
+      label = AppLocalizations.of(context)!.menuSignInRequired;
     } else if (me == widget.userId) {
-      label = 'Votre profil';
+      label = AppLocalizations.of(context)!.menuYourProfile;
       icon = Icons.person_rounded;
     } else if (_sending) {
-      label = 'Envoi en cours…';
+      label = AppLocalizations.of(context)!.menuSending;
     } else if (relations.isLoading) {
-      label = 'Vérification de la relation…';
+      label = AppLocalizations.of(context)!.menuCheckingFriendship;
     } else {
       relations.when(
         data: (rows) {
@@ -375,24 +410,24 @@ class _PlayerInspectionDialogState
                 sender == widget.userId && receiver == me;
           }).firstOrNull;
           if (relation?['status'] == 'accepted') {
-            label = 'Déjà amis';
+            label = AppLocalizations.of(context)!.menuAlreadyFriends;
             icon = Icons.check_circle_outline_rounded;
           } else if (relation?['status'] == 'pending') {
             label = (relation?['sender_id'] ?? relation?['user_id_1']) == me
-                ? 'Demande envoyée'
-                : 'Demande reçue';
+                ? AppLocalizations.of(context)!.menuRequestSent
+                : AppLocalizations.of(context)!.menuRequestReceived;
             icon = Icons.mark_email_read_outlined;
           } else {
             action = _addFriend;
           }
         },
         error: (_, _) {
-          label = 'Réessayer la relation';
+          label = AppLocalizations.of(context)!.menuCheckFriendshipAgain;
           icon = Icons.refresh_rounded;
           action = () => ref.invalidate(friendshipsProvider);
         },
         loading: () {
-          label = 'Vérification de la relation…';
+          label = AppLocalizations.of(context)!.menuCheckingFriendship;
         },
       );
     }

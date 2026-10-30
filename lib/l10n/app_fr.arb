@@ -139,5 +139,927 @@
   "seasonPassTitle": "Pass de Saison",
   "tutorialTitle": "Tutoriel",
   "settingsTitle": "Réglages",
-  "languageTitle": "Langue"
+  "languageTitle": "Langue",
+  "menuUnableToCompleteThisActionCheckYourConnectionAnd": "Action impossible. Vérifiez votre connexion et réessayez.",
+  "menuDocumentUnavailableTryAgain": "Document indisponible. Réessayez.",
+  "menuSoundEffects": "Effets sonores",
+  "menuPreferenceUnavailable": "Préférence indisponible",
+  "menuTryAgain": "Réessayer",
+  "menuAccountSecurity": "Compte & sécurité",
+  "menuAdPrivacyChoices": "Choix de confidentialité publicitaire",
+  "menuTermsOfUse": "Conditions d’utilisation",
+  "menuPrivacyPolicy": "Politique de confidentialité",
+  "menuLastDay": "Dernier jour",
+  "menuOnlyArg0DLeft": "Plus que {arg0}j",
+  "@menuOnlyArg0DLeft": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuSeasonInProgress": "Saison en cours",
+  "menuPlayer": "Joueur",
+  "menuUnableToCompleteThisActionTheRoomMayHave": "Action impossible. Le salon a peut-être changé. Réessayez.",
+  "menuCodeArg0CopiedToClipboard": "Code {arg0} copié dans le presse-papier !",
+  "@menuCodeArg0CopiedToClipboard": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuWAITINGROOM": "SALON D’ATTENTE",
+  "menuSyncErrorTryAgain": "Erreur de synchronisation. Réessayer",
+  "menuThisRoomIsReservedForPublicMatchmaking": "Ce salon est réservé au matchmaking public.",
+  "menuINVITATIONCODE": "CODE D’INVITATION",
+  "menuCopyCode": "Copier le code",
+  "menuStartGame": "Lancer la partie",
+  "menuFillWithAIPlayers": "Compléter avec des IA",
+  "menuTwoPlayersPerTeamAreRequired": "Deux joueurs par équipe sont requis.",
+  "menuWaitingForTheHost": "En attente de l'hôte...",
+  "menuTheRoomHasBeenClosed": "Le salon a été fermé.",
+  "menuTeamArg0Arg12": "Équipe {arg0} · {arg1}/2",
+  "@menuTeamArg0Arg12": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuYourTeam": "Votre équipe",
+  "menuJoin": "Rejoindre",
+  "menuYOU": "VOUS",
+  "menuOpenSeat": "Place libre",
+  "menuWaiting": "En attente…",
+  "menuHost": "Hôte",
+  "menuAI": "IA",
+  "menuInviteMyFriends": "Inviter mes amis",
+  "menuAddFriendsFromTheFriendsTab": "Ajoutez des amis depuis l’onglet Amis.",
+  "menuFriend": "Ami",
+  "menuInvitationSentToArg0": "Invitation envoyée à {arg0}.",
+  "@menuInvitationSentToArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuUnableToSendTheInvitation": "Impossible d’envoyer l’invitation.",
+  "menuInvite": "Inviter",
+  "menuSignInToPlay": "Connectez-vous pour jouer.",
+  "menuPleaseEnterYourNickname": "Veuillez saisir votre pseudo.",
+  "menuSignInToCreateYourProfile": "Connectez-vous pour créer votre profil.",
+  "menuTheCodeMustContainExactly5Characters": "Le code doit comporter exactement 5 caractères.",
+  "menuIAlreadyHaveAnAccount": "J’ai déjà un compte",
+  "menuArg0Coins": "{arg0} pièces",
+  "@menuArg0Coins": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuWeeklyQuests": "Quêtes hebdomadaires",
+  "menuGAMEMODES": "MODES DE JEU",
+  "menuATYOUROWNPACE": "À VOTRE RYTHME",
+  "menuTakeASeatAndLearnMusFromYourFirst": "Prenez place à la table et apprenez le Mus, des premières décisions au décompte des points.",
+  "menuNoTimerGuidedThenFreePlay": "Sans chronomètre · Guidé, puis libre",
+  "menuLearnMus": "Apprendre le Mus",
+  "menuOfficialRules": "Règles officielles",
+  "menuQUICKMULTIPLAYER": "MULTIJOUEUR RAPIDE",
+  "menuONLINECASUAL": "EN LIGNE (CLASSIQUE)",
+  "menuChallengePlayersOnlineInRelaxedFriendlyGamesWithNo": "Défiez des joueurs en ligne dans des parties amicales et détendues, sans enjeu d'Elo. Idéal pour partager un bon moment de Mus.",
+  "menuOfficial4KingsAnd4AcesRulesNoPressure": "Règles officielles 4 Rois et 4 As • Sans pression",
+  "menuOFFICIALCOMPETITION": "COMPÉTITION OFFICIELLE",
+  "menuONLINERANKED": "EN LIGNE (CLASSÉ)",
+  "menuYourCurrentEloArg0": "Votre Elo actuel : {arg0}",
+  "@menuYourCurrentEloArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuSeasonRewards": "Récompenses de Saison",
+  "menuClimbTheCompetitiveRankingsEveryWinRaisesYourElo": "Grimpez dans le classement compétitif. Chaque victoire augmente votre cote Elo, chaque défaite en coûte. Visez le Top 100 !",
+  "menuPlayRanked": "Lancer (Classé)",
+  "menuSOLOPRACTICE": "ENTRAÎNEMENT SOLO",
+  "menuSOLOVSAI": "SOLO CONTRE IA",
+  "menuPlayAgainst3LocalAIPlayersWithoutWaitingFor": "Affrontez 3 intelligences artificielles locales sans attendre d'autres joueurs. Parfait pour réviser les règles, tactiques et signes basques.",
+  "menuInstantStart3IndependentBots": "Lancement immédiat • 3 Bots autonomes",
+  "menuPlayAgainstAI": "Jouer contre l'IA",
+  "menuPRIVATEROOM": "SALON PRIVÉ",
+  "menuPLAYWITHFRIENDS": "JOUER AVEC DES AMIS",
+  "menuCreateAPrivateRoom": "Créer un salon privé",
+  "menuORJOINWITHACODE": "OU REJOINDRE AVEC UN CODE",
+  "menuConfirmAndJoin": "Valider et rejoindre",
+  "menuBASQUECARDGAMEMULTIPLAYER": "JEU DE CARTES BASQUE • MULTIJOUEUR",
+  "menuCONNECTING": "CONNEXION EN COURS...",
+  "menuCREATEYOURPROFILE": "CRÉEZ VOTRE PROFIL",
+  "menuYourNicknameEGPatxiAmaia": "Votre pseudo (ex: Patxi, Amaia…)",
+  "menuCreateMyProfile": "Créer mon profil",
+  "menuTop100Players": "Top 100 des Joueurs",
+  "menuRefreshRankings": "Actualiser le classement",
+  "menuLoadingRankings": "Chargement du classement",
+  "menuUnableToLoadRankingsCheckYourConnectionAndTry": "Impossible de charger le classement. Vérifiez votre connexion et réessayez.",
+  "menuNoRankedPlayersYet": "Aucun joueur classé pour le moment.",
+  "menuTheHighestEloRatings": "Les meilleurs scores Elo",
+  "menuYourPositionArg0": "Votre position : #{arg0}",
+  "@menuYourPositionArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuReachTheTop100ToAppearHere": "Atteignez le Top 100 pour apparaître ici !",
+  "menuRankedByDescendingElo": "Classement par Elo décroissant.",
+  "menuPositionArg0Arg1Arg2EloArg3": "Position {arg0}, {arg1}, {arg2} Elo{arg3}",
+  "@menuPositionArg0Arg1Arg2EloArg3": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      },
+      "arg2": {
+        "type": "String"
+      },
+      "arg3": {
+        "type": "String"
+      }
+    }
+  },
+  "menuLevelArg0Arg1500XP": "Niveau {arg0} · {arg1} / 500 XP",
+  "@menuLevelArg0Arg1500XP": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuLevelArg0Arg1XPOutOf500": "Niveau {arg0}, {arg1} XP sur 500",
+  "@menuLevelArg0Arg1XPOutOf500": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuYouHaveTwoKingsAndAGameTotalOf": "Vous avez deux Rois et un Jeu de 31. Gardez cette main : dites Mintza.",
+  "menuYourOpponentRaisesCallIdukiToCompareCardsAt": "L’adversaire relance. Suivez (Iduki) pour comparer les cartes au décompte.",
+  "menuYouHaveTwoKingsBaiAnnouncesYourPairBet": "Vous avez deux Rois : votre paire est annoncée avec Bai. Misez 2 pierres !",
+  "menuYouHave31TheBestGameTotalBet2": "Vous avez 31, le meilleur Jeu. Misez 2 pierres pour ouvrir les enchères.",
+  "menuThisIsHighHandiaYouHaveStrongCardsBet": "C’est le Grand (Handia). Vous avez des cartes fortes, misez !",
+  "menuAtLowYourAceIsFollowedByThreeFace": "Au Petit, votre As est suivi de trois figures. Passez la parole avec Paso.",
+  "menuWatchTheOtherPlayersAnnouncementsAndResponses": "Observez les annonces et les réponses des autres joueurs.",
+  "menuTheTutorialIsWaitingForMintza": "Le tutoriel attend Mintza.",
+  "menuDiscardingIsNotAvailableAtThisStep": "La défausse n’est pas disponible dans cette étape.",
+  "menuThisIsNotTheActionExpectedByTheTutorial": "Action différente de celle attendue par le tutoriel.",
+  "menuTheOtherPlayersAreTakingTheirTurns": "Les autres joueurs jouent…",
+  "menuIdukiCall": "Iduki (Suivre)",
+  "menuRaise": "Relancer",
+  "menuBet2": "Enchérir de 2",
+  "menuMusOrMintza": "Mus ou Mintza ?",
+  "menuAtTheStartOfEachHandEachPlayerChooses": "Au début de chaque donne, chacun choisit Mus pour demander un échange de cartes. Si les quatre joueurs disent Mus, chacun peut défausser puis recevoir de nouvelles cartes. Mintza coupe le Mus : on garde les mains et on commence les enchères. À vous de cliquer sur Mintza : seul le bouton attendu est actif et son contour brille.",
+  "menuBettingPasoAndEmbido": "Miser : Paso et Embido",
+  "menuInEachPhaseYouCanBetStonesForYour": "Chaque phase permet de miser des pierres pour son équipe. Paso passe la parole sans ouvrir de mise. Embido propose une mise ; Gehiago permet de relancer. Votre équipe peut bluffer sur ses mises, mais jamais envoyer un faux signe.",
+  "menuRespondingTiraAndIduki": "Répondre : Tira et Iduki",
+  "menuWhenFacingABetIdukiAcceptsTheCardsWill": "Face à une mise, Iduki accepte : les cartes départageront les équipes au décompte. Tira refuse : la phase s’arrête et l’adversaire marque le refus selon les mises précédentes. Une relance propose au contraire une mise plus forte.",
+  "menuHordagoTheWholeRound": "Hordago : toute la manche",
+  "menuHordagoPutsTheEntireRoundAtStakeIfAccepted": "Le Hordago met la manche entière en jeu. S’il est accepté avec Iduki, les mains sont comparées immédiatement pour cette phase et le gagnant remporte la manche. Tira refuse le défi et laisse seulement les points de refus. Vous allez miser 2 au Grand et aux Paires, puis suivre une relance au Jeu. Les autres choix restent grisés jusqu’à la partie libre.",
+  "menuYourTurnToCall": "À vous de suivre",
+  "menuYourOpponentRaisesBy8TheBetGoesFrom": "L’adversaire relance de 8 : la mise passe de 2 à 10 pierres. Cliquez sur Iduki pour accepter. Les cartes décideront du gagnant au décompte.",
+  "menuTheCardsAreRevealedBetsAndPointsForPairs": "Les cartes sont révélées. On additionne les mises et les points de Paires et de Jeu. La première équipe à 40 pierres gagne la manche.",
+  "menuHighHandia": "Grand — Handia",
+  "menuCompareCardsFromHighestToLowestTheKingIs": "On compare les cartes de la plus haute à la plus basse. Le Roi est le plus fort. Cliquez sur Enchérir de 2 : vous proposez deux pierres. Un adversaire acceptera cette première mise.",
+  "menuLowTtipia": "Petit — Ttipia",
+  "menuNowCompareTheLowestCardsTheAceIsBest": "On compare cette fois les cartes les plus basses. L’As est le meilleur. En cas d’égalité, on compare les suivantes ; l’Esku départage une égalité parfaite.",
+  "menuPairsPareak": "Paires — Pareak",
+  "menuTwoMatchingCardsMakeAPairThreeMakeMediak": "Deux cartes identiques font une paire ; trois font Mediak ; deux paires ou quatre cartes identiques font Dobliak. Seuls les joueurs avec des paires participent. Vous avez deux Rois : l’annonce Bai confirme votre paire. Cliquez sur Enchérir de 2 pour la défendre.",
+  "menuGameJoko": "Jeu — Joko",
+  "menuFaceCardsAreWorth10AndOtherCardsTheir": "Les figures valent 10 et les autres cartes leur valeur. Il faut au moins 31. Le meilleur Jeu est 31, puis 32. Si personne n’a le Jeu, on joue le Point, au plus près de 30. Ici, proposez 2 : un adversaire relancera, et vous apprendrez à suivre avec Iduki.",
+  "menuYourTurnToPlay": "À vous de jouer !",
+  "menuYouHaveLearnedYourWayAroundTheTable": "Vous avez fait le tour de la table.",
+  "menuKeepPlayingAgainstTheBotsAllActionsAreAvailable": "Poursuivez cette partie contre les bots : toutes les actions sont disponibles, sans chronomètre et sans conseils. Vous pouvez aussi revenir au menu.",
+  "menuReturnToMenu": "Retourner au menu",
+  "menuFinishThisGameFreePlay": "Terminer la partie en cours (Libre)",
+  "menuGotIt": "J’ai compris",
+  "menuCheckYourEmailToActivateYourAccount": "Consultez votre boîte e-mail pour activer votre compte.",
+  "menuAnAccountAlreadyUsesThisEmailAddress": "Un compte utilise déjà cette adresse e-mail.",
+  "menuChooseAStrongerPassword": "Choisissez un mot de passe plus fort.",
+  "menuTooManyAttemptsTryAgainShortly": "Trop de tentatives. Réessayez dans quelques instants.",
+  "menuUnableToSignUpTryAnotherNicknameAndCheck": "Inscription impossible. Essayez un autre pseudo et vérifiez vos informations.",
+  "menuServiceUnavailableCheckYourConnectionAndTryAgain": "Service indisponible. Vérifiez votre connexion et réessayez.",
+  "menuSignUp": "Inscription",
+  "menuJoinIsaMus": "Rejoignez IsaMus",
+  "menuChooseYourNicknameAndJoinTheGame": "Choisissez votre pseudo et entrez dans la partie.",
+  "menuNickname": "Pseudo",
+  "menuChooseANickname": "Choisissez un pseudo.",
+  "menu24CharactersMaximum": "24 caractères maximum.",
+  "menuEmail": "E-mail",
+  "menuEnterAValidEmailAddress": "Saisissez une adresse e-mail valide.",
+  "menuPassword": "Mot de passe",
+  "menuAtLeast8Characters": "8 caractères minimum",
+  "menuShowPassword": "Afficher le mot de passe",
+  "menuHidePassword": "Masquer le mot de passe",
+  "menuUseAtLeast8Characters": "Utilisez au moins 8 caractères.",
+  "menuCreateMyAccount": "Créer mon compte",
+  "menuAlreadyHaveAnAccountSignIn": "Déjà un compte ? Se connecter",
+  "menuIncorrectEmailOrPassword": "E-mail ou mot de passe incorrect.",
+  "menuConfirmYourEmailAddressBeforeSigningIn": "Confirmez votre adresse e-mail avant de vous connecter.",
+  "menuUnableToSignInCheckYourDetailsAndTry": "Connexion impossible. Vérifiez vos informations et réessayez.",
+  "menuYourTableIsWaiting": "Votre table vous attend.",
+  "menuEnterYourPassword": "Saisissez votre mot de passe.",
+  "menuSignIn": "Se connecter",
+  "menuPlayAsAGuest": "Jouer en tant qu’invité",
+  "menuNoAccountYetSignUp": "Pas encore de compte ? S'inscrire",
+  "menuQuestsUnavailable": "Quêtes indisponibles",
+  "menuClose": "Fermer",
+  "menuANewWeekNewChallenges": "Une nouvelle semaine, de nouveaux défis.",
+  "menuResetsOnMondayAt0000UTCXPRewards": "Réinitialisation le lundi à 00 h UTC. Les récompenses XP sont attribuées automatiquement.",
+  "menuNewChallengesComingSoon": "De nouveaux défis arrivent bientôt.",
+  "menuArg0XPRewardReceived": "+{arg0} XP · Récompense reçue",
+  "@menuArg0XPRewardReceived": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuRewardReceived": "Récompense reçue",
+  "menuArg0XP": "+{arg0} XP",
+  "@menuArg0XP": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuXPRewardUnavailable": "Récompense XP indisponible",
+  "menuTierArg0Arg1": "Palier {arg0}, {arg1}",
+  "@menuTierArg0Arg1": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuNextGoal": "prochain objectif",
+  "menuLocked": "verrouillé",
+  "menuVIP": "VIP",
+  "menuFree": "Gratuite",
+  "menuNoReward": "Aucune récompense",
+  "menuEarned": "Acquis",
+  "menuNextGoal189": "Prochain objectif",
+  "menuLevelArg0": "Niveau {arg0}",
+  "@menuLevelArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuVIPRequired": "VIP requis",
+  "menuSeasonEnded": "Saison terminée",
+  "menuPleaseWait": "Patientez…",
+  "menuClaim": "Récupérer",
+  "menuArg0Coins195": ", {arg0} pièces",
+  "@menuArg0Coins195": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuPreviewOnlyCosmeticNotYetDefinedOrAvailable": "Aperçu uniquement : cosmétique à définir, non distribué actuellement.",
+  "menuUpcomingCosmetic": "Cosmétique à venir",
+  "menuGoldCardBack": "Dos Or",
+  "menuRubyTableFelt": "Tapis Rubis",
+  "menuActionUnavailableTryAgainShortly": "Action indisponible. Réessayez dans quelques instants.",
+  "menuPassUnavailable": "Pass indisponible.",
+  "menuNoActiveSeason": "Aucune saison en cours",
+  "menuDemoCalendar": "Calendrier de démonstration",
+  "menuArg0Arg1TiersUnlocked": "{arg0} / {arg1} paliers débloqués",
+  "@menuArg0Arg1TiersUnlocked": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuAllTiersUnlocked": "Tous les paliers sont débloqués !",
+  "menuNextGoalTierArg0": "Prochain objectif : palier {arg0}",
+  "@menuNextGoalTierArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuArg0XPLeftToReachIt": "Encore {arg0} XP pour l’atteindre.",
+  "@menuArg0XPLeftToReachIt": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuTapAnUnlockedRewardToClaimItAFree": "Touchez une récompense débloquée pour la récupérer. Une récompense gratuite tous les 5 paliers ; une récompense VIP à chaque palier.",
+  "menuRewardPath": "Route des récompenses",
+  "menuReached": "Atteint",
+  "menuGoal": "Objectif",
+  "menuComingUp": "À venir",
+  "menuRewardAlreadyReceived": "Récompense déjà reçue",
+  "menuArg0CoinsReceivedArg1": "{arg0} pièces reçues{arg1}",
+  "@menuArg0CoinsReceivedArg1": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuCosmeticUnlocked": " · Cosmétique débloqué",
+  "menuPREMIUM": "PREMIUM",
+  "menuYourVIPPassIsActive": "Votre Pass VIP est actif",
+  "menuUnlockTheVIPPass": "Débloquez le Pass VIP",
+  "menuNoAds": "Sans publicités",
+  "menuVIPPassTrack": "Voie VIP du Pass",
+  "menuXP2": "XP ×2",
+  "menuCoinsCanOnlyBeEarnedThroughTheSeasonPass": "Les pièces se gagnent uniquement dans le Pass de Saison. XP ×2 sur les parties et les quêtes.",
+  "menuVIPIsTemporarilyUnavailable": "Le VIP est momentanément indisponible.",
+  "menuVIPActive": "VIP actif",
+  "menuVIPComingSoon": "VIP bientôt disponible",
+  "menuBecomeVIPArg0Month": "Devenir VIP · {arg0}/mois",
+  "@menuBecomeVIPArg0Month": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuMonthlySubscriptionWithAutomaticRenewalCancelThroughYourApp": "Abonnement mensuel renouvelé automatiquement. Annulable depuis votre store.",
+  "menuRestorePurchases": "Restaurer mes achats",
+  "menuNotEnoughCoinsForThisItem": "Fonds insuffisants pour cet article.",
+  "menuThisItemIsAlreadyInYourInventory": "Cet article est déjà dans votre inventaire.",
+  "menuThePriceHasChangedTheShopHasBeenRefreshed": "Le prix a changé. La boutique a été actualisée.",
+  "menuThisItemIsNoLongerAvailable": "Cet article n’est plus disponible.",
+  "menuPurchaseFailedTryAgainShortly": "Achat impossible. Réessayez dans quelques instants.",
+  "menuArg0AddedToYourInventory": "{arg0} ajouté à votre inventaire",
+  "@menuArg0AddedToYourInventory": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuOutfits": "Tenues",
+  "menuCardBacks": "Dos de cartes",
+  "menuHeadwear": "Couvre-chefs",
+  "menuGlasses": "Lunettes",
+  "menuHair": "Cheveux",
+  "menuQuickChats": "Quick Chats",
+  "menuShopUnavailable": "Boutique indisponible.",
+  "menuNewItemsComingSoon": "De nouveaux articles arrivent bientôt.",
+  "menuOwned": "Possédé",
+  "menuBuyArg0Arg1Coins": "Acheter {arg0}, {arg1} pièces",
+  "@menuBuyArg0Arg1Coins": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuBuying": "Achat…",
+  "menuBuy": "Acheter",
+  "menuUnableToCompleteThisActionCheckYourConnectionOr": "Action impossible. Vérifiez votre connexion ou réessayez.",
+  "menuYourFriend": "votre ami",
+  "menuInvitationSentArg0": "Invitation envoyée : {arg0}",
+  "@menuInvitationSentArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuInAGame": "Dans une partie",
+  "menuOnline": "En ligne",
+  "menuOffline": "Hors ligne",
+  "menuInviteToPlay": "Inviter à jouer",
+  "menuFriendOptions": "Options de l’ami",
+  "menuRemoveFriend": "Retirer de mes amis",
+  "menuFriendsPrivateRooms": "Amis & Salons Privés",
+  "menuRequests": "Demandes",
+  "menuBlocked": "Bloqués",
+  "menuSearchForANickname": "Rechercher un pseudo",
+  "menuSearch": "Rechercher",
+  "menuNoResultsEnterAtLeast2Characters": "Aucun résultat. Saisissez au moins 2 caractères.",
+  "menuSendFriendRequest": "Demander en ami",
+  "menuFriendRequestSent": "Demande d’amitié envoyée",
+  "menuUnableToLoadFriendsTryAgain": "Impossible de charger les amis. Réessayer",
+  "menuYourListIsEmptySearchForAPlayerTo": "Votre liste est vide. Recherchez un joueur pour lui envoyer une demande.",
+  "menuUnableToLoadRequestsTryAgain": "Impossible de charger les demandes. Réessayer",
+  "menuNoPendingRequests": "Aucune demande en attente.",
+  "menuReceived": "Reçues",
+  "menuSent": "Envoyées",
+  "menuRequestReceived": "Demande reçue",
+  "menuRequestSent": "Demande envoyée",
+  "menuAccept": "Accepter",
+  "menuDecline": "Refuser",
+  "menuCancel": "Annuler",
+  "menuUnableToLoadBlockedPlayersTryAgain": "Impossible de charger les blocages. Réessayer",
+  "menuNoBlockedPlayers": "Aucun joueur bloqué.",
+  "menuBlockedPlayer": "Joueur bloqué",
+  "menuPlayerUnblocked": "Joueur débloqué",
+  "menuUnblock": "Débloquer",
+  "menuInviteArg0": "Inviter {arg0}",
+  "@menuInviteArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuChooseHowToPlayTogether": "Choisissez comment jouer ensemble.",
+  "menuSameTeamAgainstTwoOtherPlayers": "Même équipe, face à deux autres joueurs",
+  "menuRoomWithACodeAndTeamSelection": "Salon avec code et choix des équipes",
+  "menuLeaveYourCurrentGame": "Quittez la partie en cours",
+  "menuNavigationUnavailable": "Navigation indisponible",
+  "menuInvitationUnavailableLeaveYourCurrentGameOrTryAgain": "Invitation indisponible. Quittez votre partie actuelle ou réessayez.",
+  "menuAFriend": "Un ami",
+  "menuArg0InvitesYouToPlayArg1": "{arg0} vous invite à jouer en {arg1}",
+  "@menuArg0InvitesYouToPlayArg1": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuYouWillPlayOnTheSameTeam": "Vous jouerez dans la même équipe.",
+  "menuChooseYourTeamsInTheRoom": "Choisissez vos équipes dans le salon.",
+  "menuDecline296": "Décliner",
+  "menuNewFriendRequestReceived": "Nouvelle demande d’amitié reçue",
+  "menuArg0NewFriendRequests": "{arg0} nouvelles demandes d’amitié",
+  "@menuArg0NewFriendRequests": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuCloseNotification": "Fermer la notification",
+  "menuOverallStatistics": "Statistiques globales",
+  "menuCurrentElo": "Elo actuel",
+  "menuPeakElo": "Peak Elo",
+  "menuNoCompletedGames": "Aucune partie terminée",
+  "menuArg0Wins": "{arg0} % de victoires",
+  "@menuArg0Wins": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuDetailsByMode": "Détails par mode",
+  "menuArg0WinsArg1LossesInArg2Games": "{arg0} victoires, {arg1} défaites sur {arg2} parties",
+  "@menuArg0WinsArg1LossesInArg2Games": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      },
+      "arg2": {
+        "type": "String"
+      }
+    }
+  },
+  "menuNoGames": "Aucune partie",
+  "menuWins": "de victoires",
+  "menuWins309": "Victoires",
+  "menuLosses": "Défaites",
+  "menuCasual": "Classique",
+  "menuRanked": "Classé",
+  "menuSolo": "Solo",
+  "menuPrivateRoomsWithHumanPlayersAreIncludedInCasual": "Les salons privés entre humains sont inclus dans Classique.",
+  "menuArg0OlderGamesWithoutDetailedHistoryAreNotAssigned": "{arg0} anciennes parties sans historique détaillé ne sont pas réparties par mode.",
+  "@menuArg0OlderGamesWithoutDetailedHistoryAreNotAssigned": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuUnableToSendTheRequestTryAgain": "Impossible d’envoyer la demande. Réessayez.",
+  "menuBlockThisPlayer": "Bloquer ce joueur ?",
+  "menuYourFriendshipWillBeRemovedAndPendingRequestsAnd": "Votre amitié sera supprimée et vos demandes et invitations en attente seront annulées. Ce joueur ne pourra plus vous contacter ainsi. Vous pourrez le débloquer depuis l’onglet Bloqués.",
+  "menuBlock": "Bloquer",
+  "menuUnableToUpdateTheBlockTryAgain": "Impossible de modifier le blocage. Réessayez.",
+  "menuProfileUnavailable": "Profil indisponible.",
+  "menuPlayerProfile": "Profil du joueur",
+  "menuWinRate": "Taux de victoire",
+  "menuGamesPlayed": "Parties jouées",
+  "menuArg0WinsArg1Losses": "{arg0} victoires · {arg1} défaites",
+  "@menuArg0WinsArg1Losses": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuAddFriend": "Ajouter en ami",
+  "menuSignInRequired": "Connexion requise",
+  "menuYourProfile": "Votre profil",
+  "menuSending": "Envoi en cours…",
+  "menuCheckingFriendship": "Vérification de la relation…",
+  "menuAlreadyFriends": "Déjà amis",
+  "menuCheckFriendshipAgain": "Réessayer la relation",
+  "menuServiceUnavailableTryAgainShortly": "Service indisponible. Réessayez dans quelques instants.",
+  "menuDeleteYourAccount": "Supprimer votre compte ?",
+  "menuYourProfileFriendsAndHistoryWillBePermanentlyDeleted": "Votre profil, vos amis et votre historique seront supprimés définitivement. Les achats restent soumis aux règles des stores. Cette action est irréversible.",
+  "menuDeletePermanently": "Supprimer définitivement",
+  "menuAccountDeleted": "Compte supprimé.",
+  "menuGuestAccount": "Compte invité",
+  "menuSignedInAccount": "Compte connecté",
+  "menuGuest": "Invité",
+  "menuSignedOut": "Déconnexion effectuée.",
+  "menuSignOut": "Se déconnecter",
+  "menuDeleteMyAccount": "Supprimer mon compte",
+  "menuArg0Arg1XP": "{arg0} / {arg1} XP",
+  "@menuArg0Arg1XP": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuLevelArg0ProgressArg1XPOutOf500": "Progression du niveau {arg0}, {arg1} XP sur 500",
+  "@menuLevelArg0ProgressArg1XPOutOf500": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuArg0XPToGoBeforeLevelArg1": "Encore {arg0} XP avant le niveau {arg1}",
+  "@menuArg0XPToGoBeforeLevelArg1": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuChangeNickname": "Modifier le pseudo",
+  "menuSave": "Enregistrer",
+  "menuProfileUnavailableTryAgain": "Profil indisponible. Réessayer",
+  "menuPlayerProfile352": "Profil Joueur",
+  "menuEditMyAvatar": "Modifier mon Avatar",
+  "menuCustomisation": "Personnalisation",
+  "menuRecentGames": "Dernières parties",
+  "menuReloadHistory": "Recharger l’historique",
+  "menuYourNextCompletedGamesWillAppearHere": "Vos prochaines parties terminées apparaîtront ici.",
+  "menuWin": "Victoire",
+  "menuLoss": "Défaite",
+  "menuPrivate": "Privé",
+  "menuEquipmentSavedTryLoadingTheInventoryAgain": "Équipement enregistré. Réessayez le chargement de l’inventaire.",
+  "menuUnableToEquipCheckYourConnectionAndTryAgain": "Équipement impossible. Vérifiez votre connexion et réessayez.",
+  "menuInventoryUnavailable": "Inventaire indisponible.",
+  "menuTheOriginalBlueCardBackAlwaysAvailable": "Le dos bleu d’origine, toujours disponible.",
+  "menuEquipped": "Équipé",
+  "menuArg0Equipped": "{arg0} équipé",
+  "@menuArg0Equipped": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "menuEquip": "Équiper",
+  "menuSeasonArg0Arg1": "Saison {arg0}/{arg1}",
+  "@menuSeasonArg0Arg1": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      }
+    }
+  },
+  "menuSeasonEnds": "Fin de saison",
+  "menuDays": "Jours",
+  "menuHours": "Heures",
+  "menuMinutes": "Minutes",
+  "menuSeconds": "Secondes",
+  "menuSeasonEndsInArg0DaysArg1HoursArg2Minutes": "Fin de saison dans {arg0} jours, {arg1} heures, {arg2} minutes et {arg3} secondes",
+  "@menuSeasonEndsInArg0DaysArg1HoursArg2Minutes": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      },
+      "arg2": {
+        "type": "String"
+      },
+      "arg3": {
+        "type": "String"
+      }
+    }
+  },
+  "menuYourSeasonsBestEloDeterminesYourRewardsTiersAre": "Votre meilleur Elo de la saison détermine vos récompenses. Les paliers sont cumulatifs.",
+  "menuBronzeBorder": "Bordure Bronze",
+  "menuSilverBorder": "Bordure Argent",
+  "menuGoldBorder": "Bordure Or",
+  "menuTxapelaBeret": "Txapela (béret)",
+  "menuAtTheMonthlyCloseEloAndPeakEloReset": "À la clôture mensuelle, l’Elo et le Peak Elo reviennent à 800. Vos cosmétiques restent acquis : équipez-les dans Modifier mon Avatar → Bordures / Trophées.",
+  "menuSkin": "Peau",
+  "menuTop": "Haut",
+  "menuBackgroundColour": "Couleur de fond",
+  "menuHairColour": "Couleur cheveux",
+  "menuBorders": "Bordures",
+  "menuNone": "Aucune",
+  "menuBronze": "Bronze",
+  "menuSilver": "Argent",
+  "menuDiamond": "Diamant",
+  "menuNone391": "Aucun",
+  "menuTxapela": "Txapela",
+  "menuCrown": "Couronne",
+  "menuCap": "Casquette",
+  "menuBeanie": "Bonnet",
+  "menuBald": "Chauve",
+  "menuMohawk": "Crête",
+  "menuGoldFrames": "Monture dorée",
+  "menuRound": "Rondes",
+  "menuStripedShirt": "Maillot rayé",
+  "menuUnableToSaveCheckYourConnectionAndTryAgain": "Sauvegarde impossible. Vérifiez votre connexion et réessayez.",
+  "menuSaving": "Sauvegarde…",
+  "menuSave403": "Sauvegarder",
+  "menuAvatarSkinArg0HairArg1GlassesArg2TopArg3": "Avatar : peau {arg0}, cheveux {arg1}, lunettes {arg2}, haut {arg3}",
+  "@menuAvatarSkinArg0HairArg1GlassesArg2TopArg3": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      },
+      "arg1": {
+        "type": "String"
+      },
+      "arg2": {
+        "type": "String"
+      },
+      "arg3": {
+        "type": "String"
+      }
+    }
+  },
+  "menuBrightRed": "Rouge vif",
+  "menuOrange": "Orange",
+  "menuSunshineYellow": "Jaune soleil",
+  "menuAppleGreen": "Vert pomme",
+  "menuPineGreen": "Vert sapin",
+  "menuCyan": "Cyan",
+  "menuNavyBlue": "Bleu marine",
+  "menuDeepPurple": "Violet profond",
+  "menuFuchsiaPink": "Rose fuchsia",
+  "menuBrown": "Marron",
+  "menuLightGrey": "Gris clair",
+  "menuCharcoal": "Anthracite",
+  "menuBrunette": "Brun",
+  "menuBlonde": "Blond",
+  "menuBlack": "Noir",
+  "menuCopper": "Cuivré",
+  "menuPurple": "Violet",
+  "menuFrenchMusChampionshipRegulations": "Règlement du Championnat de France de Mus",
+  "menuFederationFrancaiseDeMus": "Fédération Française de Mus",
+  "menuLastRevisedJanuary2023": "Dernières modifications : janvier 2023.",
+  "menuPrinciplesAndRankings": "Principes et classement",
+  "menuMusIsPlayedInTeamsOf2WithA": "Le Mus se joue par équipes de 2 joueurs, avec un jeu espagnol de 40 cartes, en 3 manches de 40 Points (40 tantto ou 8 hamarreko), sauf exception.",
+  "menuRankingsAreCalculatedAsFollows3RoundsWon1": "Le classement s'opère comme suit: 3 manches gagnées = 1 victoire.",
+  "menuAWinnerOneWinIsCountedRegardlessOfRounds": "a) Vainqueur : on compte une victoire, sans tenir compte des manches perdues ni des points réalisés au cours de ces manches.",
+  "menuBLoser0WinsAreCountedAlongWithRounds": "b) Perdant : on compte 0 victoire, le nombre de manches gagnées et les points réalisés au cours des manches perdues seulement.",
+  "menuForTheFirstDealThePlayerWhoDrewThe": "Pour la première distribution, le joueur ayant tiré la plus petite carte donne. Il doit mélanger les cartes et les faire couper par son adversaire de gauche qui devra laisser plus d'une carte en haut ou en bas de sa coupe. Le donneur distribue les cartes une à une, par le dessus, en commençant par son adversaire de droite qui aura la main (Esku), à charge à chaque joueur de vérifier le nombre de cartes qu'il reçoit. Les joueurs peuvent regarder les cartes avant la fin de la donne.",
+  "menuIfACardIsTurnedOverDuringTheFirst": "Si au cours de la première distribution une carte est retournée ou si l'on constate toute autre anomalie (plus ou moins de 4 cartes, etc...), on ramasse tout, on bat, on coupe et on recommence.",
+  "menuIfTheErrorIsFoundAfterPlayHasBegun": "Si l'erreur est décelée lorsque le jeu est commencé, c'est-à-dire après qu'un joueur soit sorti, le joueur qui a plus ou moins de quatre cartes n'entrera pas dans le jeu et on annulera les points tirés par son équipe.",
+  "menuIfACardIsTurnedOverAfterMusHas": "Si après avoir été Mus une fois, une carte est retournée, le jeu continue normalement.",
+  "menuEskuAndTheirPartnerDecideWhetherToStopWith": "Le « Esku » et son partenaire décident s'ils sortent « Mintza » ou s'ils vont « Mus » en disant « Zuetan ou A vous». A leur tour, leurs adversaires en feront autant.",
+  "menuIfThereIsMusAll4PlayersDiscardThe": "S’il y a Mus les 4 joueurs se débarrasseront du nombre de cartes désiré, d'un seul coup, et le «ESKU», en premier. Le donneur distribuera alors les nouvelles cartes en une seule fois, à chaque joueur.",
+  "menuPlayBeginsWithESKUFirstHighThenLowPairs": "Pour démarrer le jeu, et toujours le « ESKU » en premier, on joue d' abord le Grand, puis le Petit, les Paires, le Jeu ou le Point. Les enchères « Biak Embido » ou « Biak Hordago » étant tolérées.",
+  "menuTiraIdukiAndHordagoBindTheTeamTheSpeakers": "Les mots Tira, Iduki ou Hordago bloquent le jeu et le partenaire de celui qui les prononce ne peut les désavouer, même s'il est « Esku ». On admet aussi bien « Nere gatik tira » que « Tira nere gatik » ou « Pour moi tirez » qui laisse au partenaire le droit de surenchérir. Quand les 2 partenaires tapent ou surenchérissent, la décision de celui qui parle en premier est retenue. Après un « Hordago Kanta » aucun point (tantto) ne sera tiré.",
+  "menuSigns": "Signes",
+  "menuOnlyTheFollowingOfficialSignsAreAllowed": "Seuls les signes réglementaires suivants sont admis :",
+  "menu2KingsLowerLip": "2 rois : lèvre inférieure.",
+  "menu2AcesStickOutTheTongue": "2 as : tirer la langue.",
+  "menuMediakMoveOneSideOfTheLips": "Mediak : remuer un côté des lèvres.",
+  "menuDobliakMoveBothSidesOfTheLips": "Dobliak : remuer les 2 côtés des lèvres.",
+  "menu29SameAsMediak": "29 : comme les mediak.",
+  "menu30Or31Wink": "30 ou 31 : cligner d’un œil.",
+  "menuGameRaiseTheEyebrows": "Le jeu : lever les sourcils.",
+  "menuTheSignFor30Or31MayBeMade": "Le signe du 30 ou du 31 peut se faire à tout moment. Le 29 par contre ne peut être passé qu’après en avoir terminé avec les paires. Le signe du jeu est interdit si on a 31.",
+  "menuDoublePairs": "Doubles",
+  "menuWhen2OpponentsHaveDoublePairsWithTheSame": "Lorsque 2 adversaires ont des doubles avec paire supérieure égale, celui qui a la paire inférieure la plus forte l'emporte dans tous les cas. Exemple : 2 onze + 2 sept même en dernière main sont supérieurs à 2 onze + 2 six",
+  "menuErrors": "Erreurs",
+  "menuAnnouncingPairsWithoutHavingAny": "Annoncer des paires si on n'en a pas :",
+  "menuAIfThePartnerHasNoneAllBetsOn": "a) Si le partenaire n'en a pas, on annule tout pari fait sur les paires. Bien entendu, l'adversaire compte les points de sa ou de ses paires.",
+  "menuBIfThePartnerHasPairsAndTheOpponents": "b) Si le partenaire en a, et les adversaires aussi, tout pari aux paires sera annulé, l'adversaire comptant le « TIRA» des paires et les points de sa ou de ses paires.",
+  "menuFailingToAnnouncePairsWhenHoldingThem": "Ne pas annoncer de paires si on en a :",
+  "menuUnannouncedPairsCannotBeUsedToBetCallOr": "Ces paires niées ne valent ni pour taper, ni pour tenir, ni pour les compter ensuite.",
+  "menuIfThePartnerHasNoPairsAnOpponentWith": "Si le partenaire n'a pas de paires, l'adversaire, s'il a aussi des paires, tirera un point du «Tira».",
+  "menuAnnouncingGameWithoutHavingIt": "Annoncer le jeu si on ne l'a pas :",
+  "menuAIfNoneOfTheOther3PlayersHas": "a) Si aucun des 3 autres joueurs n'a le jeu, les adversaires tireront le « Tira» du point, et le point du « Pontua ».",
+  "menuBIfThePartnerHasGameAndTheOpponents": "b) Si le partenaire a le jeu et les adversaires pas, on ne tient pas compte de l'erreur.",
+  "menuCIfThePartnerHasNoGameButAn": "c) Si le partenaire n'a pas le jeu et l'adversaire oui, on annule les paris fait, au jeu, et l'adversaire tirera les points correspondants à son jeu.",
+  "menuDIfThePartnerAndAnOpponentBothHave": "d) Si son partenaire a le jeu et l'un des adversaires aussi, on annule les paris faits au jeu et l'adversaire tirera le « TIRA» du jeu et les points correspondants à son jeu.",
+  "menuFailingToAnnounceGameWhenHoldingIt": "Ne pas annoncer le jeu si on l'a :",
+  "menuAIfNoneOfTheOther3PlayersHas465": "a) Si aucun des 3 autres joueurs n'a le jeu, on annulera les paris faits au point, et l'adversaire tirera le ttantto du Tira et le point du Pontua. Le jeu non annoncé ne comptera pas.",
+  "menuBIfThePartnerHasGameAndTheOpponents466": "b) Si le partenaire a le jeu et les adversaires pas, seul le jeu du partenaire sera compté.",
+  "menuCIfThePartnerHasNoGameAndAn": "c) Si le partenaire n'a pas le jeu et l'adversaire oui, ce dernier comptera le « TIRA» du jeu et les points du jeu qui lui reviennent. Le joueur qui n'a pas de paires ou de jeu ne peut pas taper ni surenchérir à la place de son partenaire qui en a.",
+  "menuScoringAndRaises": "Décompte et relances",
+  "menuDuringPlayPointsConcededThroughTIRAAreScoredAs": "En cours de jeu, les points laissés « TIRA » se tirent au fur et à mesure. En cas d'égalité parfaite, le «ESKU» l'emporte dans tous les cas de figure. A la fin de chaque tour de jeu, les quatre joueurs doivent étaler toutes leurs cartes sur la table.",
+  "menuScoreHighThenLowPairsGameOrPointAs": "On compte alors le Grand, puis le Petit, les Paires, le Jeu ou le Point sur les bases suivantes:",
+  "menuHighIfEveryoneSaidPASOTheBestHighScores": "Grand : S'il n'y a eu que PASO, celui qui a le meilleur Grand compte 1 point (Haundi Pasa) Si le Grand a été laissé après un Embido, on ne tire rien. S'il y a eu Iduki, on compte les points pariés, rien de plus.",
+  "menuLowTheSameAsHigh": "Petit : idem que pour le Grand.",
+  "menuPairsAfterPasoTheTeamWithTheBestPair": "Paires : S'il y a eu Paso, l'équipe ayant la meilleure paire comptera sa ou ses paires, en tirant 1 point (paires) 2 points (mediak) ou 3 points (doubles). S'il y a eu Iduki, on comptera en plus les points pariés.",
+  "menuGameTheSameAsPairsCounting2PointsFor": "Le Jeu : idem que pour les paires, en comptant 2 points (jeu) ou 3 (pour le 31) pour le ou les jeux de l'équipe gagnant le jeu.",
+  "menuPointPontuaAfterPasoTheBestPontuaScores1": "Le Point : (Pontua) S'il y a eu Paso, celui qui a le meilleur Pontua tirera 1 point. S'il y a eu Tira, l'équipe ayant gagné le Tira comptera 1 point du Pontua. S'il y a eu Iduki, on compte les point pariés plus 1 point du Pontua.",
+  "menuRaiseExamples": "Relances (exemples) :",
+  "menuEmbido2PointsTira1Point": "Embido (2 points) - Tira = 1 point",
+  "menuEmbido2PointsIduki2Points": "Embido (2 points) - Iduki = 2 points",
+  "menuHordagoTira1Point": "Hordago - Tira = 1 point",
+  "menuHiruEmbido3PointsTira1Point": "Hiru Embido (3 points) - Tira = 1 point",
+  "menuHiruEmbido3PointsIduki3Points": "Hiru Embido (3 points) – Iduki = 3 points",
+  "menuEmbido2PointsLauGehiago4Tira2Points": "Embido (2 points) Lau gehiago (+ 4) - Tira = 2 points",
+  "menuEmbido2PointsBigehiago2HordagoTira4Points": "Embido (2 points) – Bigehiago( +2 ) – Hordago - Tira = 4 points",
+  "menuHiruEmbido3PointsLauGehiago4Iduki7": "Hiru Embido (3 points) Lau gehiago (+ 4) Iduki = 7 points",
+  "menuEmbido2PointsBortzGehiago5Bigehiago2Tira": "Embido (2 points) Bortz gehiago (+ 5) Bigehiago (+2) Tira = 7 points",
+  "menuNoTtanttoMayBeScoredOnceTheCardsHave": "Aucun ttantto ne peut être tiré si les cartes sont ramassées.",
+  "menuRefereeing": "Arbitrage",
+  "menuTheRefereeIntervenesOnlyAtAPlayersRequestOr": "Le Juge n'intervient que sur demande de l'un des joueurs ou sur le constat d’une irrégularité.",
+  "menuAnyDisputeOverTheseRegulationsOrAnySituationNot": "Tout litige dans l'interprétation de ce règlement ainsi que tout problème non évoqué ici sera réglé par le Juge.",
+  "menuTheRefereeMayImposePenaltiesUpToAndIncluding": "Le Juge a un pouvoir de pénalisations allant jusqu’à l’exclusion.",
+  "menuArticleArg0": "Article {arg0}",
+  "@menuArticleArg0": {
+    "placeholders": {
+      "arg0": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationPrivateTitle": "Créer un Salon Privé",
+  "invitationPrivateLabel": "Salon privé",
+  "invitationCasualTitle": "En Ligne (Classique) en Duo",
+  "invitationCasualLabel": "Classique en duo",
+  "invitationRankedTitle": "En Ligne (Classé) en Duo",
+  "invitationRankedLabel": "Classé en duo",
+  "classicCardBack": "Dos Classique",
+  "gamesPlayedCount": "{count} parties",
+  "@gamesPlayedCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "avatarOption": "{name} : option {number}",
+  "@avatarOption": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "nicknameLengthError": "Le pseudo doit contenir de 1 à 24 caractères.",
+  "deleteAccountError": "La suppression a échoué. Réessayez.",
+  "connectionUnavailable": "Connexion indisponible. Réessayez.",
+  "seasonName": "Saison {name}",
+  "@seasonName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "questPlay": "Terminer {count} parties",
+  "@questPlay": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "questWin": "Gagner {count} parties",
+  "@questWin": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "questRanked": "Gagner {count} parties classées",
+  "@questRanked": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "questGeneric": "Défi hebdomadaire",
+  "catalogUnknown": "Cosmétique",
+  "catalogUnknownDescription": "Personnalisez votre apparence à la table.",
+  "catalogSun": "Soleil",
+  "catalogMountain": "Montagne",
+  "catalogBlue": "Bleu",
+  "catalogGreen": "Vert",
+  "catalogOcean": "Océan",
+  "catalogRuby": "Rubis",
+  "catalogDiamondBorder": "Bordure Diamant",
+  "catalogLeagueTxapela": "Txapela de ligue",
+  "catalogLeagueCrown": "Couronne de ligue",
+  "catalogEmeraldBorder": "Cadre Émeraude",
+  "catalogAmethystBorder": "Cadre Améthyste",
+  "catalogEmeraldBack": "Dos Émeraude",
+  "catalogVioletBack": "Dos Violet",
+  "catalogEskerrik": "Eskerrik asko !",
+  "catalogRematch": "La revanche ?",
+  "catalogMullet": "Coupe Mulet",
+  "catalogStriped": "Maillot Rayé Bleu et Blanc",
+  "catalogGoldGlasses": "Lunettes de Soleil Dorées",
+  "catalogCap": "Casquette Bleue",
+  "catalogBeanie": "Bonnet Cuivré",
+  "catalogRoundGlasses": "Lunettes rondes",
+  "catalogOceanBack": "Dos Océan",
+  "catalogCoralBack": "Dos Corail",
+  "catalogEmeraldBorderDescription": "Un anneau émeraude autour de votre avatar.",
+  "catalogAmethystBorderDescription": "Une bordure violette à afficher à la table.",
+  "catalogEmeraldBackDescription": "Un dos de cartes vert émeraude.",
+  "catalogVioletBackDescription": "Un dos de cartes violet.",
+  "catalogEskerrikDescription": "Remerciez les autres joueurs en un clic.",
+  "catalogRematchDescription": "Proposez une nouvelle partie à la table.",
+  "catalogMulletDescription": "Court devant, long derrière : une coupe de caractère.",
+  "catalogStripedDescription": "Des rayures bleues et blanches pour votre tenue.",
+  "catalogGoldGlassesDescription": "Des verres sombres et une monture dorée.",
+  "catalogCapDescription": "Une casquette bleue portée au-dessus des cheveux.",
+  "catalogBeanieDescription": "Un bonnet cuivré avec son pompon.",
+  "catalogFineGlassesDescription": "Une monture fine dorée qui laisse les yeux visibles.",
+  "catalogRoundGlassesDescription": "Des verres transparents et une monture ronde.",
+  "catalogOceanBackDescription": "Un motif classique dans un bleu profond.",
+  "catalogCoralBackDescription": "Un motif classique dans une teinte corail.",
+  "catalogBaldDescription": "Le crâne dégagé, sans couche de cheveux.",
+  "catalogMohawkDescription": "Une crête centrée, visible de face.",
+  "legalTermsBody": "ISAMUS — CONDITIONS D’UTILISATION\nProjet de texte du 26 octobre 2026 — à compléter avant publication\n\nÉditeur : [NOM / RAISON SOCIALE], [ADRESSE], [PAYS]. Contact : [E-MAIL SUPPORT].\n\n1. Le service\nIsaMus permet de jouer au Mus, variante 4 Rois / 4 As, avec des joueurs ou des bots. Les points et le classement n’ont aucune valeur monétaire. Le service ne propose ni mise d’argent, ni gain échangeable contre de l’argent.\n\n2. Compte\nUn compte invité permet de commencer à jouer. Lier une adresse e-mail vérifiée ou une identité Apple/Google permet de retrouver le compte. Sans cette liaison, la perte de la session ou de l’appareil peut rendre la progression irrécupérable. Vous devez protéger vos moyens de connexion et choisir un pseudo respectueux, qui ne divulgue pas de données personnelles.\n\n3. Jeu et relations entre joueurs\nLa triche, l’exploitation de failles, l’usurpation d’identité, le harcèlement et les sollicitations abusives sont interdits. Les demandes d’amitié et invitations peuvent être refusées. Les bots sont identifiés comme tels. Les déconnexions déclenchent des actions automatiques pour permettre à la partie de continuer.\n\n4. Objets numériques\nLes cosmétiques sont des éléments visuels sans avantage sur les cartes ni les scores. Les articles, leurs caractéristiques et leur prix sont présentés avant la confirmation d’achat dans le store. Le paiement est traité par Apple ou Google. IsaMus ne reçoit pas votre numéro de carte bancaire. Les achats doivent être liés à un compte sécurisé. La fonction « Restaurer mes achats » permet de demander leur synchronisation. Un objet numérique n’est pas convertible en argent et ne peut pas être transféré entre joueurs dans l’application.\nLes conditions de remboursement et les droits légaux applicables restent ceux de votre pays et du store. Aucune clause de ce texte ne limite les garanties obligatoires du consommateur. Les informations et consentements éventuellement nécessaires à l’exécution immédiate d’un contenu numérique doivent être fournis dans le parcours d’achat du store.\n\n5. Publicité\nDes espaces publicitaires peuvent apparaître dans l’accueil. Les choix de confidentialité publicitaire sont accessibles dans le profil. Refuser une utilisation optionnelle de vos données ne doit pas empêcher de jouer.\n\n6. Disponibilité et évolution\nLe fonctionnement dépend du réseau et des services tiers. Des interruptions ou opérations de maintenance peuvent survenir. L’éditeur informe les joueurs des changements importants affectant le service ou les objets acquis et respecte les droits impératifs applicables.\n\n7. Suppression et assistance\nLa suppression du compte peut être demandée dans « Compte & sécurité ». Elle efface le profil et les données associées selon la politique de confidentialité. Elle n’annule pas automatiquement une transaction auprès d’un store. Pour toute difficulté, contactez [E-MAIL SUPPORT].\n\n8. Droit applicable et litiges\nLes règles de protection du consommateur de votre lieu de résidence s’appliquent lorsqu’elles sont impératives. Les mentions du droit applicable, de la médiation et de l’autorité compétente doivent être adaptées au pays et au statut réel de l’éditeur avant publication.\n",
+  "legalPrivacyBody": "ISAMUS — POLITIQUE DE CONFIDENTIALITÉ\nProjet de texte du 26 octobre 2026 — à compléter avant publication\n\nResponsable du traitement : [NOM / RAISON SOCIALE], [ADRESSE], [PAYS]. Contact pour vos droits : [E-MAIL CONFIDENTIALITÉ].\n\nDonnées et usages\nLe compte possède un identifiant technique, un pseudo, un classement Elo et des statistiques. Une adresse e-mail ou une identité Apple/Google est utilisée seulement si vous choisissez de sécuriser votre compte. Les sessions servent à vous authentifier. Les mots de passe sont traités par le service d’authentification et ne sont pas accessibles dans l’application.\nLes parties contiennent les participants, actions et états nécessaires au jeu. L’historique conserve le résultat et les variations d’Elo. Les demandes d’amitié et invitations permettent les fonctions sociales. La présence indique aux amis acceptés si vous êtes en ligne ou dans une partie ; elle ne leur révèle pas le code du salon.\nLe pseudo, l’avatar et l’Elo sont visibles aux autres joueurs authentifiés. Les cartes et états de partie sont accessibles aux participants dans l’architecture actuelle. Ne placez pas de donnée sensible dans votre pseudo.\n\nAchats et publicité\nLes stores Apple/Google et RevenueCat traitent les achats et leur validation. L’identifiant de compte et les droits d’accès aux cosmétiques permettent leur restauration. Nous ne collectons pas vos coordonnées bancaires.\nLorsque la publicité est activée, Google AdMob et son mécanisme de consentement peuvent traiter des données techniques de l’appareil, du réseau, de la diffusion publicitaire et vos choix de confidentialité. L’intégration demande des annonces non personnalisées ; cela n’exclut pas tout traitement de données par le SDK. Les formulaires de consentement applicables et le lien « Choix de confidentialité publicitaire » permettent de gérer les usages optionnels. L’application n’exige pas l’accès à vos contacts, à votre microphone ni à votre localisation précise.\n\nBases des traitements\nLe fonctionnement du compte, du jeu et des achats repose sur l’exécution du service demandé. La protection contre les abus et la sécurité reposent sur l’intérêt légitime de l’éditeur, sous réserve de vos droits. Les traitements optionnels soumis au consentement ne doivent être activés qu’après le choix requis. Les obligations légales applicables peuvent imposer de conserver certaines traces de transactions.\n\nPrestataires et transferts\nSupabase fournit la base de données, l’authentification, les fonctions serveur et le temps réel. Apple, Google et RevenueCat interviennent dans l’authentification, les achats ou la publicité selon les fonctions utilisées. Avant publication, l’éditeur doit préciser les régions effectivement choisies, les destinataires, les éventuels transferts internationaux et les garanties contractuelles applicables ; ces paramètres ne peuvent pas être déduits du code de l’application.\n\nConservation\nLe profil, l’inventaire et les relations sociales sont conservés tant que le compte existe. La présence est liée à la connexion. Les historiques et journaux techniques nécessitent une durée de conservation documentée par l’éditeur : [DURÉE HISTORIQUE], [DURÉE JOURNAUX], [DURÉE SAUVEGARDES]. Les invitations ont une validité fonctionnelle de dix minutes ; leur expiration ne signifie pas leur effacement immédiat de la base. Les prestataires peuvent avoir leurs propres obligations de conservation.\n\nVos droits et suppression\nVous pouvez demander l’accès, la rectification, l’effacement et, selon les conditions légales, la portabilité, la limitation ou l’opposition, à [E-MAIL CONFIDENTIALITÉ]. Le retrait d’un consentement n’affecte pas les traitements antérieurs licites. Le profil propose une suppression de compte. Les demandes concernant un paiement ou un identifiant publicitaire peuvent également relever du store ou du fournisseur concerné. Vous pouvez saisir l’autorité de contrôle compétente ; en France, la CNIL (www.cnil.fr).\n\nMineurs\nL’éditeur doit définir avant publication l’âge minimal, le public visé et le mécanisme de consentement parental éventuellement nécessaire. La configuration publicitaire et la déclaration d’âge des stores doivent correspondre à ce choix.\n\nMises à jour\nLa date et les changements substantiels de cette politique seront communiqués dans l’application. Ce projet doit être complété avec les informations réelles de l’éditeur et des prestataires avant sa mise en ligne.\n",
+  "languageFrench": "Français",
+  "languageBasque": "Euskara",
+  "languageSpanish": "Español",
+  "languageEnglish": "English",
+  "musWord": "Mus",
+  "mintzaWord": "Mintza",
+  "tiraWord": "Tira",
+  "pasoWord": "Paso",
+  "hordagoWord": "Hordago",
+  "providerGoogle": "Google",
+  "providerApple": "Apple",
+  "rulesContact": "Centre Départemental Nelson Paillou · 2, allée des Platanes · 64100 Bayonne\n05 59 14 19 12 · mail@federation-mus.fr"
 }

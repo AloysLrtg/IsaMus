@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -132,9 +134,13 @@ class _PlayerAvatarViewState extends State<PlayerAvatarView>
 
   @override
   Widget build(BuildContext context) => Semantics(
-    label:
-        'Avatar : peau ${config.skin + 1}, cheveux ${config.hair + 1}, '
-        'lunettes ${config.glasses}, haut ${config.top + 1}',
+    label: AppLocalizations.of(context)!
+        .menuAvatarSkinArg0HairArg1GlassesArg2TopArg3(
+          (config.skin + 1).toString(),
+          (config.hair + 1).toString(),
+          config.glasses.toString(),
+          (config.top + 1).toString(),
+        ),
     image: true,
     child: ExcludeSemantics(
       child: SizedBox.square(

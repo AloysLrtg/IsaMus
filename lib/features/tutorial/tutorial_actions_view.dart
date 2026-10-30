@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../core/engine/mus_game_state.dart';
@@ -42,20 +44,27 @@ class TutorialActionsView extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     if (expected == null) {
-      return const Center(child: Text('Les autres joueurs jouent…'));
+      return Center(
+        child: Text(
+          AppLocalizations.of(context)!.menuTheOtherPlayersAreTakingTheirTurns,
+        ),
+      );
     }
     final choices = expected == TutorialAction.mintza
-        ? [(null, 'Mus'), (TutorialAction.mintza, 'Mintza')]
+        ? [
+            (null, AppLocalizations.of(context)!.musWord),
+            (TutorialAction.mintza, AppLocalizations.of(context)!.mintzaWord),
+          ]
         : expected == TutorialAction.iduki
         ? [
-            (TutorialAction.iduki, 'Iduki (Suivre)'),
-            (null, 'Tira'),
-            (null, 'Relancer'),
+            (TutorialAction.iduki, AppLocalizations.of(context)!.menuIdukiCall),
+            (null, AppLocalizations.of(context)!.tiraWord),
+            (null, AppLocalizations.of(context)!.menuRaise),
           ]
         : [
-            (TutorialAction.paso, 'Paso'),
-            (TutorialAction.betTwo, 'Enchérir de 2'),
-            (null, 'Hordago'),
+            (TutorialAction.paso, AppLocalizations.of(context)!.pasoWord),
+            (TutorialAction.betTwo, AppLocalizations.of(context)!.menuBet2),
+            (null, AppLocalizations.of(context)!.hordagoWord),
           ];
     void act() => switch (expected) {
       TutorialAction.mintza => controller.chooseMus(0, MusChoice.mintza),
@@ -74,10 +83,10 @@ class TutorialActionsView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Tooltip(
-            message: controller.explanation,
+            message: controller.explanation(AppLocalizations.of(context)!),
             triggerMode: TooltipTriggerMode.tap,
             child: Text(
-              controller.explanation,
+              controller.explanation(AppLocalizations.of(context)!),
               maxLines: compact ? 1 : 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.labelMedium?.copyWith(

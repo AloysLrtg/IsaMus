@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:isamus/features/rules/rules_content.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isamus/features/rules/rules_screen.dart';
@@ -7,7 +8,7 @@ void main() {
   testWidgets('Le règlement contient les 21 articles et les relances du PDF', (
     tester,
   ) async {
-    const rules = officialMusRules;
+    final rules = officialMusRules(lookupAppLocalizations(const Locale('fr')));
     final articles = (rules['sections'] as List)
         .expand((section) => section['articles'] as List)
         .toList();
@@ -30,6 +31,9 @@ void main() {
         addTearDown(tester.view.resetDevicePixelRatio);
         await tester.pumpWidget(
           MaterialApp(
+            locale: const Locale('fr'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
             theme: ThemeData.dark(useMaterial3: true),
             builder: (context, child) => MediaQuery(
               data: MediaQuery.of(context)
@@ -40,7 +44,7 @@ void main() {
           ),
         );
         await tester.pumpAndSettle();
-        expect(find.text('Règles officielles'), findsOneWidget);
+        expect(find.text(testL10n.menuOfficialRules), findsOneWidget);
         expect(tester.takeException(), isNull);
         final scrollable = tester.state<ScrollableState>(
           find
@@ -72,3 +76,5 @@ void main() {
     }
   }
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

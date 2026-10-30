@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -17,8 +19,8 @@ class ProfileStatisticsView extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          const Text(
-            'Statistiques globales',
+          Text(
+            AppLocalizations.of(context)!.menuOverallStatistics,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
@@ -32,7 +34,10 @@ class ProfileStatisticsView extends StatelessWidget {
                 center: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Elo actuel', style: TextStyle(fontSize: 12)),
+                    Text(
+                      AppLocalizations.of(context)!.menuCurrentElo,
+                      style: TextStyle(fontSize: 12),
+                    ),
                     Text(
                       '${statistics.elo}',
                       key: const ValueKey('current-elo'),
@@ -42,7 +47,10 @@ class ProfileStatisticsView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text('Peak Elo', style: TextStyle(fontSize: 12)),
+                    Text(
+                      AppLocalizations.of(context)!.menuPeakElo,
+                      style: TextStyle(fontSize: 12),
+                    ),
                     Text(
                       '${statistics.peakElo}',
                       key: const ValueKey('peak-elo'),
@@ -59,13 +67,15 @@ class ProfileStatisticsView extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '${statistics.global.played} parties',
+            AppLocalizations.of(context)!
+                .gamesPlayedCount(statistics.global.played.toString()),
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
           Text(
             statistics.global.played == 0
-                ? 'Aucune partie terminée'
-                : '${statistics.global.winPercent} % de victoires',
+                ? AppLocalizations.of(context)!.menuNoCompletedGames
+                : AppLocalizations.of(context)!
+                      .menuArg0Wins((statistics.global.winPercent).toString()),
           ),
           const SizedBox(height: 12),
           _StatisticsLegend(stats: statistics.global),
@@ -81,7 +91,7 @@ class ProfileStatisticsView extends StatelessWidget {
                 builder: (_) => _ModeStatisticsSheet(statistics: statistics),
               ),
               icon: const Icon(Icons.pie_chart_outline),
-              label: const Text('Détails par mode'),
+              label: Text(AppLocalizations.of(context)!.menuDetailsByMode),
             ),
           ),
         ],
@@ -103,8 +113,11 @@ class _StatisticsPie extends StatelessWidget {
   final Widget? center;
   @override
   Widget build(BuildContext context) => Semantics(
-    label:
-        '${stats.won} victoires, ${stats.lost} défaites sur ${stats.played} parties',
+    label: AppLocalizations.of(context)!.menuArg0WinsArg1LossesInArg2Games(
+      (stats.won).toString(),
+      (stats.lost).toString(),
+      (stats.played).toString(),
+    ),
     child: SizedBox.square(
       dimension: diameter,
       child: Stack(
@@ -163,7 +176,9 @@ class _StatisticsPie extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  stats.played == 0 ? 'Aucune partie' : 'de victoires',
+                  stats.played == 0
+                      ? AppLocalizations.of(context)!.menuNoGames
+                      : AppLocalizations.of(context)!.menuWins,
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -184,8 +199,8 @@ class _StatisticsLegend extends StatelessWidget {
     runSpacing: 8,
     children: [
       for (final entry in [
-        (_winColor, 'Victoires', stats.won),
-        (_lossColor, 'Défaites', stats.lost),
+        (_winColor, AppLocalizations.of(context)!.menuWins309, stats.won),
+        (_lossColor, AppLocalizations.of(context)!.menuLosses, stats.lost),
       ])
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -218,23 +233,23 @@ class _ModeStatisticsSheet extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Détails par mode',
+                  AppLocalizations.of(context)!.menuDetailsByMode,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               ),
               IconButton(
-                tooltip: 'Fermer',
+                tooltip: AppLocalizations.of(context)!.menuClose,
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.close),
               ),
             ],
           ),
           for (final entry in [
-            (StatisticsMode.casual, 'Classique'),
-            (StatisticsMode.ranked, 'Classé'),
-            (StatisticsMode.solo, 'Solo'),
+            (StatisticsMode.casual, AppLocalizations.of(context)!.menuCasual),
+            (StatisticsMode.ranked, AppLocalizations.of(context)!.menuRanked),
+            (StatisticsMode.solo, AppLocalizations.of(context)!.menuSolo),
           ])
             Card(
               key: ValueKey('stats-mode-${entry.$1.name}'),
@@ -254,22 +269,30 @@ class _ModeStatisticsSheet extends StatelessWidget {
                       stats: statistics.byMode[entry.$1]!,
                       diameter: 170,
                     ),
-                    Text('${statistics.byMode[entry.$1]!.played} parties'),
+                    Text(
+                      AppLocalizations.of(context)!.gamesPlayedCount(
+                        statistics.byMode[entry.$1]!.played.toString(),
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     _StatisticsLegend(stats: statistics.byMode[entry.$1]!),
                   ],
                 ),
               ),
             ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(12),
             child: Text(
-              'Les salons privés entre humains sont inclus dans Classique.',
+              AppLocalizations.of(context)!
+                  .menuPrivateRoomsWithHumanPlayersAreIncludedInCasual,
             ),
           ),
           if (statistics.unclassified > 0)
             Text(
-              '${statistics.unclassified} anciennes parties sans historique détaillé ne sont pas réparties par mode.',
+              AppLocalizations.of(context)!
+                  .menuArg0OlderGamesWithoutDetailedHistoryAreNotAssigned(
+                    (statistics.unclassified).toString(),
+                  ),
             ),
         ],
       ),

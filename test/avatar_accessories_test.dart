@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isamus/core/models/avatar_config.dart';
 import 'package:isamus/features/avatar/player_avatar_view.dart';
@@ -7,7 +8,11 @@ import 'package:isamus/features/avatar/avatar_palette.dart';
 void main() {
   test('Les douze fonds sont gratuits et persistants', () {
     expect(AvatarPalette.backgrounds.length, 12);
-    expect(AvatarPalette.backgroundLabels.length, 12);
+    expect(
+      AvatarPalette.backgroundLabels(lookupAppLocalizations(const Locale('fr')))
+          .length,
+      12,
+    );
     for (var i = 0; i < 12; i++) {
       expect(AvatarConfig.cosmeticIdFor(AvatarPart.backgroundColor, i), isNull);
       final config = const AvatarConfig().withOption(
@@ -29,6 +34,10 @@ void main() {
       expect(AvatarConfig.fromJson(config.toJson()).hair, style);
       await tester.pumpWidget(
         MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Center(child: PlayerAvatarView(config: config)),
         ),
       );
@@ -63,6 +72,10 @@ void main() {
       );
       await tester.pumpWidget(
         MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Center(child: PlayerAvatarView(config: config, size: 96)),
         ),
       );

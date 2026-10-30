@@ -67,13 +67,15 @@ void main() {
   ) async {
     var now = DateTime.utc(2026, 10, 20, 12);
     await tester.pumpWidget(_button(clock: () => now, reducedMotion: true));
-    expect(find.text('Saison en cours'), findsOneWidget);
+    expect(find.text(testL10n.menuSeasonInProgress), findsOneWidget);
     now = DateTime.utc(2026, 10, 31, 12);
     await tester.pump(const Duration(seconds: 1));
-    expect(find.text('Dernier jour'), findsOneWidget);
+    expect(find.text(testL10n.menuLastDay), findsOneWidget);
     now = DateTime.utc(2026, 11, 1, 12);
     await tester.pump(const Duration(seconds: 1));
-    expect(find.text('Saison en cours'), findsOneWidget);
+    expect(find.text(testL10n.menuSeasonInProgress), findsOneWidget);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

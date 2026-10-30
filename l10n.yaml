@@ -3,5 +3,5 @@ template-arb-file: app_fr.arb
 output-localization-file: app_localizations.dart
 preferred-supported-locales: [fr]
 output-class: AppLocalizations
-# Les autres textes restent en français tant que leur traduction est absente.
+# Le rapport doit rester vide ; test/localization_test.dart vérifie les quatre catalogues.
 untranslated-messages-file: build/l10n_untranslated.json

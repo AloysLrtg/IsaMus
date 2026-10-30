@@ -66,10 +66,10 @@ class _SeasonPassButtonState extends ConsumerState<SeasonPassButton>
       seasonNowProvider.select((now) => ParisSeasonClock.remaining(now).inDays),
     );
     final badge = days == 0
-        ? 'Dernier jour'
+        ? AppLocalizations.of(context)!.menuLastDay
         : days <= 3
-        ? 'Plus que ${days}j'
-        : 'Saison en cours';
+        ? AppLocalizations.of(context)!.menuOnlyArg0DLeft((days).toString())
+        : AppLocalizations.of(context)!.menuSeasonInProgress;
 
     return RepaintBoundary(
       child: DecoratedBox(

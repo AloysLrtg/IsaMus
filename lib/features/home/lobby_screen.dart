@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
@@ -87,9 +89,13 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
     final me = _me(players);
     if (me == null) return;
     _hasNavigated = true;
-    final names = List<String>.filled(4, 'Joueur');
+    final names = List<String>.filled(
+      4,
+      AppLocalizations.of(context)!.menuPlayer,
+    );
     for (final p in players.whereType<Map>()) {
-      names[p['seat'] as int] = p['name']?.toString() ?? 'Joueur';
+      names[p['seat'] as int] =
+          p['name']?.toString() ?? AppLocalizations.of(context)!.menuPlayer;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
@@ -118,9 +124,10 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Action impossible. Le salon a peut-être changé. Réessayez.',
+              AppLocalizations.of(context)!
+                  .menuUnableToCompleteThisActionTheRoomMayHave,
             ),
           ),
         );
@@ -133,14 +140,22 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
   void _copyCode(String code) {
     Clipboard.setData(ClipboardData(text: code));
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Code $code copié dans le presse-papier !')),
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context)!
+              .menuCodeArg0CopiedToClipboard((code).toString()),
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: _scaffoldBg,
-    appBar: AppBar(title: const Text('SALON D’ATTENTE'), centerTitle: true),
+    appBar: AppBar(
+      title: Text(AppLocalizations.of(context)!.menuWAITINGROOM),
+      centerTitle: true,
+    ),
     body: SafeArea(
       child: StreamBuilder<Map<String, dynamic>>(
         stream: _stream,
@@ -153,7 +168,9 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                       .read(supabaseRepositoryProvider)
                       .streamGame(widget.gameId),
                 ),
-                child: const Text('Erreur de synchronisation. Réessayer'),
+                child: Text(
+                  AppLocalizations.of(context)!.menuSyncErrorTryAgain,
+                ),
               ),
             );
           }
@@ -162,8 +179,11 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
           }
           final data = snapshot.data!;
           if (data['is_public'] == true) {
-            return const Center(
-              child: Text('Ce salon est réservé au matchmaking public.'),
+            return Center(
+              child: Text(
+                AppLocalizations.of(context)!
+                    .menuThisRoomIsReservedForPublicMatchmaking,
+              ),
             );
           }
           final players = data['players'] is List
@@ -190,7 +210,9 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            const Text("CODE D’INVITATION"),
+                            Text(
+                              AppLocalizations.of(context)!.menuINVITATIONCODE,
+                            ),
                             const SizedBox(height: 12),
                             Text(
                               code,
@@ -202,7 +224,9 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                               key: const ValueKey('lobby-copy-code-button'),
                               onPressed: () => _copyCode(code),
                               icon: const Icon(Icons.copy),
-                              label: const Text('Copier le code'),
+                              label: Text(
+                                AppLocalizations.of(context)!.menuCopyCode,
+                              ),
                             ),
                           ],
                         ),
@@ -230,7 +254,9 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                               )
                             : null,
                         icon: const Icon(Icons.play_arrow_rounded),
-                        label: const Text('Lancer la partie'),
+                        label: Text(
+                          AppLocalizations.of(context)!.menuStartGame,
+                        ),
                       ),
                       if (waiting && players.length < 4)
                         TextButton.icon(
@@ -246,20 +272,25 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                                       ),
                                 ),
                           icon: const Icon(Icons.smart_toy_outlined),
-                          label: const Text('Compléter avec des IA'),
+                          label: Text(
+                            AppLocalizations.of(context)!.menuFillWithAIPlayers,
+                          ),
                         ),
                       if (!balanced)
-                        const Text(
-                          'Deux joueurs par équipe sont requis.',
+                        Text(
+                          AppLocalizations.of(context)!
+                              .menuTwoPlayersPerTeamAreRequired,
                           textAlign: TextAlign.center,
                         ),
                     ] else
-                      const Text(
-                        "En attente de l'hôte...",
+                      Text(
+                        AppLocalizations.of(context)!.menuWaitingForTheHost,
                         textAlign: TextAlign.center,
                       ),
                     if (data['status'] == 'cancelled')
-                      const Text('Le salon a été fermé.'),
+                      Text(
+                        AppLocalizations.of(context)!.menuTheRoomHasBeenClosed,
+                      ),
                   ],
                 ),
               ),
@@ -291,7 +322,10 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
             children: [
               Expanded(
                 child: Text(
-                  'Équipe ${team == 0 ? 'A' : 'B'} · ${members.length}/2',
+                  AppLocalizations.of(context)!.menuTeamArg0Arg12(
+                    (team == 0 ? 'A' : 'B').toString(),
+                    (members.length).toString(),
+                  ),
                   style: Theme.of(context).textTheme.titleMedium
                       ?.copyWith(color: color),
                 ),
@@ -305,7 +339,11 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                             .read(supabaseRepositoryProvider)
                             .choosePrivateTeam(widget.gameId, team),
                       ),
-                child: Text(mine ? 'Votre équipe' : 'Rejoindre'),
+                child: Text(
+                  mine
+                      ? AppLocalizations.of(context)!.menuYourTeam
+                      : AppLocalizations.of(context)!.menuJoin,
+                ),
               ),
             ],
           ),
@@ -333,8 +371,8 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                     ),
                   ),
                   trailing: identical(p, me)
-                      ? const Text(
-                          'VOUS',
+                      ? Text(
+                          AppLocalizations.of(context)!.menuYOU,
                           style: TextStyle(
                             fontSize: 11,
                             color: _gold,
@@ -343,20 +381,21 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                         )
                       : null,
                   title: Text(
-                    p?['name']?.toString() ?? 'Place libre',
+                    p?['name']?.toString() ??
+                        AppLocalizations.of(context)!.menuOpenSeat,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   subtitle: Text(
                     p == null
-                        ? 'En attente…'
+                        ? AppLocalizations.of(context)!.menuWaiting
                         : p['is_host'] == true
-                        ? 'Hôte'
+                        ? AppLocalizations.of(context)!.menuHost
                         : p['is_bot'] == true
-                        ? 'IA'
+                        ? AppLocalizations.of(context)!.menuAI
                         : identical(p, me)
-                        ? 'Vous'
-                        : 'Joueur',
+                        ? AppLocalizations.of(context)!.you
+                        : AppLocalizations.of(context)!.menuPlayer,
                   ),
                 );
               },
@@ -391,11 +430,13 @@ class _LobbyInvitationsState extends ConsumerState<_LobbyInvitations> {
     return Column(
       children: [
         ExpansionTile(
-          title: const Text('Inviter mes amis'),
+          title: Text(AppLocalizations.of(context)!.menuInviteMyFriends),
           children: [
             if (friends.isEmpty)
-              const ListTile(
-                title: Text('Ajoutez des amis depuis l’onglet Amis.'),
+              ListTile(
+                title: Text(
+                  AppLocalizations.of(context)!.menuAddFriendsFromTheFriendsTab,
+                ),
               ),
             for (final friend in friends)
               Builder(
@@ -407,7 +448,7 @@ class _LobbyInvitationsState extends ConsumerState<_LobbyInvitations> {
                           as String;
                   final name =
                       ref.watch(personProvider(id)).asData?.value['username'] ??
-                      'Ami';
+                      AppLocalizations.of(context)!.menuFriend;
                   return ListTile(
                     title: Text(name.toString()),
                     trailing: TextButton(
@@ -421,22 +462,26 @@ class _LobbyInvitationsState extends ConsumerState<_LobbyInvitations> {
                                     .invite(id, widget.gameId);
                                 if (mounted) {
                                   setState(
-                                    () => _message =
-                                        'Invitation envoyée à $name.',
+                                    () =>
+                                        _message = AppLocalizations.of(context)!
+                                            .menuInvitationSentToArg0(
+                                              (name).toString(),
+                                            ),
                                   );
                                 }
                               } catch (_) {
                                 if (mounted) {
                                   setState(
-                                    () => _message =
-                                        'Impossible d’envoyer l’invitation.',
+                                    () =>
+                                        _message = AppLocalizations.of(context)!
+                                            .menuUnableToSendTheInvitation,
                                   );
                                 }
                               } finally {
                                 if (mounted) setState(() => _busy = false);
                               }
                             },
-                      child: const Text('Inviter'),
+                      child: Text(AppLocalizations.of(context)!.menuInvite),
                     ),
                   );
                 },

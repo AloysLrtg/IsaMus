@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:isamus/features/shop/shop_screen.dart';
 import 'package:isamus/core/network/shop_repository.dart';
 import 'package:isamus/features/seasons/countdown_widget.dart';
@@ -241,13 +242,13 @@ void main() {
 
         expect(find.text('IsaMus'), findsNWidgets(2)); // Stroke + ShaderMask
         expect(mockAuth.anonymousCalls, 0);
-        expect(find.text('CRÉEZ VOTRE PROFIL'), findsOneWidget);
+        expect(find.text(testL10n.menuCREATEYOURPROFILE), findsOneWidget);
         expect(find.byKey(const ValueKey('home-pseudo-input')), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-create-profile-button')),
           findsOneWidget,
         );
-        expect(find.text('Créer mon profil'), findsOneWidget);
+        expect(find.text(testL10n.menuCreateMyProfile), findsOneWidget);
 
         // Les boutons de partie ne sont pas affichés tant qu'il n'y a pas de profil
         expect(find.byKey(const ValueKey('home-create-button')), findsNothing);
@@ -281,7 +282,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Veuillez saisir votre pseudo.'), findsOneWidget);
+      expect(find.text(testL10n.menuPleaseEnterYourNickname), findsOneWidget);
       expect(find.byType(SnackBar), findsOneWidget);
       expect(mockAuth.createProfileCalled, isFalse);
     });
@@ -453,7 +454,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Vérification des éléments de la carte classée
-        expect(find.text('EN LIGNE (CLASSÉ)'), findsOneWidget);
+        expect(find.text(testL10n.menuONLINERANKED), findsOneWidget);
         expect(find.text('Votre Elo actuel : 1100'), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-launch-ranked-button')),
@@ -510,6 +511,10 @@ void main() {
               authRepositoryProvider.overrideWithValue(mockAuth),
             ],
             child: MaterialApp(
+              locale: const Locale('fr'),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+
               home: Scaffold(
                 body: Stack(
                   children: [
@@ -564,6 +569,10 @@ void main() {
               authRepositoryProvider.overrideWithValue(mockAuth),
             ],
             child: MaterialApp(
+              locale: const Locale('fr'),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+
               home: Scaffold(
                 body: Stack(
                   children: [
@@ -656,14 +665,14 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('carousel-dot-3')));
         await tester.pumpAndSettle();
 
-        expect(find.text('JOUER AVEC DES AMIS'), findsOneWidget);
+        expect(find.text(testL10n.menuPLAYWITHFRIENDS), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-create-private-button')),
           findsOneWidget,
         );
         expect(find.byKey(const ValueKey('home-code-input')), findsOneWidget);
         expect(find.byKey(const ValueKey('home-pseudo-input')), findsNothing);
-        expect(find.text('Valider et rejoindre'), findsOneWidget);
+        expect(find.text(testL10n.menuConfirmAndJoin), findsOneWidget);
 
         await tester.enterText(
           find.byKey(const ValueKey('home-code-input')),
@@ -711,7 +720,7 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('home-create-button')));
       await tester.pumpAndSettle();
 
-      expect(find.text('Erreur réseau création'), findsOneWidget);
+      expect(find.text(testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd), findsOneWidget);
       expect(find.byType(LobbyScreen), findsNothing);
     });
 
@@ -753,7 +762,7 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('home-join-button')));
       await tester.pumpAndSettle();
 
-      expect(find.text('Code introuvable'), findsOneWidget);
+      expect(find.text(testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd), findsOneWidget);
       expect(find.byType(LobbyScreen), findsNothing);
     });
 
@@ -788,7 +797,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        expect(find.text('Erreur serveur profil'), findsOneWidget);
+        expect(find.text(testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd), findsOneWidget);
         expect(find.byKey(const ValueKey('home-pseudo-input')), findsOneWidget);
       },
     );
@@ -816,7 +825,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(mockAuth.anonymousCalls, 0);
-        expect(find.text('CRÉEZ VOTRE PROFIL'), findsOneWidget);
+        expect(find.text(testL10n.menuCREATEYOURPROFILE), findsOneWidget);
         expect(find.byKey(const ValueKey('home-pseudo-input')), findsOneWidget);
       },
     );
@@ -911,8 +920,8 @@ void main() {
           await tester.tap(find.byKey(const ValueKey('home-settings-button')));
           await tester.pumpAndSettle();
           expect(find.byType(SettingsScreen), findsOneWidget);
-          expect(find.text('Effets sonores'), findsOneWidget);
-          expect(find.text('Compte & sécurité'), findsOneWidget);
+          expect(find.text(testL10n.menuSoundEffects), findsOneWidget);
+          expect(find.text(testL10n.menuAccountSecurity), findsOneWidget);
           await tester.tap(find.byType(BackButton));
           await tester.pumpAndSettle();
           expect(find.byType(SettingsScreen), findsNothing);
@@ -967,11 +976,11 @@ void main() {
         expect(find.byType(BottomNavigationBar), findsOneWidget);
         expect(find.text('Jouer'), findsOneWidget);
         expect(find.text('Top 100'), findsOneWidget);
-        expect(find.text('Amis'), findsOneWidget);
+        expect(find.text(testL10n.friendsTitle), findsOneWidget);
         expect(find.text('Profil'), findsOneWidget);
 
         // Onglet 0 ("Jouer") actif par défaut
-        expect(find.text('MODES DE JEU'), findsOneWidget);
+        expect(find.text(testL10n.menuGAMEMODES), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-profile-banner')),
           findsOneWidget,
@@ -982,11 +991,8 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('nav-tab-leaderboard')));
         await tester.pumpAndSettle();
 
-        expect(find.text('Top 100 des Joueurs'), findsOneWidget);
-        expect(
-          find.text('Aucun joueur classé pour le moment.'),
-          findsOneWidget,
-        );
+        expect(find.text(testL10n.menuTop100Players), findsOneWidget);
+        expect(find.text(testL10n.menuNoRankedPlayersYet), findsOneWidget);
         // Le bandeau Joueur & Elo dans l'AppBar reste persistant et visible
         expect(
           find.byKey(const ValueKey('home-profile-banner')),
@@ -1000,7 +1006,7 @@ void main() {
         await tester.pumpAndSettle();
 
         await checkSettings();
-        expect(find.text('Amis & Salons Privés'), findsOneWidget);
+        expect(find.text(testL10n.menuFriendsPrivateRooms), findsOneWidget);
         expect(find.text('En construction...'), findsNothing);
         expect(
           find.byKey(const ValueKey('home-profile-banner')),
@@ -1012,7 +1018,7 @@ void main() {
         await tester.pumpAndSettle();
 
         await checkSettings();
-        expect(find.text('Profil Joueur'), findsOneWidget);
+        expect(find.text(testL10n.menuPlayerProfile352), findsOneWidget);
         expect(find.text('En construction...'), findsNothing);
         expect(
           find.byKey(const ValueKey('home-profile-banner')),
@@ -1023,7 +1029,7 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('nav-tab-play')));
         await tester.pumpAndSettle();
 
-        expect(find.text('MODES DE JEU'), findsOneWidget);
+        expect(find.text(testL10n.menuGAMEMODES), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-create-button')),
           findsOneWidget,
@@ -1108,7 +1114,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(WeeklyQuestsSheet), findsOneWidget);
         expect(find.byType(BattlePassScreen), findsNothing);
-        await tester.tap(find.byTooltip('Fermer'));
+        await tester.tap(find.byTooltip(testL10n.menuClose));
         await tester.pumpAndSettle();
         await tester.tap(find.byKey(const ValueKey('open-battle-pass')));
         await tester.pumpAndSettle();
@@ -1150,7 +1156,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Au départ, sur la Carte 1 (En ligne Classique)
-        expect(find.text('EN LIGNE (CLASSIQUE)'), findsOneWidget);
+        expect(find.text(testL10n.menuONLINECASUAL), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-create-button')),
           findsOneWidget,
@@ -1160,7 +1166,7 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('carousel-dot-1')));
         await tester.pumpAndSettle();
 
-        expect(find.text('EN LIGNE (CLASSÉ)'), findsOneWidget);
+        expect(find.text(testL10n.menuONLINERANKED), findsOneWidget);
         expect(find.byType(CountdownWidget), findsOneWidget);
         expect(find.byKey(const ValueKey('countdown-days-3')), findsOneWidget);
         await tester.ensureVisible(
@@ -1172,8 +1178,8 @@ void main() {
         for (final elo in [1000, 1200, 1400, 1600]) {
           expect(find.text('$elo Elo'), findsOneWidget);
         }
-        expect(find.text('Txapela (béret)'), findsOneWidget);
-        await tester.tap(find.byTooltip('Fermer'));
+        expect(find.text(testL10n.menuTxapelaBeret), findsOneWidget);
+        await tester.tap(find.byTooltip(testL10n.menuClose));
         await tester.pumpAndSettle();
         expect(
           find.byKey(const ValueKey('home-launch-ranked-button')),
@@ -1185,7 +1191,7 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('carousel-dot-2')));
         await tester.pumpAndSettle();
 
-        expect(find.text('SOLO CONTRE IA'), findsOneWidget);
+        expect(find.text(testL10n.menuSOLOVSAI), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-launch-solo-button')),
           findsOneWidget,
@@ -1195,7 +1201,7 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('carousel-dot-3')));
         await tester.pumpAndSettle();
 
-        expect(find.text('JOUER AVEC DES AMIS'), findsOneWidget);
+        expect(find.text(testL10n.menuPLAYWITHFRIENDS), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-create-private-button')),
           findsOneWidget,
@@ -1217,7 +1223,7 @@ void main() {
         await tester.ensureVisible(rulesButton);
         await tester.tap(rulesButton);
         await tester.pumpAndSettle();
-        expect(find.text('Règles officielles'), findsOneWidget);
+        expect(find.text(testL10n.menuOfficialRules), findsOneWidget);
         expect(find.text('Article 21'), findsOneWidget);
         await tester.tap(find.byType(BackButton));
         await tester.pumpAndSettle();
@@ -1227,7 +1233,7 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('carousel-dot-0')));
         await tester.pumpAndSettle();
 
-        expect(find.text('EN LIGNE (CLASSIQUE)'), findsOneWidget);
+        expect(find.text(testL10n.menuONLINECASUAL), findsOneWidget);
         expect(
           find.byKey(const ValueKey('home-create-button')),
           findsOneWidget,
@@ -1265,7 +1271,7 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('carousel-dot-2')));
       await tester.pumpAndSettle();
 
-      expect(find.text('SOLO CONTRE IA'), findsOneWidget);
+      expect(find.text(testL10n.menuSOLOVSAI), findsOneWidget);
       expect(
         find.byKey(const ValueKey('home-launch-solo-button')),
         findsOneWidget,
@@ -1313,12 +1319,12 @@ void main() {
           findsOneWidget,
         );
         expect(find.text('1 / 4'), findsOneWidget);
-        expect(find.text('VOUS'), findsOneWidget);
+        expect(find.text(testL10n.menuYOU), findsOneWidget);
         expect(
           find.byKey(const ValueKey('lobby-fill-bots-button')),
           findsOneWidget,
         );
-        expect(find.text('Compléter avec des IA'), findsOneWidget);
+        expect(find.text(testL10n.menuFillWithAIPlayers), findsOneWidget);
 
         await tester.tap(find.byKey(const ValueKey('lobby-copy-code-button')));
         await tester.pumpAndSettle();
@@ -1401,7 +1407,7 @@ void main() {
           find.byKey(const ValueKey('lobby-fill-bots-button')),
           findsNothing,
         );
-        expect(find.text("En attente de l'hôte..."), findsOneWidget);
+        expect(find.text(testL10n.menuWaitingForTheHost), findsOneWidget);
       },
     );
 
@@ -1444,7 +1450,7 @@ void main() {
         });
         await tester.pumpAndSettle();
         expect(find.text('1 / 4'), findsOneWidget);
-        expect(find.text('Compléter avec des IA'), findsOneWidget);
+        expect(find.text(testL10n.menuFillWithAIPlayers), findsOneWidget);
         expect(find.byType(GameScreen), findsNothing);
 
         // 2. Événement Realtime : L'hôte a complété avec 3 bots
@@ -1567,3 +1573,5 @@ void main() {
     );
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

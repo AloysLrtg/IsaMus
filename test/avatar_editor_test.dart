@@ -1,3 +1,4 @@
+import 'package:isamus/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -64,6 +65,10 @@ void main() {
       ProviderScope(
         overrides: [playerRepositoryProvider.overrideWithValue(repo)],
         child: MaterialApp(
+          locale: const Locale('fr'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+
           home: Scaffold(body: ProfileTab(onChanged: () {})),
         ),
       ),
@@ -114,7 +119,7 @@ void main() {
           hairColor: 2,
         ),
       );
-      await tester.tap(find.text('Sauvegarder'));
+      await tester.tap(find.text(testL10n.menuSave403));
       await tester.pumpAndSettle();
       expect(repo.writes, 1);
       expect(
@@ -141,7 +146,7 @@ void main() {
     await mountProfile(tester, repo);
     await tester.tap(find.byKey(const ValueKey('avatar-skin-2')));
     await tester.pumpAndSettle();
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     expect(repo.writes, 0);
     expect(repo.config, const AvatarConfig(glasses: 1));
@@ -159,16 +164,18 @@ void main() {
     await mountProfile(tester, repo);
     await tester.tap(find.byKey(const ValueKey('avatar-skin-2')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Sauvegarder'));
+    await tester.tap(find.text(testL10n.menuSave403));
     await tester.pumpAndSettle();
     expect(find.textContaining('Sauvegarde impossible'), findsOneWidget);
     expect(preview(tester).skin, 2);
     expect(repo.config.skin, 0);
     repo.fail = false;
-    await tester.tap(find.text('Sauvegarder'));
+    await tester.tap(find.text(testL10n.menuSave403));
     await tester.pumpAndSettle();
     expect(repo.config.skin, 2);
     expect(find.byType(AvatarEditorScreen), findsNothing);
     expect(tester.takeException(), isNull);
   });
 }
+
+final testL10n = lookupAppLocalizations(const Locale('fr'));

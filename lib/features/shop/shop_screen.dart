@@ -1,3 +1,6 @@
+import '../../core/localization/catalog_localizations.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,34 +21,37 @@ class ShopScreen extends ConsumerStatefulWidget {
 
 class _ShopScreenState extends ConsumerState<ShopScreen> {
   String? _busy;
-  String _error(Object error) {
+  String _error(Object error, AppLocalizations l10n) {
     if (error is PostgrestException) {
       if (error.message.contains('insuffisants')) {
-        return 'Fonds insuffisants pour cet article.';
+        return l10n.menuNotEnoughCoinsForThisItem;
       }
       if (error.message.contains('déjà possédé')) {
-        return 'Cet article est déjà dans votre inventaire.';
+        return l10n.menuThisItemIsAlreadyInYourInventory;
       }
       if (error.message.contains('Prix modifié')) {
-        return 'Le prix a changé. La boutique a été actualisée.';
+        return l10n.menuThePriceHasChangedTheShopHasBeenRefreshed;
       }
       if (error.message.contains('indisponible')) {
-        return 'Cet article n’est plus disponible.';
+        return l10n.menuThisItemIsNoLongerAvailable;
       }
     }
-    return 'Achat impossible. Réessayez dans quelques instants.';
+    return l10n.menuPurchaseFailedTryAgainShortly;
   }
 
   Future<void> _act(ShopItem item) async {
     if (_busy != null) return;
     final refresh = ref.read(shopRefreshProvider);
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _busy = item.id);
     var message = '';
     try {
       await ref.read(shopRepositoryProvider).buy(item.id, item.cost);
-      message = '${item.name} ajouté à votre inventaire';
+      message = l10n.menuArg0AddedToYourInventory(
+        (catalogName(l10n, item.id, item.name)).toString(),
+      );
     } catch (error) {
-      message = _error(error);
+      message = _error(error, l10n);
     }
     refresh();
     if (!mounted) return;
@@ -67,19 +73,21 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
       length: 6,
       child: Scaffold(
         appBar: AppBar(
-          title: widget.embedded ? null : const Text('Boutique'),
+          title: widget.embedded
+              ? null
+              : Text(AppLocalizations.of(context)!.shopTitle),
           toolbarHeight: widget.embedded ? 0 : kToolbarHeight,
           automaticallyImplyLeading: !widget.embedded,
-          bottom: const TabBar(
+          bottom: TabBar(
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             tabs: [
-              Tab(text: 'Tenues'),
-              Tab(text: 'Dos de cartes'),
-              Tab(text: 'Couvre-chefs'),
-              Tab(text: 'Lunettes'),
-              Tab(text: 'Cheveux'),
-              Tab(text: 'Quick Chats'),
+              Tab(text: AppLocalizations.of(context)!.menuOutfits),
+              Tab(text: AppLocalizations.of(context)!.menuCardBacks),
+              Tab(text: AppLocalizations.of(context)!.menuHeadwear),
+              Tab(text: AppLocalizations.of(context)!.menuGlasses),
+              Tab(text: AppLocalizations.of(context)!.menuHair),
+              Tab(text: AppLocalizations.of(context)!.menuQuickChats),
             ],
           ),
         ),
@@ -91,14 +99,14 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Boutique indisponible.'),
+                    Text(AppLocalizations.of(context)!.menuShopUnavailable),
                     TextButton(
                       onPressed: () {
                         ref.invalidate(playerProfileProvider);
                         ref.invalidate(inventoryProvider);
                         ref.invalidate(shopCatalogProvider);
                       },
-                      child: const Text('Réessayer'),
+                      child: Text(AppLocalizations.of(context)!.menuTryAgain),
                     ),
                   ],
                 ),
@@ -128,7 +136,8 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              '${state.coins} pièces',
+                              AppLocalizations.of(context)!
+                                  .menuArg0Coins((state.coins).toString()),
                               key: const ValueKey('shop-coins-balance'),
                               style: Theme.of(context).textTheme.headlineSmall
                                   ?.copyWith(fontWeight: FontWeight.w900),
@@ -165,10 +174,11 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
                                 if (state.items
                                     .where((i) => i.category == category)
                                     .isEmpty)
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.all(24),
                                     child: Text(
-                                      'De nouveaux articles arrivent bientôt.',
+                                      AppLocalizations.of(context)!
+                                          .menuNewItemsComingSoon,
                                     ),
                                   ),
                                 for (final item in state.items.where(
@@ -194,6 +204,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
   }
 
   Widget _item(ShopItem item, ShopState state) {
+    final l10n = AppLocalizations.of(context)!;
     final owned = state.owned.contains(item.id);
     final theme = Theme.of(context);
     const gold = Color(0xFFFFD76B);
@@ -232,7 +243,11 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.name,
+                      catalogName(
+                        AppLocalizations.of(context)!,
+                        item.id,
+                        item.name,
+                      ),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
@@ -240,7 +255,11 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      item.description,
+                      catalogDescription(
+                        AppLocalizations.of(context)!,
+                        item.id,
+                        item.description,
+                      ),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: const Color(0xFFBFCDDF),
                         height: 1.4,
@@ -287,7 +306,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
                     const SizedBox(width: 8),
                     Flexible(
                       child: Text(
-                        'Possédé',
+                        AppLocalizations.of(context)!.menuOwned,
                         key: ValueKey('shop-owned-${item.id}'),
                         style: theme.textTheme.labelLarge?.copyWith(
                           color: success,
@@ -300,7 +319,10 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
               )
             else
               Semantics(
-                label: 'Acheter ${item.name}, ${item.cost} pièces',
+                label: AppLocalizations.of(context)!.menuBuyArg0Arg1Coins(
+                  (catalogName(l10n, item.id, item.name)).toString(),
+                  (item.cost).toString(),
+                ),
                 child: FilledButton(
                   key: ValueKey('shop-buy-${item.id}'),
                   onPressed: _busy != null ? null : () => _act(item),
@@ -327,7 +349,11 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
                     spacing: 12,
                     runSpacing: 4,
                     children: [
-                      Text(_busy == item.id ? 'Achat…' : 'Acheter'),
+                      Text(
+                        _busy == item.id
+                            ? AppLocalizations.of(context)!.menuBuying
+                            : AppLocalizations.of(context)!.menuBuy,
+                      ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
