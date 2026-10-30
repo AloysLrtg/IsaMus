@@ -21,12 +21,13 @@ void main() {
     WidgetTester tester,
     Future<List<LeaderboardEntry>> Function() fetch, {
     String? userId = 'local',
+    Locale locale = const Locale('fr'),
   }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [leaderboardProvider.overrideWith((ref) => fetch())],
         child: MaterialApp(
-          locale: const Locale('fr'),
+          locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
 
@@ -51,7 +52,7 @@ void main() {
     final third = find.byKey(const ValueKey('leaderboard-podium-3'));
     expect(tester.getCenter(second).dx, lessThan(tester.getCenter(first).dx));
     expect(tester.getCenter(first).dx, lessThan(tester.getCenter(third).dx));
-    expect(find.text('Votre position : #4'), findsOneWidget);
+    expect(find.text(testL10n.menuYourPositionArg0('4')), findsOneWidget);
     final local = find.byKey(const ValueKey('leaderboard-row-local'));
     await tester.ensureVisible(local);
     expect(
@@ -110,7 +111,7 @@ void main() {
     expect(find.text(testL10n.menuTryAgain), findsOneWidget);
     await tester.tap(find.text(testL10n.menuTryAgain));
     await tester.pumpAndSettle();
-    expect(find.text('Votre position : #4'), findsOneWidget);
+    expect(find.text(testL10n.menuYourPositionArg0('4')), findsOneWidget);
     await tester.tap(find.byTooltip(testL10n.menuRefreshRankings));
     await tester.pump();
     expect(calls, 3);
@@ -119,6 +120,62 @@ void main() {
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
+
+  for (final language in ['fr', 'eu', 'es', 'en']) {
+    testWidgets(
+      'Top 100 localisé en $language avec pseudos courts et historiques',
+      (tester) async {
+        final locale = Locale(language);
+        final l10n = lookupAppLocalizations(locale);
+        tester.view.physicalSize = const Size(320, 568);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        const players = [
+          LeaderboardEntry(id: 'local', username: 'Joueur abcd', elo: 1500),
+          LeaderboardEntry(
+            id: 'legacy',
+            username: 'Joueur b78c3661234567890',
+            elo: 1400,
+          ),
+          LeaderboardEntry(id: 'other', username: 'Ane', elo: 1300),
+        ];
+        final semantics = tester.ensureSemantics();
+        try {
+          await mount(tester, () async => players, locale: locale);
+          await tester.pumpAndSettle();
+          expect(find.text(l10n.menuTop100Players), findsOneWidget);
+          expect(find.text(l10n.menuTheHighestEloRatings), findsOneWidget);
+          expect(find.text(l10n.menuYourPositionArg0('1')), findsOneWidget);
+          expect(find.text(l10n.menuRankedByDescendingElo), findsOneWidget);
+          await tester.ensureVisible(
+            find.byKey(const ValueKey('leaderboard-row-local')),
+          );
+          expect(find.text(l10n.you), findsOneWidget);
+          expect(
+            find.bySemanticsLabel(
+              l10n.menuPositionArg0Arg1Arg2EloArg3(
+                '1',
+                'Joueur abcd',
+                '1500',
+                l10n.leaderboardYouSuffix,
+              ),
+            ),
+            findsOneWidget,
+          );
+          for (final text in tester.widgetList<Text>(
+            find.text(players[1].username),
+          )) {
+            expect(text.maxLines, 1);
+            expect(text.overflow, TextOverflow.ellipsis);
+          }
+          expect(tester.takeException(), isNull);
+        } finally {
+          semantics.dispose();
+        }
+      },
+    );
+  }
 
   testWidgets('pull to refresh works on an empty leaderboard', (tester) async {
     var calls = 0;

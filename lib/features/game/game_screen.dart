@@ -432,16 +432,16 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Quitter la partie'),
-        content: const Text('Voulez-vous vraiment quitter la partie ?'),
+        title: Text(AppLocalizations.of(dialogContext)!.gameQuitTitle),
+        content: Text(AppLocalizations.of(dialogContext)!.gameQuitConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(dialogContext)!.menuCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Quitter'),
+            child: Text(AppLocalizations.of(dialogContext)!.gameQuitAction),
           ),
         ],
       ),
@@ -458,11 +458,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       if (!mounted) return;
       setState(() => _quitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Impossible de fermer le salon. Vérifiez votre connexion et réessayez.',
-          ),
-        ),
+        SnackBar(content: Text(AppLocalizations.of(context)!.gameQuitFailed)),
       );
     }
   }
@@ -1144,7 +1140,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           child: Center(
             child: PopupMenuButton<_GameMenuAction>(
               key: const ValueKey('game-menu-button'),
-              tooltip: 'Menu de la partie',
+              tooltip: AppLocalizations.of(context)!.gameMenuTitle,
               enabled: !_quitting,
               icon: const Icon(
                 Icons.more_vert,
@@ -1159,12 +1155,12 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     _confirmExit();
                 }
               },
-              itemBuilder: (_) => const [
+              itemBuilder: (context) => [
                 PopupMenuItem(
                   value: _GameMenuAction.settings,
                   child: ListTile(
                     leading: Icon(Icons.settings),
-                    title: Text('Réglages'),
+                    title: Text(AppLocalizations.of(context)!.settingsTitle),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
@@ -1172,7 +1168,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                   value: _GameMenuAction.quit,
                   child: ListTile(
                     leading: Icon(Icons.exit_to_app),
-                    title: Text('Quitter la partie'),
+                    title: Text(AppLocalizations.of(context)!.gameQuitTitle),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),

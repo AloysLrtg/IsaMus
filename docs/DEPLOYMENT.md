@@ -445,3 +445,13 @@ Les canaux privés `presence:<uuid>` existants sont conservés. Les politiques d
 Après une micro-coupure, la reconnexion du SDK republie la présence et attend un nouvel instantané des amis. Les échecs de publication sont retentés avec délai croissant, les canaux fermés sont recréés, et les anciens événements sont ignorés après retrait ou changement de compte. Tous les délais et observateurs sont libérés à la fermeture du service.
 
 Validation : `flutter analyze` sans problème et **509 tests Flutter réussis**, dont neuf nouveaux tests couvrant le transport simulé, les reconnexions, la navigation, les cycles de vie, plusieurs appareils, le nettoyage et les couleurs de l’interface. Ces simulations ne remplacent pas un essai réel sur deux téléphones avec coupures réseau.
+
+## Menu en jeu, classement et pseudos invités courts — 30 octobre 2026
+
+Le menu en jeu, son infobulle, la confirmation de sortie et l’erreur de fermeture utilisent les quatre catalogues de traduction. Le Top 100 conserve ses textes localisés ; le suffixe « vous » de l’accessibilité du podium suit désormais lui aussi la langue choisie. Les tests couvrent les quatre langues et les noms historiques longs sur un écran de 320 px.
+
+La migration `20261030105529_short_guest_usernames.sql` remplace le générateur automatique côté Auth : un nouveau profil sans pseudo demandé reçoit `Joueur ` suivi de quatre caractères du UUID, puis un suffixe alphanumérique de quatre caractères en cas de collision. La contrainte d’unicité arbitre aussi les inscriptions simultanées. La longueur reste de 11 caractères après chaque nouvelle tentative. Les noms choisis à l’inscription et les profils existants ne sont pas renommés ; les droits de la fonction privée restent identiques.
+
+**Migration préparée et vérifiée en base isolée, non appliquée en production.** Le contrôle automatique a refusé son application distante, car la demande de correctif et de push Git ne constituait pas une autorisation explicite de modifier l’inscription sur Supabase. Appliquer cette seule migration après autorisation explicite ; un push Git seul ne modifie pas ce déclencheur Auth. Les tests PostgreSQL couvrent les noms courts, les collisions de préfixes, un nom déjà réservé par un utilisateur et la préservation des inscriptions nommées.
+
+Validation : `flutter analyze` sans problème, **558 tests Flutter réussis** et **435 assertions PostgreSQL** en base isolée, plus la vérification des migrations de retrait des articles. Aucune inscription de test n’a été créée en production.

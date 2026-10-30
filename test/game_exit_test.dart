@@ -12,6 +12,8 @@ import 'package:isamus/core/network/supabase_repository.dart';
 import 'package:isamus/features/game/game_screen.dart';
 import 'package:isamus/features/home/main_dashboard_screen.dart';
 import 'package:isamus/main.dart';
+import 'package:isamus/core/localization/app_locale.dart';
+import 'package:isamus/features/settings/settings_screen.dart';
 
 class ExitRepository implements SupabaseRepository {
   final events = StreamController<Map<String, dynamic>>.broadcast();
@@ -50,7 +52,11 @@ void main() {
     container.dispose();
     await repo.events.close();
   });
-  Future<void> mount(WidgetTester tester, {int seat = 0}) async {
+  Future<void> mount(
+    WidgetTester tester, {
+    int seat = 0,
+    Locale locale = const Locale('fr'),
+  }) async {
     repo = ExitRepository();
     container = ProviderContainer(
       overrides: [
@@ -60,6 +66,7 @@ void main() {
         musTurnTimeoutProvider.overrideWithValue(null),
       ],
     );
+    container.read(appLocaleProvider.notifier).select(locale);
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
@@ -76,14 +83,13 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('game-menu-button')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    await tester.tap(find.text('Quitter la partie'));
+    await tester.tap(find.text(testL10n.gameQuitTitle));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(
-      find.text('Voulez-vous vraiment quitter la partie ?'),
-      findsOneWidget,
+    expect(find.text(testL10n.gameQuitConfirm), findsOneWidget);
+    await tester.tap(
+      find.widgetWithText(FilledButton, testL10n.gameQuitAction),
     );
-    await tester.tap(find.widgetWithText(FilledButton, 'Quitter'));
     await tester.pumpAndSettle();
   }
 
@@ -93,7 +99,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('game-menu-button')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    await tester.tap(find.text('Quitter la partie'));
+    await tester.tap(find.text(testL10n.gameQuitTitle));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     await tester.tap(find.text(testL10n.menuCancel));
@@ -132,15 +138,50 @@ void main() {
     repo.fail = true;
     await confirm(tester);
     expect(find.byType(GameScreen), findsOneWidget);
-    expect(
-      find.textContaining('Impossible de fermer le salon'),
-      findsOneWidget,
-    );
+    expect(find.text(testL10n.gameQuitFailed), findsOneWidget);
     repo.fail = false;
     await confirm(tester);
     expect(repo.closed, ['game']);
     expect(find.byType(MainDashboardScreen), findsOneWidget);
   });
+  for (final language in ['fr', 'eu', 'es', 'en']) {
+    testWidgets('menu en jeu et confirmation localisés en $language', (
+      tester,
+    ) async {
+      final locale = Locale(language);
+      final l10n = lookupAppLocalizations(locale);
+      await mount(tester, locale: locale);
+      final state = container.read(musGameControllerProvider);
+      Future<void> openMenu() async {
+        await tester.tap(find.byTooltip(l10n.gameMenuTitle));
+        await tester.pumpAndSettle();
+        expect(find.text(l10n.settingsTitle), findsOneWidget);
+        expect(find.text(l10n.gameQuitTitle), findsOneWidget);
+      }
+
+      await openMenu();
+      await tester.tap(find.text(l10n.settingsTitle));
+      await tester.pumpAndSettle();
+      expect(find.byType(SettingsScreen), findsOneWidget);
+      expect(find.text(l10n.settingsTitle), findsOneWidget);
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      await openMenu();
+      await tester.tap(find.text(l10n.gameQuitTitle));
+      await tester.pumpAndSettle();
+      expect(find.text(l10n.gameQuitConfirm), findsOneWidget);
+      expect(
+        find.widgetWithText(FilledButton, l10n.gameQuitAction),
+        findsOneWidget,
+      );
+      await tester.tap(find.text(l10n.menuCancel));
+      await tester.pumpAndSettle();
+      expect(container.read(musGameControllerProvider), same(state));
+      expect(repo.closed, isEmpty);
+      expect(tester.takeException(), isNull);
+    });
+  }
+
   testWidgets('fermeture distante ramène les invités à l’accueil', (
     tester,
   ) async {

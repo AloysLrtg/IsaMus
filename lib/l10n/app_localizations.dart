@@ -3678,6 +3678,42 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Centre Départemental Nelson Paillou · 2, allée des Platanes · 64100 Bayonne\n05 59 14 19 12 · mail@federation-mus.fr'**
   String get rulesContact;
+
+  /// No description provided for @gameMenuTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Menu de la partie'**
+  String get gameMenuTitle;
+
+  /// No description provided for @gameQuitTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quitter la partie'**
+  String get gameQuitTitle;
+
+  /// No description provided for @gameQuitConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voulez-vous vraiment quitter la partie ?'**
+  String get gameQuitConfirm;
+
+  /// No description provided for @gameQuitAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quitter'**
+  String get gameQuitAction;
+
+  /// No description provided for @gameQuitFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible de fermer le salon. Vérifiez votre connexion et réessayez.'**
+  String get gameQuitFailed;
+
+  /// No description provided for @leaderboardYouSuffix.
+  ///
+  /// In fr, this message translates to:
+  /// **', vous'**
+  String get leaderboardYouSuffix;
 }
 
 class _AppLocalizationsDelegate

@@ -2060,4 +2060,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get rulesContact =>
       'Centre Départemental Nelson Paillou · 2, allée des Platanes · 64100 Bayonne\n05 59 14 19 12 · mail@federation-mus.fr';
+
+  @override
+  String get gameMenuTitle => 'Game menu';
+
+  @override
+  String get gameQuitTitle => 'Leave game';
+
+  @override
+  String get gameQuitConfirm => 'Are you sure you want to leave the game?';
+
+  @override
+  String get gameQuitAction => 'Leave';
+
+  @override
+  String get gameQuitFailed =>
+      'Unable to close the room. Check your connection and try again.';
+
+  @override
+  String get leaderboardYouSuffix => ', you';
 }

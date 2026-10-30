@@ -212,7 +212,9 @@ class _Podium extends StatelessWidget {
             (index + 1).toString(),
             (entry.username).toString(),
             (entry.elo).toString(),
-            (entry.id == currentUserId ? ', vous' : '').toString(),
+            entry.id == currentUserId
+                ? AppLocalizations.of(context)!.leaderboardYouSuffix
+                : '',
           ),
           excludeSemantics: true,
           child: Container(

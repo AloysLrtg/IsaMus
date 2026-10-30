@@ -1061,5 +1061,11 @@
   "hordagoWord": "Hordago",
   "providerGoogle": "Google",
   "providerApple": "Apple",
-  "rulesContact": "Centre Départemental Nelson Paillou · 2, allée des Platanes · 64100 Bayonne\n05 59 14 19 12 · mail@federation-mus.fr"
+  "rulesContact": "Centre Départemental Nelson Paillou · 2, allée des Platanes · 64100 Bayonne\n05 59 14 19 12 · mail@federation-mus.fr",
+  "gameMenuTitle": "Menu de la partie",
+  "gameQuitTitle": "Quitter la partie",
+  "gameQuitConfirm": "Voulez-vous vraiment quitter la partie ?",
+  "gameQuitAction": "Quitter",
+  "gameQuitFailed": "Impossible de fermer le salon. Vérifiez votre connexion et réessayez.",
+  "leaderboardYouSuffix": ", vous"
 }

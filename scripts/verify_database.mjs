@@ -144,9 +144,24 @@ for (const suffix of ['013','014']) {
  const id='00000000-0000-4000-8000-000000000'+suffix;
  await db.query('insert into auth.users(id) values($1)',[id]);
  const p=(await db.query('select username from profiles where id=$1',[id])).rows[0];
- assert.ok(p.username.startsWith('Joueur '));assert.ok(p.username.length<=24);checks++;
+ assert.match(p.username,/^Joueur [a-z0-9]{4}$/);assert.equal(p.username.length,11);checks++;
 }
 assert.equal((await db.query("select count(distinct username)::int n from profiles where id in ('00000000-0000-4000-8000-000000000013','00000000-0000-4000-8000-000000000014')")).rows[0].n,2);checks++;
+assert.equal((await db.query("select username from profiles where id='00000000-0000-4000-8000-000000000013'")).rows[0].username,'Joueur 0000');checks++;
+// A registered player may already own the first four UUID characters.
+const reservedGuestId='bbbbbbbb-0000-4000-8000-000000000001';
+await db.query('insert into auth.users(id,raw_user_meta_data) values($1,$2::jsonb)',[reservedGuestId,JSON.stringify({username:'Joueur abcd'})]);
+const collisionIds=Array.from({length:32},(_,i)=>`abcd0000-0000-4000-8000-${String(i+1).padStart(12,'0')}`);
+for(const id of collisionIds) {
+ await db.query('insert into auth.users(id) values($1)',[id]);
+ const name=(await db.query('select username from profiles where id=$1',[id])).rows[0].username;
+ assert.match(name,/^Joueur [a-z0-9]{4}$/);assert.equal(name.length,11);
+ assert.notEqual(name,'Joueur abcd');checks++;
+}
+assert.equal((await db.query('select count(distinct username)::int n from profiles where id=any($1::uuid[])',[collisionIds])).rows[0].n,32);checks++;
+assert.equal((await db.query('select username from profiles where id=$1',[reservedGuestId])).rows[0].username,'Joueur abcd');checks++;
+await db.query('delete from profiles where id=any($1::uuid[])',[[reservedGuestId,...collisionIds]]);
+await db.query('delete from auth.users where id=any($1::uuid[])',[[reservedGuestId,...collisionIds]]);
 assert.equal((await db.query("select has_function_privilege('anon','private.create_profile_for_auth_user()','EXECUTE') allowed")).rows[0].allowed,false);checks++;
 assert.equal((await db.query("select has_function_privilege('authenticated','private.create_profile_for_auth_user()','EXECUTE') allowed")).rows[0].allowed,false);checks++;
 await db.exec("delete from profiles where id in ('00000000-0000-4000-8000-000000000010','00000000-0000-4000-8000-000000000013','00000000-0000-4000-8000-000000000014'); delete from auth.users where id in ('00000000-0000-4000-8000-000000000010','00000000-0000-4000-8000-000000000013','00000000-0000-4000-8000-000000000014')");
