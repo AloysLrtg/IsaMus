@@ -429,8 +429,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
       child: Container(
         padding: EdgeInsets.only(
           top: MediaQuery.paddingOf(context).top + 8,
-          left: 16,
-          right: 16,
+          left: 12,
+          right: 12,
           bottom: 10,
         ),
         decoration: BoxDecoration(
@@ -450,22 +450,17 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // LOGO ISAMUS COMPACT
-            if (MediaQuery.sizeOf(context).width >= 420)
-              ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [Color(0xFFFFF9C4), Color(0xFFFFB300)],
-                ).createShader(bounds),
-                child: Text(
-                  AppLocalizations.of(context)!.appTitle,
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 2.0,
-                    color: Colors.white,
-                  ),
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                'assets/images/logo_isamus.png',
+                key: const ValueKey('home-official-logo'),
+                width: 52,
+                height: 52,
+                fit: BoxFit.contain,
+                semanticLabel: 'IsaMus',
               ),
+            ),
             const SizedBox(width: 8),
 
             // BANDEAU DE PROFIL JOUEUR & ELO (visible sur tous les onglets)
@@ -516,7 +511,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           ProfileXpAvatar(profile: profile),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
           Flexible(
             child: FittedBox(
               fit: BoxFit.scaleDown,
@@ -533,7 +528,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
           Semantics(
             label: AppLocalizations.of(context)!
                 .menuArg0Coins((coins).toString()),
@@ -559,12 +554,16 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
           IconButton(
             key: const ValueKey('home-quests-button'),
+            constraints: const BoxConstraints.tightFor(width: 44, height: 44),
+            padding: EdgeInsets.zero,
             tooltip: AppLocalizations.of(context)!.menuWeeklyQuests,
             icon: const Icon(Icons.assignment_outlined, size: 22),
             onPressed: () => showWeeklyQuests(context),
           ),
           IconButton(
             key: const ValueKey('home-settings-button'),
+            constraints: const BoxConstraints.tightFor(width: 44, height: 44),
+            padding: EdgeInsets.zero,
             tooltip: AppLocalizations.of(context)!.settingsTitle,
             icon: const Icon(
               Icons.settings_rounded,
@@ -1849,64 +1848,90 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
         ],
       ),
-      child: BottomNavigationBar(
-        currentIndex: _currentTabIndex,
-        onTap: (index) => setState(() => _currentTabIndex = index),
-        backgroundColor: const Color(0xFF0B1221),
-        selectedItemColor: _currentTabIndex < 3 ? _gold : _cyanA,
-        unselectedItemColor: Colors.white38,
-        selectedLabelStyle: const TextStyle(
-          fontWeight: FontWeight.w900,
-          fontSize: 12,
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          key: const ValueKey('home-bottom-navigation'),
+          height: 80,
+          child: MediaQuery.removePadding(
+            context: context,
+            removeBottom: true,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: BottomNavigationBar(
+                iconSize: 30,
+                selectedFontSize: 13,
+                unselectedFontSize: 13,
+                currentIndex: _currentTabIndex,
+                onTap: (index) => setState(() => _currentTabIndex = index),
+                backgroundColor: const Color(0xFF0B1221),
+                selectedItemColor: _currentTabIndex < 3 ? _gold : _cyanA,
+                unselectedItemColor: Colors.white38,
+                selectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
+                type: BottomNavigationBarType.fixed,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      Icons.style_rounded,
+                      key: ValueKey('nav-tab-play'),
+                    ),
+                    activeIcon: const Icon(Icons.style_rounded, color: _gold),
+                    label: l10n.playTitle,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      Icons.emoji_events_rounded,
+                      key: ValueKey('nav-tab-leaderboard'),
+                    ),
+                    activeIcon: const Icon(
+                      Icons.emoji_events_rounded,
+                      color: _gold,
+                    ),
+                    label: l10n.leaderboardTitle,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      Icons.storefront_rounded,
+                      key: ValueKey('nav-tab-shop'),
+                    ),
+                    activeIcon: const Icon(
+                      Icons.storefront_rounded,
+                      color: _gold,
+                    ),
+                    label: l10n.shopTitle,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      Icons.people_alt_rounded,
+                      key: ValueKey('nav-tab-friends'),
+                    ),
+                    activeIcon: const Icon(
+                      Icons.people_alt_rounded,
+                      color: _cyanA,
+                    ),
+                    label: l10n.friendsTitle,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(
+                      Icons.person_rounded,
+                      key: ValueKey('nav-tab-profile'),
+                    ),
+                    activeIcon: const Icon(Icons.person_rounded, color: _cyanA),
+                    label: l10n.profileTitle,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
-        unselectedLabelStyle: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 11,
-        ),
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.style_rounded,
-              key: ValueKey('nav-tab-play'),
-            ),
-            activeIcon: const Icon(Icons.style_rounded, color: _gold),
-            label: l10n.playTitle,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.emoji_events_rounded,
-              key: ValueKey('nav-tab-leaderboard'),
-            ),
-            activeIcon: const Icon(Icons.emoji_events_rounded, color: _gold),
-            label: l10n.leaderboardTitle,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.storefront_rounded,
-              key: ValueKey('nav-tab-shop'),
-            ),
-            activeIcon: const Icon(Icons.storefront_rounded, color: _gold),
-            label: l10n.shopTitle,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.people_alt_rounded,
-              key: ValueKey('nav-tab-friends'),
-            ),
-            activeIcon: const Icon(Icons.people_alt_rounded, color: _cyanA),
-            label: l10n.friendsTitle,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.person_rounded,
-              key: ValueKey('nav-tab-profile'),
-            ),
-            activeIcon: const Icon(Icons.person_rounded, color: _cyanA),
-            label: l10n.profileTitle,
-          ),
-        ],
       ),
     );
   }

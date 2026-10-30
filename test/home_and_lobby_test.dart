@@ -10,6 +10,8 @@ import 'helpers/audio_haptic_fakes.dart';
 
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -219,6 +221,7 @@ class _MockSupabaseRepository implements SupabaseRepository {
 }
 
 void main() {
+  setUp(() => SharedPreferences.setMockInitialValues({}));
   group('HomeScreen UI & Interactions', () {
     testWidgets(
       'Étape B - Inscription : Aucun profil existant -> Champ pseudo et bouton Créer mon profil',
@@ -720,7 +723,12 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('home-create-button')));
       await tester.pumpAndSettle();
 
-      expect(find.text(testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd), findsOneWidget);
+      expect(
+        find.text(
+          testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd,
+        ),
+        findsOneWidget,
+      );
       expect(find.byType(LobbyScreen), findsNothing);
     });
 
@@ -762,7 +770,12 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('home-join-button')));
       await tester.pumpAndSettle();
 
-      expect(find.text(testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd), findsOneWidget);
+      expect(
+        find.text(
+          testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd,
+        ),
+        findsOneWidget,
+      );
       expect(find.byType(LobbyScreen), findsNothing);
     });
 
@@ -797,7 +810,12 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        expect(find.text(testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd), findsOneWidget);
+        expect(
+          find.text(
+            testL10n.menuUnableToCompleteThisActionCheckYourConnectionAnd,
+          ),
+          findsOneWidget,
+        );
         expect(find.byKey(const ValueKey('home-pseudo-input')), findsOneWidget);
       },
     );
@@ -858,6 +876,22 @@ void main() {
           ),
         );
         await tester.pumpAndSettle();
+        final logo = find.byKey(const ValueKey('home-official-logo'));
+        expect(tester.getSize(logo), const Size(52, 52));
+        expect(
+          tester.getRect(logo).right,
+          lessThan(
+            tester
+                .getRect(find.byKey(const ValueKey('home-profile-banner')))
+                .left,
+          ),
+        );
+        expect(
+          tester
+              .getSize(find.byKey(const ValueKey('home-bottom-navigation')))
+              .height,
+          80,
+        );
         final button = find.byKey(const ValueKey('home-settings-button'));
         expect(tester.getRect(button).right, lessThanOrEqualTo(320));
         expect(tester.getSize(button).width, greaterThanOrEqualTo(44));

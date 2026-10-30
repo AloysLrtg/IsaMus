@@ -72,6 +72,7 @@ flutter:
   generate: true
 
   assets:
+    - assets/images/logo_isamus.png
     - assets/avatars/
     - assets/cards/
     - assets/audio/
