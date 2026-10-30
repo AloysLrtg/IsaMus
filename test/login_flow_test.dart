@@ -2,6 +2,8 @@ import 'package:isamus/l10n/app_localizations.dart';
 
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,6 +33,7 @@ User identity({
 
 class LoginAuth extends AuthRepository {
   User? active;
+  String language = 'fr';
   final events = StreamController<User?>.broadcast(sync: true);
   final calls = <String>[];
   bool requiresConfirmation = false;
@@ -97,16 +100,24 @@ class LoginAuth extends AuthRepository {
   @override
   Future<Map<String, dynamic>?> getProfile(String id) async => {
     'id': id,
+    'language': language,
     'username': 'Ane',
     'elo': 1200,
   };
 }
 
 void main() {
+  setUp(() => SharedPreferences.setMockInitialValues({}));
   late LoginAuth auth;
   final scopes = <ProviderContainer>[];
-  Future<void> mount(WidgetTester tester, {User? restored}) async {
-    auth = LoginAuth()..active = restored;
+  Future<void> mount(
+    WidgetTester tester, {
+    User? restored,
+    String language = 'fr',
+  }) async {
+    auth = LoginAuth()
+      ..active = restored
+      ..language = language;
     scopes.clear();
     await tester.pumpWidget(
       ProviderScope(
@@ -141,6 +152,29 @@ void main() {
       await tester.pump();
     });
   }
+
+  testWidgets(
+    'profile language applied to MaterialApp on restored login and identity change',
+    (tester) async {
+      await mount(tester, restored: identity(), language: 'en');
+      expect(
+        tester.widget<MaterialApp>(find.byType(MaterialApp)).locale,
+        const Locale('en'),
+      );
+      auth.emit(null);
+      await tester.pumpAndSettle();
+      expect(find.byType(LoginScreen), findsOneWidget);
+      auth.language = 'eu';
+      auth.emit(identity());
+      await tester.pumpAndSettle();
+      expect(
+        tester.widget<MaterialApp>(find.byType(MaterialApp)).locale,
+        const Locale('eu'),
+      );
+      expect(find.byType(MainDashboardScreen), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   Future<void> fill(WidgetTester tester) async {
     await tester.enterText(

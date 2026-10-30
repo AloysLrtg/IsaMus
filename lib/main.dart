@@ -7,6 +7,7 @@ import 'features/home/main_dashboard_screen.dart';
 import 'features/social/social_banners.dart';
 import 'features/auth/login_screen.dart';
 import 'core/network/auth_repository.dart';
+import 'core/network/auth_service.dart';
 import 'core/network/presence_session.dart';
 import 'l10n/app_localizations.dart';
 import 'core/localization/app_locale.dart';
@@ -95,8 +96,19 @@ class _SessionApplicationState extends State<_SessionApplication> {
     container: _container,
     child: PresenceSessionHost(
       userId: widget.user?.id,
-      child: _application(
-        widget.user == null ? const LoginScreen() : const MainDashboardScreen(),
+      child: Consumer(
+        builder: (context, ref, _) {
+          final language = ref.watch(sessionLanguageProvider(widget.user?.id));
+          return _application(
+            language.isLoading
+                ? const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  )
+                : widget.user == null
+                ? const LoginScreen()
+                : const MainDashboardScreen(),
+          );
+        },
       ),
     ),
   );

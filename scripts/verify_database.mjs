@@ -184,6 +184,18 @@ async function as(id, fn, role='authenticated') {
  }catch(e){await db.exec('rollback');throw e;}
 }
 async function denied(id,sql,args=[]){await assert.rejects(()=>as(id,()=>db.query(sql,args)));checks++;}
+// Language is constrained, writable only by its owner, and defaults for old profiles.
+assert.equal((await db.query('select language from profiles where id=$1',[ids[0]])).rows[0].language,'fr');checks++;
+for(const language of ['fr','eu','es','en']) {
+ await as(ids[0],()=>db.query('update profiles set language=$1 where id=$2',[language,ids[0]]));
+ assert.equal((await db.query('select language from profiles where id=$1',[ids[0]])).rows[0].language,language);checks++;
+}
+assert.equal((await as(ids[1],()=>db.query("update profiles set language='es' where id=$1 returning id",[ids[0]]))).rows.length,0);checks++;
+await denied(ids[0],"update profiles set language='de' where id=$1",[ids[0]]);
+await denied(ids[0],"update profiles set language=null where id=$1",[ids[0]]);
+assert.equal((await as(null,()=>db.query("update profiles set language='eu' where id=$1 returning id",[ids[0]]))).rows.length,0);checks++;
+await assert.rejects(()=>as(null,()=>db.query("update profiles set language='eu' where id=$1",[ids[0]]),'anon'));checks++;
+
 assert.deepEqual((await db.query('select avatar_config from profiles where id=$1',[ids[0]])).rows[0].avatar_config,{skin:0,glasses:0,top:0,hair:0,background_color:0,hair_color:0,border:'none',exclusive_hat:'none'});checks++;
 await as(ids[0],()=>db.query('update profiles set avatar_config=$1 where id=$2',[JSON.stringify({skin:2,glasses:1,top:2,hair:1,background_color:5,hair_color:4}),ids[0]]));
 assert.deepEqual((await db.query('select avatar_config from profiles where id=$1',[ids[0]])).rows[0].avatar_config,{skin:2,glasses:1,top:2,hair:1,background_color:5,hair_color:4,border:'none',exclusive_hat:'none'});checks++;

@@ -58,6 +58,18 @@ class PlayerRepository {
         .eq('id', userId);
   }
 
+  Future<void> language(String playerId, String code) async {
+    if (!const ['fr', 'eu', 'es', 'en'].contains(code)) {
+      throw const FormatException('Unsupported language');
+    }
+    await client
+        .from('profiles')
+        .update({'language': code})
+        .eq('id', playerId)
+        .select('id')
+        .single();
+  }
+
   Future<void> saveAvatar(AvatarConfig config) async {
     // Returning one row also detects a missing profile or an RLS rejection.
     await client

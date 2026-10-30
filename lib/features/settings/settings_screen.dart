@@ -17,7 +17,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _busy = false;
-  String? _message;
+  bool _failed = false;
 
   Future<void> _run(
     Future<void> Function() action, {
@@ -26,7 +26,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     if (_busy) return;
     setState(() {
       _busy = true;
-      _message = null;
+      _failed = false;
     });
     try {
       await action();
@@ -34,11 +34,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (refreshProfile) ref.invalidate(playerProfileProvider);
     } catch (_) {
       if (mounted) {
-        setState(
-          () =>
-              _message = AppLocalizations.of(context)!
-                  .menuUnableToCompleteThisActionCheckYourConnectionAnd,
-        );
+        setState(() => _failed = true);
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -82,11 +78,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             trailing: DropdownButton<Locale>(
               key: const ValueKey('settings-language-selector'),
               value: locale,
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(appLocaleProvider.notifier).select(value);
-                }
-              },
+              onChanged: _busy
+                  ? null
+                  : (value) {
+                      if (value != null) {
+                        _run(
+                          () =>
+                              ref.read(appLocaleProvider.notifier).save(value),
+                          refreshProfile: true,
+                        );
+                      }
+                    },
               items: [
                 DropdownMenuItem(
                   value: Locale('fr'),
@@ -169,10 +171,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onTap: () => _legal(true),
           ),
           if (_busy) const LinearProgressIndicator(),
-          if (_message != null)
+          if (_failed)
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Semantics(liveRegion: true, child: Text(_message!)),
+              child: Semantics(
+                key: const ValueKey('settings-error'),
+                liveRegion: true,
+                child: Text(
+                  l10n.menuUnableToCompleteThisActionCheckYourConnectionAnd,
+                ),
+              ),
             ),
         ],
       ),
