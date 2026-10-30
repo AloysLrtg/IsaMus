@@ -99,10 +99,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       image: true,
                       child: Column(
                         children: [
-                          Icon(
-                            Icons.style_rounded,
-                            size: 64,
-                            color: Color(0xFFE6C76B),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(18),
+                            child: Image.asset(
+                              'assets/images/logo_isamus.png',
+                              key: const ValueKey('login-official-logo'),
+                              width: 96,
+                              height: 96,
+                              fit: BoxFit.contain,
+                              excludeFromSemantics: true,
+                            ),
                           ),
                           Text(
                             AppLocalizations.of(context)!.appTitle,

@@ -191,13 +191,13 @@ void main() {
     expect(repo.owned.contains('classic'), isFalse);
     expect((await repo.profile())['coins'], 500);
   });
-  testWidgets('Personnalisation propose les onglets dos et cheveux', (
+  testWidgets('Couleur des cartes affiche uniquement les dos sans onglets', (
     tester,
   ) async {
     await mount(tester);
-    expect(find.byType(DefaultTabController), findsOneWidget);
-    expect(find.byType(TabBar), findsOneWidget);
-    expect(find.byType(TabBarView), findsOneWidget);
+    expect(find.byType(DefaultTabController), findsNothing);
+    expect(find.byType(TabBar), findsNothing);
+    expect(find.byType(TabBarView), findsNothing);
     expect(find.text('Dos Classique'), findsOneWidget);
     expect(find.text('Dos Violet'), findsOneWidget);
     for (final label in [
@@ -210,16 +210,16 @@ void main() {
     ]) {
       expect(find.text(label), findsNothing);
     }
-    await tester.tap(find.widgetWithText(Tab, 'Cheveux'));
-    await tester.pumpAndSettle();
+    expect(find.text('Couleur des cartes'), findsOneWidget);
+    expect(find.text('Cheveux'), findsNothing);
+    expect(find.byKey(const ValueKey('inventory-list-hair')), findsNothing);
     expect(
       find.byKey(const ValueKey('inventory-item-shop_hair_mohawk')),
-      findsOneWidget,
+      findsNothing,
     );
-    expect(find.byKey(const ValueKey('avatar-mohawk')), findsOneWidget);
     expect(repo.saved, isEmpty);
   });
-  testWidgets('Profil : Personnalisation ouvre l’inventaire', (tester) async {
+  testWidgets('Profil : Couleur des cartes ouvre l’inventaire', (tester) async {
     await mount(
       tester,
       screen: Scaffold(body: ProfileTab(onChanged: () {})),

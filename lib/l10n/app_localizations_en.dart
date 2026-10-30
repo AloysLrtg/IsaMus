@@ -1337,7 +1337,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menuEditMyAvatar => 'Edit my avatar';
 
   @override
-  String get menuCustomisation => 'Customisation';
+  String get menuCustomisation => 'Card color';
 
   @override
   String get menuRecentGames => 'Recent games';

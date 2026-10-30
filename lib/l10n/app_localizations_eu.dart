@@ -1343,7 +1343,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get menuEditMyAvatar => 'Editatu nire avatarra';
 
   @override
-  String get menuCustomisation => 'Pertsonalizazioa';
+  String get menuCustomisation => 'Karta kolorea';
 
   @override
   String get menuRecentGames => 'Azken partidak';

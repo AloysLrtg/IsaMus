@@ -109,6 +109,15 @@ void main() {
           );
         }
       }
+      expect(
+        l10n.menuCustomisation,
+        {
+          'fr': 'Couleur des cartes',
+          'es': 'Color de las cartas',
+          'eu': 'Karta kolorea',
+          'en': 'Card color',
+        }[language],
+      );
       expect(l10n.legalTermsBody, startsWith('ISAMUS'));
       expect(l10n.legalPrivacyBody, startsWith('ISAMUS'));
       expect(catalogName(l10n, 'shop_top_striped', 'FR'), l10n.catalogStriped);

@@ -1342,7 +1342,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get menuEditMyAvatar => 'Editar mi avatar';
 
   @override
-  String get menuCustomisation => 'Personalización';
+  String get menuCustomisation => 'Color de las cartas';
 
   @override
   String get menuRecentGames => 'Últimas partidas';

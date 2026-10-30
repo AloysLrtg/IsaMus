@@ -1347,7 +1347,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get menuEditMyAvatar => 'Modifier mon Avatar';
 
   @override
-  String get menuCustomisation => 'Personnalisation';
+  String get menuCustomisation => 'Couleur des cartes';
 
   @override
   String get menuRecentGames => 'Dernières parties';

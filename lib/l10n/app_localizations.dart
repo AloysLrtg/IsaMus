@@ -2424,7 +2424,7 @@ abstract class AppLocalizations {
   /// No description provided for @menuCustomisation.
   ///
   /// In fr, this message translates to:
-  /// **'Personnalisation'**
+  /// **'Couleur des cartes'**
   String get menuCustomisation;
 
   /// No description provided for @menuRecentGames.

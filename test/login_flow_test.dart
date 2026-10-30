@@ -192,6 +192,13 @@ void main() {
     (tester) async {
       await mount(tester);
       expect(find.byType(LoginScreen), findsOneWidget);
+      final logo = find.byKey(const ValueKey('login-official-logo'));
+      expect(
+        tester.widget<Image>(logo).image,
+        const AssetImage('assets/images/logo_isamus.png'),
+      );
+      expect(tester.getSize(logo), const Size(96, 96));
+      expect(find.byIcon(Icons.style_rounded), findsNothing);
       expect(find.byType(MainDashboardScreen), findsNothing);
       expect(find.text('Continuer avec Google'), findsNothing);
       expect(find.text('Continuer avec Apple'), findsNothing);
