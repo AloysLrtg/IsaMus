@@ -2097,4 +2097,65 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get leaderboardYouSuffix => ', vous';
+
+  @override
+  String get endOfDeal => 'Fin de donne';
+
+  @override
+  String get scoringPhase => 'Phase';
+
+  @override
+  String get dealTotal => 'Total donne';
+
+  @override
+  String get onlyOneTeamHasPairs => 'Une seule équipe a des paires';
+
+  @override
+  String get noTeamHasPairs => 'Pas de paires';
+
+  @override
+  String get noTeamHasGame => 'Pas de jeu';
+
+  @override
+  String get onlyOneTeamHasGame => 'Une seule équipe a le jeu';
+
+  @override
+  String get victoryTitle => 'VICTOIRE';
+
+  @override
+  String get defeatTitle => 'DÉFAITE';
+
+  @override
+  String congratulationsTeam(String teamName) {
+    return 'Félicitations ! Votre équipe ($teamName) remporte la partie !';
+  }
+
+  @override
+  String defeatTeam(String teamName) {
+    return 'Dommage ! L’Équipe $teamName remporte la partie.';
+  }
+
+  @override
+  String get finalScores => 'SCORES FINAUX';
+
+  @override
+  String get returnHome => 'Retour à l’accueil';
+
+  @override
+  String get savingMatchResult => 'Enregistrement du résultat…';
+
+  @override
+  String get matchResultSyncPending =>
+      'Résultat en attente de synchronisation avec l’hôte.';
+
+  @override
+  String get retrySavingResult => 'Réessayer l’enregistrement';
+
+  @override
+  String get discussMatch => 'Discuter de la partie';
+
+  @override
+  String rankedEloChange(String delta) {
+    return 'Partie Classée • Elo : $delta';
+  }
 }

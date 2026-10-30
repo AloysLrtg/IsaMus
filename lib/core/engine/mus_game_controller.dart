@@ -1317,7 +1317,7 @@ class MusGameController extends Notifier<MusGameState> {
             ),
             bidHistory: {...state.bidHistory, BidPhase.paires: <BidAction>[]},
           );
-          fb.setAnnouncement('Pas de paires');
+          fb.setAnnouncement(TableAnnouncement.noPairs);
           if (gameId != null && _isHost) {
             _pushStateToSupabase(actionSeat: localSeat);
           }
@@ -1347,7 +1347,7 @@ class MusGameController extends Notifier<MusGameState> {
             ),
             bidHistory: {...state.bidHistory, BidPhase.paires: <BidAction>[]},
           );
-          fb.setAnnouncement('Une seule équipe a des paires');
+          fb.setAnnouncement(TableAnnouncement.onlyOneTeamHasPairs);
           if (gameId != null && _isHost) {
             _pushStateToSupabase(actionSeat: localSeat);
           }
@@ -1439,7 +1439,7 @@ class MusGameController extends Notifier<MusGameState> {
             bidding: BiddingState(phase: BidPhase.jeu, participants: const []),
             bidHistory: {...state.bidHistory, BidPhase.jeu: <BidAction>[]},
           );
-          fb.setAnnouncement('Pas de jeu');
+          fb.setAnnouncement(TableAnnouncement.noGame);
           if (gameId != null && _isHost) {
             _pushStateToSupabase(actionSeat: localSeat);
           }
@@ -1471,7 +1471,7 @@ class MusGameController extends Notifier<MusGameState> {
             ),
             bidHistory: {...state.bidHistory, BidPhase.jeu: <BidAction>[]},
           );
-          fb.setAnnouncement('Une seule équipe a le jeu');
+          fb.setAnnouncement(TableAnnouncement.onlyOneTeamHasGame);
           if (gameId != null && _isHost) {
             _pushStateToSupabase(actionSeat: localSeat);
           }

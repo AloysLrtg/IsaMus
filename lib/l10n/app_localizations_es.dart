@@ -2090,4 +2090,65 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get leaderboardYouSuffix => ', tú';
+
+  @override
+  String get endOfDeal => 'Fin del reparto';
+
+  @override
+  String get scoringPhase => 'Fase';
+
+  @override
+  String get dealTotal => 'Total del reparto';
+
+  @override
+  String get onlyOneTeamHasPairs => 'Solo un equipo tiene pares';
+
+  @override
+  String get noTeamHasPairs => 'No hay pares';
+
+  @override
+  String get noTeamHasGame => 'No hay juego';
+
+  @override
+  String get onlyOneTeamHasGame => 'Solo un equipo tiene juego';
+
+  @override
+  String get victoryTitle => 'VICTORIA';
+
+  @override
+  String get defeatTitle => 'DERROTA';
+
+  @override
+  String congratulationsTeam(String teamName) {
+    return '¡Enhorabuena! ¡Tu equipo ($teamName) gana la partida!';
+  }
+
+  @override
+  String defeatTeam(String teamName) {
+    return '¡Qué pena! El equipo $teamName gana la partida.';
+  }
+
+  @override
+  String get finalScores => 'PUNTUACIONES FINALES';
+
+  @override
+  String get returnHome => 'Volver al inicio';
+
+  @override
+  String get savingMatchResult => 'Guardando el resultado…';
+
+  @override
+  String get matchResultSyncPending =>
+      'Resultado pendiente de sincronización con el anfitrión.';
+
+  @override
+  String get retrySavingResult => 'Reintentar guardar';
+
+  @override
+  String get discussMatch => 'Comentar la partida';
+
+  @override
+  String rankedEloChange(String delta) {
+    return 'Partida clasificatoria • Elo: $delta';
+  }
 }

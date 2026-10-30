@@ -43,6 +43,13 @@ extension QuickChatInventory on QuickChat {
   };
 }
 
+enum TableAnnouncement {
+  noPairs,
+  onlyOneTeamHasPairs,
+  noGame,
+  onlyOneTeamHasGame,
+}
+
 enum SpeechKind { mus, mintza, bid, discard, chat, custom, freeChat }
 
 class TableSpeech {
@@ -96,7 +103,7 @@ class TableFeedback {
   final List<TableChatEntry> chatHistory;
   final Map<int, TableSpeech> speeches;
   final TurnClock? clock;
-  final String? announcement;
+  final TableAnnouncement? announcement;
 }
 
 final musTableFeedbackProvider =
@@ -112,7 +119,7 @@ class MusTableFeedback extends Notifier<TableFeedback> {
     return const TableFeedback();
   }
 
-  void setAnnouncement(String? text) {
+  void setAnnouncement(TableAnnouncement? text) {
     state = TableFeedback(
       chatHistory: state.chatHistory,
       speeches: state.speeches,

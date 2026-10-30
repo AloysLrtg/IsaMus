@@ -1719,7 +1719,12 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               border: Border.all(color: _gold.withOpacity(0.8), width: 1),
             ),
             child: Text(
-              announcement,
+              switch (announcement) {
+                TableAnnouncement.noPairs => l.noTeamHasPairs,
+                TableAnnouncement.onlyOneTeamHasPairs => l.onlyOneTeamHasPairs,
+                TableAnnouncement.noGame => l.noTeamHasGame,
+                TableAnnouncement.onlyOneTeamHasGame => l.onlyOneTeamHasGame,
+              },
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: compact ? 11 : 12,
@@ -2099,7 +2104,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             Expanded(
               flex: 2,
               child: Text(
-                isHeader ? 'Équipe A' : '+$ptsA',
+                isHeader ? l.team('A') : '+$ptsA',
                 textAlign: TextAlign.center,
                 style: style.copyWith(
                   color: isHeader
@@ -2111,7 +2116,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             Expanded(
               flex: 2,
               child: Text(
-                isHeader ? 'Équipe B' : '+$ptsB',
+                isHeader ? l.team('B') : '+$ptsB',
                 textAlign: TextAlign.center,
                 style: style.copyWith(
                   color: isHeader
@@ -2131,7 +2136,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final jokoPontuaLabel = hasJeu ? 'Jokoa' : 'Pontua';
 
     final rows = <Widget>[
-      tableRow('Phase', 0, 0, isHeader: true),
+      tableRow(l.scoringPhase, 0, 0, isHeader: true),
       const Divider(height: 4, color: Colors.white24),
     ];
 
@@ -2153,7 +2158,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
     rows.addAll([
       const Divider(height: 4, color: Colors.white24),
-      tableRow('Total donne', totalA, totalB, isTotal: true),
+      tableRow(l.dealTotal, totalA, totalB, isTotal: true),
     ]);
 
     return ConstrainedBox(
@@ -2733,7 +2738,9 @@ class _RoundScoringTimerBarState extends State<_RoundScoringTimerBar> {
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
-                          'Fin de donne',
+                          (AppLocalizations.of(context) ??
+                                  lookupAppLocalizations(const Locale('fr')))
+                              .endOfDeal,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

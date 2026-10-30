@@ -598,5 +598,44 @@
   "gameQuitConfirm": "Are you sure you want to leave the game?",
   "gameQuitAction": "Leave",
   "gameQuitFailed": "Unable to close the room. Check your connection and try again.",
-  "leaderboardYouSuffix": ", you"
+  "leaderboardYouSuffix": ", you",
+  "endOfDeal": "End of deal",
+  "scoringPhase": "Phase",
+  "dealTotal": "Deal total",
+  "onlyOneTeamHasPairs": "Only one team has pairs",
+  "noTeamHasPairs": "No pairs",
+  "noTeamHasGame": "No game",
+  "onlyOneTeamHasGame": "Only one team has game",
+  "victoryTitle": "VICTORY",
+  "defeatTitle": "DEFEAT",
+  "congratulationsTeam": "Congratulations! Your team ({teamName}) wins the match!",
+  "@congratulationsTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "defeatTeam": "Bad luck! Team {teamName} wins the match.",
+  "@defeatTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "finalScores": "FINAL SCORES",
+  "returnHome": "Return home",
+  "savingMatchResult": "Saving result…",
+  "matchResultSyncPending": "Result awaiting synchronization with the host.",
+  "retrySavingResult": "Retry saving",
+  "discussMatch": "Discuss the match",
+  "rankedEloChange": "Ranked match • Elo: {delta}",
+  "@rankedEloChange": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  }
 }

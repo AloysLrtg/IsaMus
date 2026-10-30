@@ -598,5 +598,44 @@
   "gameQuitConfirm": "¿Seguro que quieres salir de la partida?",
   "gameQuitAction": "Salir",
   "gameQuitFailed": "No se ha podido cerrar la sala. Comprueba tu conexión e inténtalo de nuevo.",
-  "leaderboardYouSuffix": ", tú"
+  "leaderboardYouSuffix": ", tú",
+  "endOfDeal": "Fin del reparto",
+  "scoringPhase": "Fase",
+  "dealTotal": "Total del reparto",
+  "onlyOneTeamHasPairs": "Solo un equipo tiene pares",
+  "noTeamHasPairs": "No hay pares",
+  "noTeamHasGame": "No hay juego",
+  "onlyOneTeamHasGame": "Solo un equipo tiene juego",
+  "victoryTitle": "VICTORIA",
+  "defeatTitle": "DERROTA",
+  "congratulationsTeam": "¡Enhorabuena! ¡Tu equipo ({teamName}) gana la partida!",
+  "@congratulationsTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "defeatTeam": "¡Qué pena! El equipo {teamName} gana la partida.",
+  "@defeatTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "finalScores": "PUNTUACIONES FINALES",
+  "returnHome": "Volver al inicio",
+  "savingMatchResult": "Guardando el resultado…",
+  "matchResultSyncPending": "Resultado pendiente de sincronización con el anfitrión.",
+  "retrySavingResult": "Reintentar guardar",
+  "discussMatch": "Comentar la partida",
+  "rankedEloChange": "Partida clasificatoria • Elo: {delta}",
+  "@rankedEloChange": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  }
 }

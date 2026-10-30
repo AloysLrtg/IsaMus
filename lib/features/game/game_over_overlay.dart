@@ -13,6 +13,7 @@ import '../../core/engine/mus_game_state.dart';
 import '../../core/engine/mus_table_feedback.dart';
 
 import '../home/main_dashboard_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 const _gold = Color(0xFFFFD54F);
 const _goldAccent = Color(0xFFFFB300);
@@ -64,7 +65,7 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
   int? _newElo;
   int _xpEarned = 0;
   bool _saving = false;
-  String? _saveError;
+  bool _saveError = false;
 
   @override
   void initState() {
@@ -78,7 +79,7 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
     if (_saving || !mounted || widget.gameId == null) return;
     setState(() {
       _saving = true;
-      _saveError = null;
+      _saveError = false;
     });
     for (var attempt = 0; attempt < 4; attempt++) {
       try {
@@ -106,13 +107,16 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
     if (mounted) {
       setState(() {
         _saving = false;
-        _saveError = 'Résultat en attente de synchronisation avec l’hôte.';
+        _saveError = true;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l =
+        AppLocalizations.of(context) ??
+        lookupAppLocalizations(const Locale('fr'));
     final state = widget.state;
     final localTeamIndex = widget.localSeat % 2;
     final localTeam = localTeamIndex == 0 ? 'A' : 'B';
@@ -120,10 +124,10 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
     final isVictory = localTeamIndex == widget.winningTeamIndex;
 
     final primaryColor = isVictory ? _gold : _defeatRed;
-    final titleText = isVictory ? 'VICTOIRE' : 'DÉFAITE';
+    final titleText = isVictory ? l.victoryTitle : l.defeatTitle;
     final subtitleText = isVictory
-        ? 'Félicitations ! Votre équipe ($localTeam) remporte la partie !'
-        : 'Dommage ! L\'Équipe $winningTeam remporte la partie.';
+        ? l.congratulationsTeam(localTeam)
+        : l.defeatTeam(winningTeam);
 
     return Positioned.fill(
       key: const Key('game-over-overlay'),
@@ -272,15 +276,18 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
                               ),
                             // Gain ou perte d'Elo (uniquement en partie classée)
                             if (_saving)
-                              const Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Text('Enregistrement du résultat…'),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(l.savingMatchResult),
                               ),
-                            if (_saveError != null) ...[
-                              Text(_saveError!, textAlign: TextAlign.center),
+                            if (_saveError) ...[
+                              Text(
+                                l.matchResultSyncPending,
+                                textAlign: TextAlign.center,
+                              ),
                               TextButton(
                                 onPressed: _saveResult,
-                                child: const Text('Réessayer l’enregistrement'),
+                                child: Text(l.retrySavingResult),
                               ),
                             ],
                             if (widget.isRanked && _eloDelta != null) ...[
@@ -321,7 +328,11 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
                                       ),
                                       const SizedBox(width: 6),
                                       Text(
-                                        'Partie Classée • Elo : ${_eloDelta! >= 0 ? "+$_eloDelta" : "$_eloDelta"}',
+                                        l.rankedEloChange(
+                                          _eloDelta! >= 0
+                                              ? "+$_eloDelta"
+                                              : "$_eloDelta",
+                                        ),
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w900,
@@ -367,9 +378,9 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text(
-                                    'SCORES FINAUX',
-                                    style: TextStyle(
+                                  Text(
+                                    l.finalScores,
+                                    style: const TextStyle(
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.5,
@@ -384,7 +395,7 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
                                           MainAxisAlignment.center,
                                       children: [
                                         _ScorePill(
-                                          teamName: 'Équipe A',
+                                          teamName: l.team('A'),
                                           score: state.teamAScore,
                                           color: _cyanA,
                                           isWinner:
@@ -404,7 +415,7 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
                                           ),
                                         ),
                                         _ScorePill(
-                                          teamName: 'Équipe B',
+                                          teamName: l.team('B'),
                                           score: state.teamBScore,
                                           color: _orangeB,
                                           isWinner:
@@ -420,7 +431,7 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
 
                             if (widget.chatActions != null) ...[
                               Text(
-                                'Discuter de la partie',
+                                l.discussMatch,
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(height: 8),
@@ -449,9 +460,9 @@ class _GameOverOverlayState extends ConsumerState<GameOverOverlay> {
                                   }
                                 },
                                 icon: const Icon(Icons.home_rounded, size: 22),
-                                label: const Text(
-                                  'Retour à l\'accueil',
-                                  style: TextStyle(
+                                label: Text(
+                                  l.returnHome,
+                                  style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 0.8,

@@ -1067,5 +1067,44 @@
   "gameQuitConfirm": "Voulez-vous vraiment quitter la partie ?",
   "gameQuitAction": "Quitter",
   "gameQuitFailed": "Impossible de fermer le salon. Vérifiez votre connexion et réessayez.",
-  "leaderboardYouSuffix": ", vous"
+  "leaderboardYouSuffix": ", vous",
+  "endOfDeal": "Fin de donne",
+  "scoringPhase": "Phase",
+  "dealTotal": "Total donne",
+  "onlyOneTeamHasPairs": "Une seule équipe a des paires",
+  "noTeamHasPairs": "Pas de paires",
+  "noTeamHasGame": "Pas de jeu",
+  "onlyOneTeamHasGame": "Une seule équipe a le jeu",
+  "victoryTitle": "VICTOIRE",
+  "defeatTitle": "DÉFAITE",
+  "congratulationsTeam": "Félicitations ! Votre équipe ({teamName}) remporte la partie !",
+  "@congratulationsTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "defeatTeam": "Dommage ! L’Équipe {teamName} remporte la partie.",
+  "@defeatTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "finalScores": "SCORES FINAUX",
+  "returnHome": "Retour à l’accueil",
+  "savingMatchResult": "Enregistrement du résultat…",
+  "matchResultSyncPending": "Résultat en attente de synchronisation avec l’hôte.",
+  "retrySavingResult": "Réessayer l’enregistrement",
+  "discussMatch": "Discuter de la partie",
+  "rankedEloChange": "Partie Classée • Elo : {delta}",
+  "@rankedEloChange": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  }
 }

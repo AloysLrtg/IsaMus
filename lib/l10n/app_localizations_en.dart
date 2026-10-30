@@ -2079,4 +2079,65 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get leaderboardYouSuffix => ', you';
+
+  @override
+  String get endOfDeal => 'End of deal';
+
+  @override
+  String get scoringPhase => 'Phase';
+
+  @override
+  String get dealTotal => 'Deal total';
+
+  @override
+  String get onlyOneTeamHasPairs => 'Only one team has pairs';
+
+  @override
+  String get noTeamHasPairs => 'No pairs';
+
+  @override
+  String get noTeamHasGame => 'No game';
+
+  @override
+  String get onlyOneTeamHasGame => 'Only one team has game';
+
+  @override
+  String get victoryTitle => 'VICTORY';
+
+  @override
+  String get defeatTitle => 'DEFEAT';
+
+  @override
+  String congratulationsTeam(String teamName) {
+    return 'Congratulations! Your team ($teamName) wins the match!';
+  }
+
+  @override
+  String defeatTeam(String teamName) {
+    return 'Bad luck! Team $teamName wins the match.';
+  }
+
+  @override
+  String get finalScores => 'FINAL SCORES';
+
+  @override
+  String get returnHome => 'Return home';
+
+  @override
+  String get savingMatchResult => 'Saving result…';
+
+  @override
+  String get matchResultSyncPending =>
+      'Result awaiting synchronization with the host.';
+
+  @override
+  String get retrySavingResult => 'Retry saving';
+
+  @override
+  String get discussMatch => 'Discuss the match';
+
+  @override
+  String rankedEloChange(String delta) {
+    return 'Ranked match • Elo: $delta';
+  }
 }

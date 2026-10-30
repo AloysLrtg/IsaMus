@@ -619,7 +619,7 @@ void main() {
       // La phase Pareak doit être affichée (pas sautée instantanément)
       expect(ts().bidding!.phase, BidPhase.paires);
       final fb = timedContainer.read(musTableFeedbackProvider);
-      expect(fb.announcement, 'Une seule équipe a des paires');
+      expect(fb.announcement, TableAnnouncement.onlyOneTeamHasPairs);
       expect(fb.speeches[0]?.text, 'Bai');
       expect(fb.speeches[1]?.text, 'Ez');
       expect(fb.speeches[2]?.text, 'Ez');

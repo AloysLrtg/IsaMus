@@ -598,5 +598,44 @@
   "gameQuitConfirm": "Ziur partidatik irten nahi duzula?",
   "gameQuitAction": "Irten",
   "gameQuitFailed": "Ezin izan da gela itxi. Egiaztatu konexioa eta saiatu berriro.",
-  "leaderboardYouSuffix": ", zu"
+  "leaderboardYouSuffix": ", zu",
+  "endOfDeal": "Eskuaren amaiera",
+  "scoringPhase": "Fasea",
+  "dealTotal": "Eskuko guztizkoa",
+  "onlyOneTeamHasPairs": "Talde bakarrak ditu pareak",
+  "noTeamHasPairs": "Ez dago parerik",
+  "noTeamHasGame": "Ez dago jokorik",
+  "onlyOneTeamHasGame": "Talde bakarrak du jokoa",
+  "victoryTitle": "GARAIPENA",
+  "defeatTitle": "PORROTA",
+  "congratulationsTeam": "Zorionak! Zure taldeak ({teamName}) partida irabazi du!",
+  "@congratulationsTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "defeatTeam": "Lastima! {teamName} taldeak partida irabazi du.",
+  "@defeatTeam": {
+    "placeholders": {
+      "teamName": {
+        "type": "String"
+      }
+    }
+  },
+  "finalScores": "AZKEN PUNTUAZIOAK",
+  "returnHome": "Itzuli hasierara",
+  "savingMatchResult": "Emaitza gordetzen…",
+  "matchResultSyncPending": "Emaitza ostalariarekin sinkronizatzeko zain.",
+  "retrySavingResult": "Saiatu berriro gordetzen",
+  "discussMatch": "Partidari buruz hitz egin",
+  "rankedEloChange": "Sailkapeneko partida • Elo: {delta}",
+  "@rankedEloChange": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  }
 }

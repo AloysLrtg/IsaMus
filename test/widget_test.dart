@@ -312,7 +312,10 @@ void main() {
     expect(state().eskuIndex, 0);
     expect(find.byKey(const Key('game-over-overlay')), findsOneWidget);
     expect(find.text('DÉFAITE'), findsOneWidget);
-    expect(find.text('Retour à l\'accueil'), findsOneWidget);
+    expect(
+      find.text(lookupAppLocalizations(const Locale('fr')).returnHome),
+      findsOneWidget,
+    );
   });
 
   uiTest('Le panneau se ferme si le tour change', (tester) async {
@@ -905,7 +908,10 @@ void main() {
 
       final homeBtn = find.byKey(const Key('return-home-button'));
       expect(homeBtn, findsOneWidget);
-      expect(find.text('Retour à l\'accueil'), findsOneWidget);
+      expect(
+        find.text(lookupAppLocalizations(const Locale('fr')).returnHome),
+        findsOneWidget,
+      );
 
       // Clic sur "Retour à l'accueil" -> ramène vers HomeScreen et purge l'état de jeu
       await tester.tap(homeBtn);

@@ -2089,4 +2089,65 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String get leaderboardYouSuffix => ', zu';
+
+  @override
+  String get endOfDeal => 'Eskuaren amaiera';
+
+  @override
+  String get scoringPhase => 'Fasea';
+
+  @override
+  String get dealTotal => 'Eskuko guztizkoa';
+
+  @override
+  String get onlyOneTeamHasPairs => 'Talde bakarrak ditu pareak';
+
+  @override
+  String get noTeamHasPairs => 'Ez dago parerik';
+
+  @override
+  String get noTeamHasGame => 'Ez dago jokorik';
+
+  @override
+  String get onlyOneTeamHasGame => 'Talde bakarrak du jokoa';
+
+  @override
+  String get victoryTitle => 'GARAIPENA';
+
+  @override
+  String get defeatTitle => 'PORROTA';
+
+  @override
+  String congratulationsTeam(String teamName) {
+    return 'Zorionak! Zure taldeak ($teamName) partida irabazi du!';
+  }
+
+  @override
+  String defeatTeam(String teamName) {
+    return 'Lastima! $teamName taldeak partida irabazi du.';
+  }
+
+  @override
+  String get finalScores => 'AZKEN PUNTUAZIOAK';
+
+  @override
+  String get returnHome => 'Itzuli hasierara';
+
+  @override
+  String get savingMatchResult => 'Emaitza gordetzen…';
+
+  @override
+  String get matchResultSyncPending =>
+      'Emaitza ostalariarekin sinkronizatzeko zain.';
+
+  @override
+  String get retrySavingResult => 'Saiatu berriro gordetzen';
+
+  @override
+  String get discussMatch => 'Partidari buruz hitz egin';
+
+  @override
+  String rankedEloChange(String delta) {
+    return 'Sailkapeneko partida • Elo: $delta';
+  }
 }

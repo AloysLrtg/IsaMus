@@ -3714,6 +3714,114 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **', vous'**
   String get leaderboardYouSuffix;
+
+  /// No description provided for @endOfDeal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fin de donne'**
+  String get endOfDeal;
+
+  /// No description provided for @scoringPhase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Phase'**
+  String get scoringPhase;
+
+  /// No description provided for @dealTotal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Total donne'**
+  String get dealTotal;
+
+  /// No description provided for @onlyOneTeamHasPairs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une seule équipe a des paires'**
+  String get onlyOneTeamHasPairs;
+
+  /// No description provided for @noTeamHasPairs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de paires'**
+  String get noTeamHasPairs;
+
+  /// No description provided for @noTeamHasGame.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de jeu'**
+  String get noTeamHasGame;
+
+  /// No description provided for @onlyOneTeamHasGame.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une seule équipe a le jeu'**
+  String get onlyOneTeamHasGame;
+
+  /// No description provided for @victoryTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'VICTOIRE'**
+  String get victoryTitle;
+
+  /// No description provided for @defeatTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'DÉFAITE'**
+  String get defeatTitle;
+
+  /// No description provided for @congratulationsTeam.
+  ///
+  /// In fr, this message translates to:
+  /// **'Félicitations ! Votre équipe ({teamName}) remporte la partie !'**
+  String congratulationsTeam(String teamName);
+
+  /// No description provided for @defeatTeam.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dommage ! L’Équipe {teamName} remporte la partie.'**
+  String defeatTeam(String teamName);
+
+  /// No description provided for @finalScores.
+  ///
+  /// In fr, this message translates to:
+  /// **'SCORES FINAUX'**
+  String get finalScores;
+
+  /// No description provided for @returnHome.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retour à l’accueil'**
+  String get returnHome;
+
+  /// No description provided for @savingMatchResult.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrement du résultat…'**
+  String get savingMatchResult;
+
+  /// No description provided for @matchResultSyncPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Résultat en attente de synchronisation avec l’hôte.'**
+  String get matchResultSyncPending;
+
+  /// No description provided for @retrySavingResult.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer l’enregistrement'**
+  String get retrySavingResult;
+
+  /// No description provided for @discussMatch.
+  ///
+  /// In fr, this message translates to:
+  /// **'Discuter de la partie'**
+  String get discussMatch;
+
+  /// No description provided for @rankedEloChange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie Classée • Elo : {delta}'**
+  String rankedEloChange(String delta);
 }
 
 class _AppLocalizationsDelegate
