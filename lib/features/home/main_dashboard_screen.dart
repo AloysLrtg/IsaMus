@@ -434,7 +434,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           bottom: 10,
         ),
         decoration: BoxDecoration(
-          color: const Color(0xFF0F172A),
+          color: _scaffoldBg,
           border: Border(
             bottom: BorderSide(color: Colors.white.withOpacity(0.08), width: 1),
           ),
@@ -451,7 +451,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(6),
               child: Image.asset(
                 'assets/images/logo_isamus.png',
                 key: const ValueKey('home-official-logo'),
