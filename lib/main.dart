@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,6 +12,7 @@ import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
   await Supabase.initialize(
     url: 'https://nakbrpgecwpphyynsdor.supabase.co',
@@ -117,9 +119,15 @@ class _ApplicationState extends State<_Application> {
       brightness: Brightness.dark,
       colorSchemeSeed: const Color(0xFFD9BC72),
       scaffoldBackgroundColor: const Color(0xFF0B1221),
+      appBarTheme: const AppBarThemeData(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+      ),
     ),
     builder: (context, child) {
-      final content = child ?? const SizedBox.shrink();
+      final content = ColoredBox(
+        color: const Color(0xFF0B1221),
+        child: child ?? const SizedBox.shrink(),
+      );
       // Isolated previews can provide their own scope below the application.
       try {
         ProviderScope.containerOf(context, listen: false);
