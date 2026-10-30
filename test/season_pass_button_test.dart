@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isamus/core/network/season_repository.dart';
 import 'package:isamus/features/home/season_pass_button.dart';
+import 'package:isamus/l10n/app_localizations.dart';
 
 Widget _button({
   bool enabled = true,
@@ -12,6 +13,9 @@ Widget _button({
 }) => ProviderScope(
   overrides: [if (clock != null) seasonClockProvider.overrideWithValue(clock)],
   child: MaterialApp(
+    locale: const Locale('fr'),
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     home: MediaQuery(
       data: MediaQueryData(disableAnimations: reducedMotion),
       child: TickerMode(

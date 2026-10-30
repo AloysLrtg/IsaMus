@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "playTitle": "Play",
+  "leaderboardTitle": "Top 100",
+  "shopTitle": "Shop",
+  "friendsTitle": "Friends",
+  "profileTitle": "Profile",
+  "seasonPassTitle": "Season Pass",
+  "tutorialTitle": "Tutorial",
+  "settingsTitle": "Settings",
+  "languageTitle": "Language"
+}

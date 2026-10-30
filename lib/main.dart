@@ -9,6 +9,7 @@ import 'features/auth/login_screen.dart';
 import 'core/network/auth_repository.dart';
 import 'core/network/presence_session.dart';
 import 'l10n/app_localizations.dart';
+import 'core/localization/app_locale.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -109,7 +110,21 @@ class _Application extends StatefulWidget {
 class _ApplicationState extends State<_Application> {
   final _navigatorKey = GlobalKey<NavigatorState>();
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(BuildContext context) {
+    // Keep standalone widget previews usable without a provider scope.
+    try {
+      ProviderScope.containerOf(context, listen: false);
+    } catch (_) {
+      return _buildApplication(const Locale('fr'));
+    }
+    return Consumer(
+      builder: (context, ref, _) =>
+          _buildApplication(ref.watch(appLocaleProvider)),
+    );
+  }
+
+  Widget _buildApplication(Locale locale) => MaterialApp(
+    locale: locale,
     onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
     debugShowCheckedModeBanner: false,
     localizationsDelegates: AppLocalizations.localizationsDelegates,

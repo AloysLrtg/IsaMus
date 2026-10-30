@@ -17,6 +17,10 @@ flutter test
 flutter run
 ```
 
+Localisation : le français est la langue par défaut. Le sélecteur temporaire dans **Réglages → Langue** permet de passer immédiatement au basque (`eu`), à l’espagnol (`es`) ou à l’anglais (`en`), sans perdre la navigation. Le choix reste en mémoire pendant la session et revient au français au redémarrage ou au changement de session utilisateur.
+
+Les catalogues sont dans `lib/l10n/` : `app_fr.arb` sert de référence et `app_eus.arb` déclare explicitement `@@locale: eu`. Cette première étape traduit la navigation principale, le titre du Pass de Saison, le tutoriel et les libellés du sélecteur. Les anciennes traductions du jeu en basque sont conservées ; les traductions encore absentes en espagnol et en anglais utilisent le français. Après modification d’un catalogue, exécuter `flutter gen-l10n` ; le rapport des traductions manquantes est généré dans `build/l10n_untranslated.json`. Les fichiers `app_localizations*.dart` sont générés et ne doivent pas être modifiés à la main.
+
 Les annonces sont désactivées et la boutique n’effectue aucun achat tant que ses clés ne sont pas configurées. Exemple de paramètres publics : `config.example.json`. Les clés secrètes de validation restent exclusivement dans Supabase Edge Functions.
 
 Les textes juridiques fournis sont des projets à compléter. Le moteur demeure sous autorité de l’hôte : la sécurité du classement contre un hôte malveillant nécessite un arbitre serveur.

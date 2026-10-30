@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 import 'app_localizations_eu.dart';
 import 'app_localizations_fr.dart';
 
@@ -95,6 +97,8 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('fr'),
+    Locale('en'),
+    Locale('es'),
     Locale('eu'),
   ];
 
@@ -367,6 +371,60 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Mise totale : {amount} Tantto'**
   String bidTotal(int amount);
+
+  /// No description provided for @playTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jouer'**
+  String get playTitle;
+
+  /// No description provided for @leaderboardTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Top 100'**
+  String get leaderboardTitle;
+
+  /// No description provided for @shopTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Boutique'**
+  String get shopTitle;
+
+  /// No description provided for @friendsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amis'**
+  String get friendsTitle;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get profileTitle;
+
+  /// No description provided for @seasonPassTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pass de Saison'**
+  String get seasonPassTitle;
+
+  /// No description provided for @tutorialTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tutoriel'**
+  String get tutorialTitle;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réglages'**
+  String get settingsTitle;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Langue'**
+  String get languageTitle;
 }
 
 class _AppLocalizationsDelegate
@@ -380,7 +438,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['eu', 'fr'].contains(locale.languageCode);
+      <String>['en', 'es', 'eu', 'fr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -389,6 +447,10 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
     case 'eu':
       return AppLocalizationsEu();
     case 'fr':

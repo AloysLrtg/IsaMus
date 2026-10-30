@@ -920,6 +920,49 @@ void main() {
 
         await checkSettings();
 
+        // Switch via the real settings route: the navigator and dashboard state
+        // must survive each locale change, including the return to French.
+        final dashboardState = tester.state(find.byType(MainDashboardScreen));
+        for (final entry in [
+          ('Euskara', 'eu', 'Jokatu', 'Denda', 'Profila', 'Ezarpenak'),
+          ('Español', 'es', 'Jugar', 'Tienda', 'Perfil', 'Ajustes'),
+          ('English', 'en', 'Play', 'Shop', 'Profile', 'Settings'),
+          ('Français', 'fr', 'Jouer', 'Boutique', 'Profil', 'Réglages'),
+        ]) {
+          await tester.tap(find.byKey(const ValueKey('home-settings-button')));
+          await tester.pumpAndSettle();
+          final settingsState = tester.state(find.byType(SettingsScreen));
+          await tester.tap(
+            find.byKey(const ValueKey('settings-language-selector')),
+          );
+          await tester.pumpAndSettle();
+          await tester.tap(find.text(entry.$1).last);
+          await tester.pumpAndSettle();
+          expect(
+            tester.state(find.byType(SettingsScreen)),
+            same(settingsState),
+          );
+          expect(find.text(entry.$6), findsOneWidget);
+          expect(
+            Localizations.localeOf(tester.element(find.byType(SettingsScreen))),
+            Locale(entry.$2),
+          );
+          await tester.tap(find.byType(BackButton));
+          await tester.pumpAndSettle();
+          expect(
+            tester.state(find.byType(MainDashboardScreen)),
+            same(dashboardState),
+          );
+          final nav = tester.widget<BottomNavigationBar>(
+            find.byType(BottomNavigationBar),
+          );
+          expect(nav.currentIndex, 0);
+          expect(nav.items[0].label, entry.$3);
+          expect(nav.items[2].label, entry.$4);
+          expect(nav.items[4].label, entry.$5);
+          expect(tester.takeException(), isNull);
+        }
+
         // Vérification des 4 onglets dans la barre de navigation
         expect(find.byType(BottomNavigationBar), findsOneWidget);
         expect(find.text('Jouer'), findsOneWidget);

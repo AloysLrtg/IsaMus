@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/audio/audio_haptic_service.dart';
+import '../../core/localization/app_locale.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/monetization/ads_banner.dart';
 import '../../core/network/player_repository.dart';
 import '../profile/account_screen.dart';
@@ -85,11 +87,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(playerProfileProvider);
+    final l10n = AppLocalizations.of(context)!;
+    final locale = ref.watch(appLocaleProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Réglages')),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: Text(l10n.languageTitle),
+            trailing: DropdownButton<Locale>(
+              key: const ValueKey('settings-language-selector'),
+              value: locale,
+              onChanged: (value) {
+                if (value != null) {
+                  ref.read(appLocaleProvider.notifier).select(value);
+                }
+              },
+              items: const [
+                DropdownMenuItem(value: Locale('fr'), child: Text('Français')),
+                DropdownMenuItem(value: Locale('eu'), child: Text('Euskara')),
+                DropdownMenuItem(value: Locale('es'), child: Text('Español')),
+                DropdownMenuItem(value: Locale('en'), child: Text('English')),
+              ],
+            ),
+          ),
           profile.when(
             loading: () => const ListTile(
               title: Text('Effets sonores'),

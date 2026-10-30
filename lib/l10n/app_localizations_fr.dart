@@ -165,4 +165,31 @@ class AppLocalizationsFr extends AppLocalizations {
   String bidTotal(int amount) {
     return 'Mise totale : $amount Tantto';
   }
+
+  @override
+  String get playTitle => 'Jouer';
+
+  @override
+  String get leaderboardTitle => 'Top 100';
+
+  @override
+  String get shopTitle => 'Boutique';
+
+  @override
+  String get friendsTitle => 'Amis';
+
+  @override
+  String get profileTitle => 'Profil';
+
+  @override
+  String get seasonPassTitle => 'Pass de Saison';
+
+  @override
+  String get tutorialTitle => 'Tutoriel';
+
+  @override
+  String get settingsTitle => 'Réglages';
+
+  @override
+  String get languageTitle => 'Langue';
 }

@@ -44,5 +44,14 @@
   "increase": "Handitu",
   "decrease": "Txikitu",
   "validate": "Baieztatu",
-  "bidTotal": "Apustua guztira: {amount} Tantto"
+  "bidTotal": "Apustua guztira: {amount} Tantto",
+  "playTitle": "Jokatu",
+  "leaderboardTitle": "Top 100",
+  "shopTitle": "Denda",
+  "friendsTitle": "Lagunak",
+  "profileTitle": "Profila",
+  "seasonPassTitle": "Denboraldiko pasea",
+  "tutorialTitle": "Tutoriala",
+  "settingsTitle": "Ezarpenak",
+  "languageTitle": "Hizkuntza"
 }

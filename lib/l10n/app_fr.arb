@@ -130,5 +130,14 @@
         "type": "int"
       }
     }
-  }
+  },
+  "playTitle": "Jouer",
+  "leaderboardTitle": "Top 100",
+  "shopTitle": "Boutique",
+  "friendsTitle": "Amis",
+  "profileTitle": "Profil",
+  "seasonPassTitle": "Pass de Saison",
+  "tutorialTitle": "Tutoriel",
+  "settingsTitle": "Réglages",
+  "languageTitle": "Langue"
 }

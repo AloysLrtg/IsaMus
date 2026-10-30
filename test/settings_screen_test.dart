@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:isamus/core/network/player_repository.dart';
+import 'package:isamus/main.dart';
 import 'package:isamus/core/network/account_repository.dart';
 import 'package:isamus/features/profile/account_screen.dart';
 import 'package:isamus/features/settings/settings_screen.dart';
@@ -42,7 +43,7 @@ void main() {
           playerRepositoryProvider.overrideWithValue(repo),
           accountRepositoryProvider.overrideWithValue(SettingsAccount()),
         ],
-        child: const MaterialApp(home: SettingsScreen()),
+        child: const MyApp(home: SettingsScreen()),
       ),
     );
     await tester.pumpAndSettle();
@@ -98,7 +99,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('settings-account-button')));
     await tester.pumpAndSettle();
     expect(find.byType(AccountScreen), findsOneWidget);
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     for (final entry in {
       'settings-terms-button': 'Conditions d’utilisation',
@@ -121,7 +122,7 @@ void main() {
         ),
         findsOneWidget,
       );
-      await tester.pageBack();
+      await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
       expect(find.byType(SettingsScreen), findsOneWidget);
     }

@@ -165,4 +165,31 @@ class AppLocalizationsEu extends AppLocalizations {
   String bidTotal(int amount) {
     return 'Apustua guztira: $amount Tantto';
   }
+
+  @override
+  String get playTitle => 'Jokatu';
+
+  @override
+  String get leaderboardTitle => 'Top 100';
+
+  @override
+  String get shopTitle => 'Denda';
+
+  @override
+  String get friendsTitle => 'Lagunak';
+
+  @override
+  String get profileTitle => 'Profila';
+
+  @override
+  String get seasonPassTitle => 'Denboraldiko pasea';
+
+  @override
+  String get tutorialTitle => 'Tutoriala';
+
+  @override
+  String get settingsTitle => 'Ezarpenak';
+
+  @override
+  String get languageTitle => 'Hizkuntza';
 }

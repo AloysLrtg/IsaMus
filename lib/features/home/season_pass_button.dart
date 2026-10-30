@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/models/paris_season_clock.dart';
 import '../../core/network/season_repository.dart';
 
@@ -145,7 +146,7 @@ class _SeasonPassButtonState extends ConsumerState<SeasonPassButton>
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                'Pass de Saison',
+                                AppLocalizations.of(context)!.seasonPassTitle,
                                 style: theme.textTheme.titleMedium?.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,

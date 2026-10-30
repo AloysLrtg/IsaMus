@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/network/auth_repository.dart';
 import '../../core/engine/bot_profile.dart';
 import '../../core/engine/mus_game_controller.dart';
@@ -526,7 +527,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
           ),
           IconButton(
             key: const ValueKey('home-settings-button'),
-            tooltip: 'Réglages',
+            tooltip: AppLocalizations.of(context)!.settingsTitle,
             icon: const Icon(
               Icons.settings_rounded,
               color: Colors.white70,
@@ -804,7 +805,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'TUTORIEL',
+                              AppLocalizations.of(context)!.tutorialTitle
+                                  .toUpperCase(),
                               style: theme.textTheme.titleMedium?.copyWith(
                                 fontSize: 18,
                                 color: Colors.white,
@@ -1775,6 +1777,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
 
   /// Barre de navigation inférieure stylisée Dark Mode avec 4 onglets.
   Widget _buildBottomNavigationBar() {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF0B1221),
@@ -1805,37 +1808,46 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
         ),
         type: BottomNavigationBarType.fixed,
         elevation: 0,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.style_rounded, key: ValueKey('nav-tab-play')),
-            activeIcon: Icon(Icons.style_rounded, color: _gold),
-            label: 'Jouer',
+            icon: const Icon(
+              Icons.style_rounded,
+              key: ValueKey('nav-tab-play'),
+            ),
+            activeIcon: const Icon(Icons.style_rounded, color: _gold),
+            label: l10n.playTitle,
           ),
           BottomNavigationBarItem(
-            icon: Icon(
+            icon: const Icon(
               Icons.emoji_events_rounded,
               key: ValueKey('nav-tab-leaderboard'),
             ),
-            activeIcon: Icon(Icons.emoji_events_rounded, color: _gold),
-            label: 'Top 100',
+            activeIcon: const Icon(Icons.emoji_events_rounded, color: _gold),
+            label: l10n.leaderboardTitle,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.storefront_rounded, key: ValueKey('nav-tab-shop')),
-            activeIcon: Icon(Icons.storefront_rounded, color: _gold),
-            label: 'Boutique',
+            icon: const Icon(
+              Icons.storefront_rounded,
+              key: ValueKey('nav-tab-shop'),
+            ),
+            activeIcon: const Icon(Icons.storefront_rounded, color: _gold),
+            label: l10n.shopTitle,
           ),
           BottomNavigationBarItem(
-            icon: Icon(
+            icon: const Icon(
               Icons.people_alt_rounded,
               key: ValueKey('nav-tab-friends'),
             ),
-            activeIcon: Icon(Icons.people_alt_rounded, color: _cyanA),
-            label: 'Amis',
+            activeIcon: const Icon(Icons.people_alt_rounded, color: _cyanA),
+            label: l10n.friendsTitle,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_rounded, key: ValueKey('nav-tab-profile')),
-            activeIcon: Icon(Icons.person_rounded, color: _cyanA),
-            label: 'Profil',
+            icon: const Icon(
+              Icons.person_rounded,
+              key: ValueKey('nav-tab-profile'),
+            ),
+            activeIcon: const Icon(Icons.person_rounded, color: _cyanA),
+            label: l10n.profileTitle,
           ),
         ],
       ),
